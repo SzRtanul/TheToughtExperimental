@@ -1,0 +1,10 @@
+<svg width="80" height="50" xmlns="http://www.w3.org/2000/svg">
+        <g transform="scale(2.3) translate(0,0)">
+            <path stroke="rgb(100, 255, 255)" stroke-width="2.5" fill="transparent"
+            d="m 12, 8 a 15,5 0 0,1 0,10 h -12"/>
+            <path fill="transparent" stroke="rgb(132, 0, 255)" stroke-width="2.5"
+            d="m 34,13 h -12 a 15,5 0 0,1 0,-10 h 12" />
+            <path stroke="rgb(100, 255, 255)" stroke-width="2.5" fill="transparent"
+            d="m 0,8 h 12"/>
+        </g>
+</svg>

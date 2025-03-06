@@ -1,0 +1,25 @@
+<ul class="lCSS">
+</ul>
+<ul class="lJS">
+</ul>
+
+<form action=""></form>
+<form action="#" method="post">
+    <fieldset>
+        <legend>Mértékegység hozzáadása</legend>
+        <input type="text">
+        <input type="text">
+        <select name="example">
+            <option value="mm - miliméter">A</option>
+            <option value="m - Méter">B</option>
+            <option value="Mértékegység hozzáadása">Other</option>
+        </select>
+
+        <input type="text" name="example" list="exampleList">
+        <datalist id="exampleList">
+        <option value="A">  
+        <option value="B">
+        </datalist>
+        <input type="button" value="Küldés">
+    </fieldset>
+</form>

@@ -1,0 +1,88 @@
+<ul class="lCSS">
+    <li>etetesdokumentacio</li>
+</ul>
+<ul class="lJS">
+    <li>etetesdokumentacio</li>
+</ul>
+
+<ul class="vizszintes-nav">
+    <li><button>Étkezések</button></li>
+    <li><button>Vizsgálatok</button></li>
+</ul>
+
+<h1>Miket ettem eddig?</h1>
+
+<button>+ Étkezés hozzáadása</button> 
+<select name="alany" id="">
+    <option value="">-- Alany Profilok --</option>
+    <option value="">Becenév</option>
+</select>
+
+<div class="kimutatasok legordulo">
+    Kimutatás
+</div>
+
+<table class="miket">
+    <thead>
+        <tr>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+
+<h1>Mikor ettem?</h1>
+<table class="mikor">
+    <thead>
+        <tr>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td></td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="urlap" name="ujvacsora">
+    <select name="alany" style="display: none;" id="">
+        <option value="0">[faj] kodnev:nev - szuletes</option>
+    </select>
+    <p aria-label="datum">Jelenlegi dátum: <span>$datum</span></p>
+    <button class="datumszerkesztese">Dátum szerkesztése</button>
+    <div style="display: inherit;">
+        <input class="set-now" name="datum" type="datetime-local">
+        <button class="kuld">Étkezés hozzáadása</button>
+    </div>
+    <button class="kuld">Tovább</button>
+</div>
+
+<div class="urlap" name="kajahozzaadas">
+    <select name="etkezes" id="">
+        <option value="-1">-- Étkezés --</option>
+    </select>
+    <select name="anyag" id="">
+        <option value="-1">-- Eledel --</option>
+    </select>
+    <input name="mennyiseg" type="number" step="0.01">
+    <button class="kuld">Kaják hozzáadása</button>
+</div>
+
+<div class="urlap" name="ujalany">
+
+</div>
+
+<!--Apróságok-->
+
+<div class="urlap" name="mertekegyseg">
+
+</div>
+
+<div class="urlap" name="anyag">
+
+</div>
