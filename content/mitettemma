@@ -55,8 +55,9 @@
     </select>
     <p aria-label="datum">Jelenlegi dátum: <span>$datum</span></p>
     <button class="datumszerkesztese">Dátum szerkesztése</button>
-    <div style="display: inherit;">
-        <input class="set-now" name="datum" type="datetime-local">
+    <div id="k1023" style="display: none;">
+        <input class="set-now" name="datum" type="datetime">
+        <p>Ez úgy jelent meg, ahogy akartam.</p>
         <button class="kuld">Étkezés hozzáadása</button>
     </div>
     <button class="kuld">Tovább</button>
@@ -84,5 +85,9 @@
 </div>
 
 <div class="urlap" name="anyag">
+
+</div>
+
+<div class="urlap">
 
 </div>

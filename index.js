@@ -71,7 +71,7 @@ function callSite(melyik){
                         const sc = document.createElement("script");
                         sc.classList.add("guest");
                         sc.type = "module";
-                        sc.src = `js/${jsName.split('\.').length > 1 ? jsName : jsName + ".js"}`;
+                        sc.src = `js/${jsName.split('\.').length > 1 ? jsName + "?v=" + new Date().getTime() : jsName + ".js" + "?v=" + new Date().getTime()}`;
                         document.body.appendChild(sc);
                     }
                 addEvents();
