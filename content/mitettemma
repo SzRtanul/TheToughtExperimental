@@ -49,7 +49,7 @@
     </tbody>
 </table>
 
-<div class="urlap" name="ujvacsora">
+<div class="urlap" value="ujvacsora">
     <select name="alany" style="display: none;" id="">
         <option value="0">[faj] kodnev:nev - szuletes</option>
     </select>
@@ -63,7 +63,7 @@
     <button class="kuld">Tovább</button>
 </div>
 
-<div class="urlap" name="kajahozzaadas">
+<div class="urlap" value="kajahozzaadas">
     <select name="etkezes" id="">
         <option value="-1">-- Étkezés --</option>
     </select>
@@ -74,17 +74,17 @@
     <button class="kuld">Kaják hozzáadása</button>
 </div>
 
-<div class="urlap" name="ujalany">
+<div class="urlap" value="ujalany">
 
 </div>
 
 <!--Apróságok-->
 
-<div class="urlap" name="mertekegyseg">
+<div class="urlap" value="mertekegyseg">
 
 </div>
 
-<div class="urlap" name="anyag">
+<div class="urlap" value="anyag">
 
 </div>
 

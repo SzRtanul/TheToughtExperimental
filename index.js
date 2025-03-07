@@ -1,4 +1,4 @@
-let serverhost = "192.168.12/";
+let serverhost = "192.168.244.9:18080/";
 
 let content = document.getElementsByTagName("main")[0];
 let a = document.getElementsByClassName("contentlink");
@@ -85,12 +85,13 @@ function callSite(melyik){
 }
 
 function addEvents(){
-    let urlapok = document.getElementsByClassName("urlap");
+    let urlapok = document.querySelectorAll("[value].urlap");
     console.log(urlapok.length)
     
     for(const urlap of urlapok){
         console.log("Belép ide?");
         for(const kuld of urlap.getElementsByClassName("kuld")){
+            console.log("adfadf")
             kuld.addEventListener("click", function(e){
                 const myUrlap = urlap.querySelectorAll("* [name]");
                 const jsonValue = {};
@@ -98,8 +99,10 @@ function addEvents(){
                     if(mezo.name.length > 0) jsonValue[mezo.name] = mezo.type !== "checkbox" ? mezo.value : mezo.checked;
                 }
                 console.log(jsonValue);
+                // Replace with JSON-s value
                 //examplePOST(urlap.name, JSON.stringify(jsonValue));
             })
+            console.log(urlap.getAttribute('value'))
         }
     }
     console.log("Fa")
