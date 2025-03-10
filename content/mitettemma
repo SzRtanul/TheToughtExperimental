@@ -49,16 +49,23 @@
     </tbody>
 </table>
 
-<div class="urlap" value="ujvacsora">
+<div class="urlap" value="ujvacsora/$datum/$?datum">
     <select name="alany" style="display: none;" id="">
         <option value="0">[faj] kodnev:nev - szuletes</option>
     </select>
     <p aria-label="datum">Jelenlegi dátum: <span>$datum</span></p>
     <button class="datumszerkesztese">Dátum szerkesztése</button>
-    <div id="k1023" style="display: none;">
-        <input class="set-now" name="datum" type="datetime">
+    <div id="k1023" style="display: inherit;">
+        <div>
+           <label for="m1">Dátum: </label> <input id="m1" name="datum" class="set-now" type="date">
+           <label for="m2">Óra: </label> <input id="m2" name="hour" type="text" placeholder="____.__.__ __:__:__.____" data-slots="_" data-accept="[\d]">
+           <label for="m3">Perc: </label> <input id="m3" name="minute" type="text">
+           <label for="m4">Másodperc: </label> <input id="m4" name="second" type="text">
+           <label for="m5">Milliszekundum: </label> <input id="m5" name="millisecond" type="text">
+        </div>
+
         <p>Ez úgy jelent meg, ahogy akartam.</p>
-        <button class="kuld">Étkezés hozzáadása</button>
+        <button class="kuld">Ye<!--Étkezés hozzáadása--></button>
     </div>
     <button class="kuld">Tovább</button>
 </div>

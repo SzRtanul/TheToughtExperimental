@@ -4,9 +4,10 @@ let content = document.getElementsByTagName("main")[0];
 let a = document.getElementsByClassName("contentlink");
 
 callSite("mitettemma");
-console.log(await exampleGET("exa"))
+/*console.log(await exampleGET("exa"))
 console.log(await examplePOST("exa/166"))
-console.log(await exampleGET("exa"))
+console.log(await exampleGET("exa"))*/
+console.log(document.cookie);
 
 document.addEventListener("DOMContentLoaded", function() {
     //console.log("Az oldal betöltődött!");
@@ -96,6 +97,7 @@ function addEvents(){
                 console.log(jsonValue);
                 // Replace with JSON-s value
                 //examplePOST(urlap.name, JSON.stringify(jsonValue));
+                document.cookie = "Gemkapocs";
             })
             console.log(urlap.getAttribute('value'))
         }
