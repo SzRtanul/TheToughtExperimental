@@ -1,9 +1,12 @@
-let serverhost = "192.168.244.9:18080/";
+let serverhost = "http://192.168.1.18:18080/";
 
 let content = document.getElementsByTagName("main")[0];
 let a = document.getElementsByClassName("contentlink");
 
 callSite("mitettemma");
+console.log(await exampleGET("exa"))
+console.log(await examplePOST("exa/166"))
+console.log(await exampleGET("exa"))
 
 document.addEventListener("DOMContentLoaded", function() {
     //console.log("Az oldal betöltődött!");
@@ -11,30 +14,24 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 
 async function examplePOST(hova, mit){
-    let response = fetch(serverhost + hova, {
+    let response = await fetch(serverhost + hova, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
         },
         body: mit
     })
-    .then(async (res) =>{
-        return await res.text();
-    })
-    return await response;
+    return await response.text();
 }
 
-async function examleGET(honnan){
-    let response = fetch(serverhost + hova, {
+async function exampleGET(honnan){
+    let response = await fetch(serverhost + honnan, {
         method: "GET",
         headers: {
             'Content-Type': 'application/text'
         },
     })
-    .then(async (res) =>{
-        return await res.text();
-    })
-    return await response;
+    return await response.text();
 }
 
 class REST{
@@ -43,9 +40,7 @@ class REST{
 
 for(let i = 0; i< a.length; i++){
     a[i].addEventListener("click", function(e){
-     /*   fetch("css/" + e.target.name + ".css",
-            { method: "HEAD" }*/
-            callSite(e.target.name);
+        callSite(e.target.name);
     });
 }
 
