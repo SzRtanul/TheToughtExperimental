@@ -3,6 +3,21 @@ let serverhost = "http://192.168.1.18:18080/";
 let content = document.getElementsByTagName("main")[0];
 let a = document.getElementsByClassName("contentlink");
 
+console.log("MyRegex 2975hfuiHtE".match(/^\w+/)?.[0] || "")
+
+let szoveg = "Szia, a nevem $nev, $kor éves vagyok és $varos-ban élek.";
+let jsonData = {
+    nev: "Roland",
+    kor: 12,
+    varos: "Budapest"
+};
+szoveg = Object.entries(jsonData).reduce(
+    (acc, [key, value]) => acc.replaceAll(`$${key}`, value),
+    szoveg
+);
+
+console.log(szoveg);
+
 callSite("mitettemma");
 /*console.log(await exampleGET("exa"))
 console.log(await examplePOST("exa/166"))
@@ -95,11 +110,13 @@ function addEvents(){
                     if(mezo.name.length > 0) jsonValue[mezo.name] = mezo.type !== "checkbox" ? mezo.value : mezo.checked;
                 }
                 console.log(jsonValue);
-                // Replace with JSON-s value
+                //Replace with JSON-s value
+                console.log(urlap.getAttribute('value'));
+                
+
                 //examplePOST(urlap.name, JSON.stringify(jsonValue));
-                document.cookie = "Gemkapocs";
+                //document.cookie = "Gemkapocs";
             })
-            console.log(urlap.getAttribute('value'))
         }
     }
     console.log("Fa")
@@ -108,5 +125,12 @@ function addEvents(){
         console.log("Fa")
         dateInput.value = new Date();
         console.log((new Date()).toISOString());
+        console.log(new Date())
     }
+}
+
+function replaceWithFormOrCookieValue(text){
+    let cookieTexts = text.split("$?");
+    //text = 
+    return text;
 }
