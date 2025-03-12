@@ -17,7 +17,6 @@ szoveg = Object.entries(jsonData).reduce(
 );
 
 console.log(szoveg);
-
 callSite("mitettemma");
 /*console.log(await exampleGET("exa"))
 console.log(await examplePOST("exa/166"))
@@ -130,7 +129,11 @@ function addEvents(){
 }
 
 function replaceWithFormOrCookieValue(text){
+<<<<<<< HEAD
     let cookieTexts = text.split("$?");
     //text = 
+=======
+    
+>>>>>>> 357366e92f4f4c1e75a029d2d36c6c1a2d7deb36
     return text;
 }
