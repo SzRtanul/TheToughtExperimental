@@ -2,6 +2,17 @@ let serverhost = "http://192.168.1.18:18080/";
 
 let content = document.getElementsByTagName("main")[0];
 let a = document.getElementsByClassName("contentlink");
+const aktuels = {
+    nowDate: function(){
+        return new Date().toISOString();
+    },
+    novaDate: gluck
+};
+function gluck(){
+    return "Ernai";
+}
+
+//console.log(aktuels.nowDate())
 
 //Kísérletek
 console.log("MyRegex 2975hfuiHtE".match(/^\w+/)?.[0] || "");
@@ -111,9 +122,18 @@ function addEvents(){
     
     for(const urlap of urlapok){
         console.log("Belép ide?");
+        for(const aktuel of urlap.getElementsByClassName("aktuel")){
+            aktuel.addEventListener("click", function(){
+                const localAktuels = {};
+                for(const key in aktuels){
+                    localAktuels[key] = aktuels[key]();
+                }
+                console.log(localAktuels)
+            })
+        }
         for(const kuld of urlap.getElementsByClassName("kuld")){
-            console.log("adfadf")
             kuld.addEventListener("click", function(e){
+                const myConstas = urlap.querySelectorAll("* .constas");
                 const myConst = urlap.querySelectorAll("* [name].consta");
                 const myUrlap = urlap.querySelectorAll("* [name]");
                 for(const mezo of myConst){
@@ -123,6 +143,15 @@ function addEvents(){
                 for(const mezo of myUrlap){
                     if(mezo.name.length > 0) jsonValue[mezo.name] = mezo.type !== "checkbox" ? mezo.value : mezo.checked;
                 }
+
+                for(const constas of myConstas){
+                    constas.innerHTML = replaceWithFromLocalStorage(
+                        replaceWithFromForm(
+                            constas.innerHTML, jsonValue
+                        )
+                    );
+                }
+
                 //Replace with JSON-s value
                 let tr = replaceWithFromLocalStorage(
                     replaceWithFromForm(

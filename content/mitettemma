@@ -50,6 +50,7 @@
 </table>
 
 <div class="urlap" value="ujvacsora/$datum/$-ELEKTA">
+    <button class="aktuel">Aktüel</button>
     <select name="alany" style="display: none;" id="">
         <option value="0">[faj] kodnev:nev - szuletes</option>
     </select>
