@@ -125,23 +125,19 @@ function addEvents(){
         for(const aktuel of urlap.getElementsByClassName("aktuel")){
             aktuel.addEventListener("click", function(){
                 const localAktuels = {};
+                const myConst = urlap.querySelectorAll("* [name].consta");
+                const myConstas = urlap.querySelectorAll("* .constas");
+                const jsonValue = getUrlapJSONs(urlap);
+
                 for(const key in aktuels){
                     localAktuels[key] = aktuels[key]();
                 }
-                console.log(localAktuels)
-            })
-        }
-        for(const kuld of urlap.getElementsByClassName("kuld")){
-            kuld.addEventListener("click", function(e){
-                const myConstas = urlap.querySelectorAll("* .constas");
-                const myConst = urlap.querySelectorAll("* [name].consta");
-                const myUrlap = urlap.querySelectorAll("* [name]");
+
                 for(const mezo of myConst){
+                    console.log("ETA: " + mezo.getAttribute("value"));
                     if(mezo.name.length > 0) mezo.setAttribute("value", getValueFromLocalStorage(mezo.getAttribute("value")));
-                }
-                const jsonValue = {};
-                for(const mezo of myUrlap){
-                    if(mezo.name.length > 0) jsonValue[mezo.name] = mezo.type !== "checkbox" ? mezo.value : mezo.checked;
+                    console.log("ETA: " + mezo.getAttribute("value"));
+                   // if(mezo.name.length > 0) mezo.value = getValueFromLocalStorage(mezo.value);
                 }
 
                 for(const constas of myConstas){
@@ -151,7 +147,12 @@ function addEvents(){
                         )
                     );
                 }
-
+                console.log(localAktuels)
+            })
+        }
+        for(const kuld of urlap.getElementsByClassName("kuld")){
+            kuld.addEventListener("click", function(e){
+                const jsonValue = getUrlapJSONs(urlap);
                 //Replace with JSON-s value
                 let tr = replaceWithFromLocalStorage(
                     replaceWithFromForm(
@@ -167,14 +168,15 @@ function addEvents(){
             });
         }
     }
-    console.log("Fa")
-    let dateInputs = document.getElementsByClassName("set-now");
-    for(const dateInput of dateInputs){
-        console.log("Fa")
-        dateInput.value = new Date();
-        console.log((new Date()).toISOString());
-        console.log(new Date())
+}
+
+function getUrlapJSONs(urlap){
+    const myUrlap = urlap.querySelectorAll("* [name]");
+    const jsonValue = {};
+    for(const mezo of myUrlap){
+        if(mezo.name.length > 0) jsonValue[mezo.name] = mezo.type !== "checkbox" ? mezo.value : mezo.checked;
     }
+    return jsonValue;
 }
 
 function replaceWithFromForm(text, jsonData){
@@ -191,9 +193,10 @@ function replaceWithFromLocalStorage(rText){
     let cookieTexts = rText.split("$");
     let oText = "";
     let repl = "";
+    console.log("ETAN" + rText);
     for(const text of cookieTexts){
         repl = text.match(/^(?:\-)(\w+)/)?.[1] || " null ";
-        console.log(repl)
+        console.log("ETAN: " + repl)
         oText += text.replace("-" + repl, getValueFromLocalStorage(repl));
     }
     //text = 
@@ -201,5 +204,6 @@ function replaceWithFromLocalStorage(rText){
 }
 
 function getValueFromLocalStorage(Cname){
+    console.log(Cname)
     return localStorage.getItem(Cname) || "null";
 }

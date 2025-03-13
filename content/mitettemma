@@ -58,8 +58,8 @@
     <button class="datumszerkesztese">Dátum szerkesztése</button>
     <div id="k1023" style="display: inherit;">
         <div>
-            <input name="VALA" class="consta" value="elekta">
-            <label for="m1">Dátum: </label> <input id="m1" name="datum" class="set-now" type="date">
+            <input name="VALA" class="consta def" value="ELEKTA">
+            <label for="m1">Dátum: </label> <input id="m1" name="datum" value="" class="set-now" type="date">
             <label for="m2">Óra: </label> <input id="m2" name="hour" type="text" placeholder="____.__.__ __:__:__.____" data-slots="_" data-accept="[\d]">
             <label for="m3">Perc: </label> <input id="m3" name="minute" type="text">
             <label for="m4">Másodperc: </label> <input id="m4" name="second" type="text">
