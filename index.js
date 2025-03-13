@@ -3,25 +3,34 @@ let serverhost = "http://192.168.1.18:18080/";
 let content = document.getElementsByTagName("main")[0];
 let a = document.getElementsByClassName("contentlink");
 
-console.log("MyRegex 2975hfuiHtE".match(/^\w+/)?.[0] || "")
+//Kísérletek
+console.log("MyRegex 2975hfuiHtE".match(/^\w+/)?.[0] || "");
+//console.log(getValueFromLocalStorage(""));
+/*document.cookie = "Elekta=Fakkkjú";
+document.cookie = "Suzie=Gere"
+console.log(document.cookie)
+document.cookie = "Elekta=Fakkkj";
+document.cookie = "Suzie=Geta"
+console.log(document.cookie)
+document.cookie = "Suzie="
+console.log(document.cookie);
+console.log(getValueFromCookie("Elekta"))*/
+callSite("mitettemma");
+/*console.log(await exampleGET("exa"))
+console.log(await examplePOST("exa/166"))
+console.log(await exampleGET("exa"))*/
+localStorage.setItem("ELEKTA", "HARakiri")
+localStorage.setItem("datum", "2023-04-05")
+//console.log(localStorage.getItem("ELEKTA"));
+//localStorage.clear();
 
-let szoveg = "Szia, a nevem $nev, $kor éves vagyok és $varos-ban élek.";
+let szoveg = "Szia, a nevem $nev, $kor éves vagyok és $varos-ban élek. $varos";
 let jsonData = {
     nev: "Roland",
     kor: 12,
     varos: "Budapest"
 };
-szoveg = Object.entries(jsonData).reduce(
-    (acc, [key, value]) => acc.replaceAll(`$${key}`, value),
-    szoveg
-);
 
-console.log(szoveg);
-callSite("mitettemma");
-/*console.log(await exampleGET("exa"))
-console.log(await examplePOST("exa/166"))
-console.log(await exampleGET("exa"))*/
-console.log(document.cookie);
 
 document.addEventListener("DOMContentLoaded", function() {
     //console.log("Az oldal betöltődött!");
@@ -90,9 +99,11 @@ function callSite(melyik){
             }
         })
         .catch(()=>{
-            console.log("404")
+            console.log("ISMERETLEN HIBA")
         })
 }
+
+
 
 function addEvents(){
     let urlapok = document.querySelectorAll("[value].urlap");
@@ -103,19 +114,28 @@ function addEvents(){
         for(const kuld of urlap.getElementsByClassName("kuld")){
             console.log("adfadf")
             kuld.addEventListener("click", function(e){
+                const myConst = urlap.querySelectorAll("* [name].consta");
                 const myUrlap = urlap.querySelectorAll("* [name]");
+                for(const mezo of myConst){
+                    if(mezo.name.length > 0) mezo.setAttribute("value", getValueFromLocalStorage(mezo.getAttribute("value")));
+                }
                 const jsonValue = {};
                 for(const mezo of myUrlap){
                     if(mezo.name.length > 0) jsonValue[mezo.name] = mezo.type !== "checkbox" ? mezo.value : mezo.checked;
                 }
-                console.log(jsonValue);
                 //Replace with JSON-s value
-                console.log(urlap.getAttribute('value'));
-                
-
-                //examplePOST(urlap.name, JSON.stringify(jsonValue));
-                //document.cookie = "Gemkapocs";
-            })
+                let tr = replaceWithFromLocalStorage(
+                    replaceWithFromForm(
+                        urlap.getAttribute('value'), jsonValue
+                    )
+                );
+                console.log(jsonValue);
+                console.log(tr);
+               /* examplePOST(
+                    tr,
+                    JSON.stringify(jsonValue)
+                ); */
+            });
         }
     }
     console.log("Fa")
@@ -128,12 +148,29 @@ function addEvents(){
     }
 }
 
-function replaceWithFormOrCookieValue(text){
-<<<<<<< HEAD
-    let cookieTexts = text.split("$?");
-    //text = 
-=======
-    
->>>>>>> 357366e92f4f4c1e75a029d2d36c6c1a2d7deb36
+function replaceWithFromForm(text, jsonData){
+    console.log(text);
+    text = Object.entries(jsonData).reduce(
+        (acc, [key, value]) => acc.replaceAll(`$${key}`, value ? value : "null"),
+        text
+    );
     return text;
+}
+
+function replaceWithFromLocalStorage(rText){
+    console.log(rText)
+    let cookieTexts = rText.split("$");
+    let oText = "";
+    let repl = "";
+    for(const text of cookieTexts){
+        repl = text.match(/^(?:\-)(\w+)/)?.[1] || " null ";
+        console.log(repl)
+        oText += text.replace("-" + repl, getValueFromLocalStorage(repl));
+    }
+    //text = 
+    return oText;
+}
+
+function getValueFromLocalStorage(Cname){
+    return localStorage.getItem(Cname) || "null";
 }

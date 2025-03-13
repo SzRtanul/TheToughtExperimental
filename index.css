@@ -1,3 +1,13 @@
+/*Dinamikus ürlapő stílus*/
+.consta{
+    display: none;
+}
+
+.urlap .urlap{
+    display: none;
+}
+
+/*Globál*/
 .nav ul li button{
     all: unset;
 }
