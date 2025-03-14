@@ -1,6 +1,7 @@
 let serverhost = "http://192.168.1.18:18080/";
-
 let content = document.getElementsByTagName("main")[0];
+callSite("mitettemma");
+
 let a = document.getElementsByClassName("contentlink");
 const aktuels = {
     nowDate: function(){
@@ -26,7 +27,6 @@ console.log(document.cookie)
 document.cookie = "Suzie="
 console.log(document.cookie);
 console.log(getValueFromCookie("Elekta"))*/
-callSite("mitettemma");
 /*console.log(await exampleGET("exa"))
 console.log(await examplePOST("exa/166"))
 console.log(await exampleGET("exa"))*/
@@ -86,24 +86,8 @@ function callSite(melyik){
                 document.querySelectorAll(".guest").forEach(g => g.remove());
                 let iHTML = await res.text();
                 content.innerHTML = iHTML;
-                
-                for(const lCSS of content.getElementsByClassName("lCSS")){
-                    for(const jll of lCSS.getElementsByTagName("li")){
-                        const cssName = jll.textContent;
-                        document.head.innerHTML += 
-                            `<link class="guest" rel="stylesheet" `+
-                            `href="css/${ cssName.split('\.').length > 1 ? cssName : cssName +".css"}" async>`;
-                    }
-                }
-                for(const lJS of content.getElementsByClassName("lJS"))
-                    for(const jll of lJS.getElementsByTagName("li")){
-                        const jsName = jll.textContent;
-                        const sc = document.createElement("script");
-                        sc.classList.add("guest");
-                        sc.type = "module";
-                        sc.src = `js/${jsName.split('\.').length > 1 ? jsName + "?v=" + new Date().getTime() : jsName + ".js" + "?v=" + new Date().getTime()}`;
-                        document.body.appendChild(sc);
-                    }
+                doCSSAddingToSite();
+                doJSAddingToSite();
                 addEvents();
             } else {
                 content.innerHTML = await res.status + " Error";
@@ -114,7 +98,28 @@ function callSite(melyik){
         })
 }
 
+function doCSSAddingToSite(){
+    for(const lCSS of content.getElementsByClassName("lCSS")){
+        for(const jll of lCSS.getElementsByTagName("li")){
+            const cssName = jll.textContent;
+            document.head.innerHTML += 
+                `<link class="guest" rel="stylesheet" `+
+                `href="css/${ cssName.split('\.').length > 1 ? cssName : cssName +".css"}" async>`;
+        }
+    }
+}
 
+function doJSAddingToSite(){
+    for(const lJS of content.getElementsByClassName("lJS"))
+        for(const jll of lJS.getElementsByTagName("li")){
+            const jsName = jll.textContent;
+            const sc = document.createElement("script");
+            sc.classList.add("guest");
+            sc.type = "module";
+            sc.src = `js/${jsName.split('\.').length > 1 ? jsName + "?v=" + new Date().getTime() : jsName + ".js" + "?v=" + new Date().getTime()}`;
+            document.body.appendChild(sc);
+        }
+}
 
 function addEvents(){
     let urlapok = document.querySelectorAll("[value].urlap");
@@ -122,52 +127,71 @@ function addEvents(){
     
     for(const urlap of urlapok){
         console.log("Belép ide?");
-        for(const aktuel of urlap.getElementsByClassName("aktuel")){
-            aktuel.addEventListener("click", function(){
-                const localAktuels = {};
-                const myConst = urlap.querySelectorAll("* [name].consta");
-                const myConstas = urlap.querySelectorAll("* .constas");
-                const jsonValue = getUrlapJSONs(urlap);
+        doAddingToAktuelButtons(urlap);
+        doAddingToKuldButtons(urlap);
+    }
+}
 
-                for(const key in aktuels){
-                    localAktuels[key] = aktuels[key]();
-                }
+function doAddingToAktuelButtons(urlap){
+    //Aktüel
+    for(const aktuel of urlap.getElementsByClassName("aktuel")){
+        aktuel.addEventListener("click", function(){
+            const localAktuels = getMethodStoreObjectWithReturns(aktuels); // Values from Aktüel
+            const myConst = urlap.querySelectorAll("* [name].consta"); // Rejtett mezők automatikus kitöltéssel
+            const myConstas = urlap.querySelectorAll("* .constas"); // Elemek, amikben változó van
+            const jsonValue = getUrlapJSONs(urlap); // Ürlap mező értékek
 
-                for(const mezo of myConst){
-                    console.log("ETA: " + mezo.getAttribute("value"));
-                    if(mezo.name.length > 0) mezo.setAttribute("value", getValueFromLocalStorage(mezo.getAttribute("value")));
-                    console.log("ETA: " + mezo.getAttribute("value"));
-                   // if(mezo.name.length > 0) mezo.value = getValueFromLocalStorage(mezo.value);
-                }
+            for(const mezo of myConst){ // értékcsere LocalStorage-ból vagy Aktüel-ből
+                console.log("ETA: " + mezo.getAttribute("value"));
+                const mezoValue = mezo.getAttribute("value");
+                if(mezo.name.length > 0) 
+                    mezo.setAttribute("value",
+                        mezoValue.startsWith("$-") ?
+                            getValueFromLocalStorage(mezoValue.replace("$-", "")) :
+                            localAktuels[mezoValue])
+                    ;
+                console.log("ETA: " + mezo.getAttribute("value"));
+               // if(mezo.name.length > 0) mezo.value = getValueFromLocalStorage(mezo.value);
+            }
 
-                for(const constas of myConstas){
-                    constas.innerHTML = replaceWithFromLocalStorage(
-                        replaceWithFromForm(
-                            constas.innerHTML, jsonValue
-                        )
-                    );
-                }
-                console.log(localAktuels)
-            })
-        }
-        for(const kuld of urlap.getElementsByClassName("kuld")){
-            kuld.addEventListener("click", function(e){
-                const jsonValue = getUrlapJSONs(urlap);
-                //Replace with JSON-s value
-                let tr = replaceWithFromLocalStorage(
+            for(const constas of myConstas){ // SzövegVáltozóCsere
+                constas.innerHTML = replaceWithFromLocalStorage(
                     replaceWithFromForm(
-                        urlap.getAttribute('value'), jsonValue
+                        constas.innerHTML, jsonValue
                     )
                 );
-                console.log(jsonValue);
-                console.log(tr);
-               /* examplePOST(
-                    tr,
-                    JSON.stringify(jsonValue)
-                ); */
-            });
-        }
+            }
+            console.log(localAktuels)
+        })
     }
+}
+
+function doAddingToKuldButtons(urlap){
+    // Küld
+    for(const kuld of urlap.getElementsByClassName("kuld")){
+        kuld.addEventListener("click", function(e){
+            const jsonValue = getUrlapJSONs(urlap);
+            let tr = replaceWithFromLocalStorage(
+                replaceWithFromForm(
+                    urlap.getAttribute('value'), jsonValue
+                )
+            );
+            console.log(jsonValue);
+            console.log(tr);
+            /* examplePOST(
+                tr,
+                JSON.stringify(jsonValue)
+            ); */
+        });
+    }
+}
+
+function getMethodStoreObjectWithReturns(jsonAktuels){
+    const localAktuels = {};
+    for(const key in jsonAktuels){
+        localAktuels[key] = aktuels[key]();
+    }
+    return localAktuels;
 }
 
 function getUrlapJSONs(urlap){
@@ -186,6 +210,10 @@ function replaceWithFromForm(text, jsonData){
         text
     );
     return text;
+}
+
+function replaceWithFromAktuel(rText, localAktuels){
+
 }
 
 function replaceWithFromLocalStorage(rText){
