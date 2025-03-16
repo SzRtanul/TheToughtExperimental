@@ -1,7 +1,13 @@
 /*Dinamikus ürlapő stílus*/
-.consta.inv{
+[name].inv{
+    background-color: red;
+}
+
+[name][tag].inv{
+    background-color: unset;
     display: none;
 }
+
 
 .urlap .urlap{
     display: none;

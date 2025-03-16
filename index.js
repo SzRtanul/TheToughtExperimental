@@ -1,18 +1,16 @@
 let serverhost = "http://192.168.1.18:18080/";
 let content = document.getElementsByTagName("main")[0];
 callSite("mitettemma");
-
-let a = document.getElementsByClassName("contentlink");
+let event = new Event("Ehj")
 const aktuels = {
     nowDate: function(){
-        return new Date().toISOString();
+        return new Date().toISOString().replace("T", ";");
     },
     novaDate: gluck
 };
 function gluck(){
     return "Ernai";
 }
-
 //console.log(aktuels.nowDate())
 
 //Kísérletek
@@ -35,17 +33,10 @@ localStorage.setItem("datum", "2023-04-05")
 //console.log(localStorage.getItem("ELEKTA"));
 //localStorage.clear();
 
-let szoveg = "Szia, a nevem $nev, $kor éves vagyok és $varos-ban élek. $varos";
-let jsonData = {
-    nev: "Roland",
-    kor: 12,
-    varos: "Budapest"
-};
-
 
 document.addEventListener("DOMContentLoaded", function() {
     //console.log("Az oldal betöltődött!");
-    
+
 });
 
 async function examplePOST(hova, mit){
@@ -73,11 +64,7 @@ class REST{
 
 }
 
-for(let i = 0; i< a.length; i++){
-    a[i].addEventListener("click", function(e){
-        callSite(e.target.name);
-    });
-}
+
 
 function callSite(melyik){
     fetch("content/" + melyik, { cache: "no-store" })
@@ -102,7 +89,7 @@ function doCSSAddingToSite(){
     for(const lCSS of content.getElementsByClassName("lCSS")){
         for(const jll of lCSS.getElementsByTagName("li")){
             const cssName = jll.textContent;
-            document.head.innerHTML += 
+            document.head.innerHTML +=
                 `<link class="guest" rel="stylesheet" `+
                 `href="css/${ cssName.split('\.').length > 1 ? cssName : cssName +".css"}" async>`;
         }
@@ -122,68 +109,69 @@ function doJSAddingToSite(){
 }
 
 function addEvents(){
-    let urlapok = document.querySelectorAll("[value].urlap");
-    console.log(urlapok.length)
-    
+    const contentLinks = document.getElementsByClassName("contentlink");
+    const urlapok = document.querySelectorAll("[value].urlap");
+
+    for(let i = 0; i< contentLinks.length; i++){
+        contentLinks[i].addEventListener("click", function(e){
+            callSite(e.target.name);
+        });
+    }
+
     for(const urlap of urlapok){
-        console.log("Belép ide?");
-        doAddingToAktuelButtons(urlap);
-        doAddingToKuldButtons(urlap);
+        doAddingToButtons(urlap, "aktuel", [doAktuel]);
+        doAddingToButtons(urlap, "kuld", [doKuld]);
+        doAddingToButtons(urlap, "kuldG", [doAktuel, doKuld]);
     }
 }
 
-function doAddingToAktuelButtons(urlap){
+function doAddingToButtons(urlap, buttonName, methodNames){
     //Aktüel
-    for(const aktuel of urlap.getElementsByClassName("aktuel")){
+    for(const aktuel of urlap.getElementsByClassName(buttonName)){
         aktuel.addEventListener("click", function(){
-            const localAktuels = getMethodStoreObjectWithReturns(aktuels); // Values from Aktüel
-            const myConst = urlap.querySelectorAll("* [name].consta"); // Rejtett mezők automatikus kitöltéssel
-            const myConstas = urlap.querySelectorAll("* .constas"); // Elemek, amikben változó van
-            const jsonValue = getUrlapJSONs(urlap); // Ürlap mező értékek
-
-            for(const mezo of myConst){ // értékcsere LocalStorage-ból vagy Aktüel-ből
-                console.log("ETA: " + mezo.getAttribute("value"));
-                const mezoValue = mezo.getAttribute("value");
-                if(mezo.name.length > 0) 
-                    mezo.setAttribute("value",
-                        mezoValue.startsWith("$-") ?
-                            getValueFromLocalStorage(mezoValue.replace("$-", "")) :
-                            localAktuels[mezoValue])
-                    ;
-                console.log("ETA: " + mezo.getAttribute("value"));
-               // if(mezo.name.length > 0) mezo.value = getValueFromLocalStorage(mezo.value);
-            }
-
-            for(const constas of myConstas){ // SzövegVáltozóCsere
-                constas.innerHTML = replaceWithFromLocalStorage(
-                    replaceWithFromForm(
-                        constas.innerHTML, jsonValue
-                    )
-                );
-            }
-            console.log(localAktuels)
+           for(const method of methodNames){
+                method(urlap);
+           }
         })
     }
 }
 
-function doAddingToKuldButtons(urlap){
-    // Küld
-    for(const kuld of urlap.getElementsByClassName("kuld")){
-        kuld.addEventListener("click", function(e){
-            const jsonValue = getUrlapJSONs(urlap);
-            let tr = replaceWithFromLocalStorage(
-                replaceWithFromForm(
-                    urlap.getAttribute('value'), jsonValue
-                )
-            );
-            console.log(jsonValue);
-            console.log(tr);
-            /* examplePOST(
-                tr,
-                JSON.stringify(jsonValue)
-            ); */
-        });
+function doAktuel(urlap){
+    const myConst = urlap.querySelectorAll("* [name][tag]"); // Rejtett mezők automatikus kitöltéssel
+    const myConstas = urlap.querySelectorAll("* [tag].constas"); // Elemek, amikben változó van
+    const jsonValue = getUrlapJSONs(urlap); // Ürlap mező értékek
+    const localAktuels = getMethodStoreObjectWithReturns(aktuels); // Values from Aktüel
+
+    for(const mezo of myConst){ // értékcsere LocalStorage-ból vagy Aktüel-ből
+        if(mezo.name.length > 0 && (!mezo.value || mezo.value.length == 0)){
+            mezo.value = getValueFromAll(mezo.getAttribute("tag"), jsonValue, localAktuels)
+        }
     }
+
+    for(const constas of myConstas){ // SzövegVáltozóCsere
+        constas.innerHTML = getValueFromAll(
+            constas.getAttribute("tag"), jsonValue, localAktuels
+        );
+    }
+}
+
+function doKuld(urlap){
+    const jsonValue = getUrlapJSONs(urlap);
+    const routG = urlap.getAttribute('value').split("/");
+    let tr = "";
+    for(const strE of routG){
+        tr += strE.startsWith("$") ?
+            (jsonValue[strE.replace("$", "")] ||
+             "null") +"/" : strE + "/";
+    }
+    console.log(jsonValue);
+    console.log(tr)
+/*
+    examplePOST(
+        tr,
+        JSON.stringify(jsonValue)
+    );
+*/
 }
 
 function getMethodStoreObjectWithReturns(jsonAktuels){
@@ -203,32 +191,24 @@ function getUrlapJSONs(urlap){
     return jsonValue;
 }
 
-function replaceWithFromForm(text, jsonData){
-    console.log(text);
-    text = Object.entries(jsonData).reduce(
-        (acc, [key, value]) => acc.replaceAll(`$${key}`, value ? value : "null"),
-        text
-    );
-    return text;
-}
-
-function replaceWithFromAktuel(rText, localAktuels){
-
-}
-
-function replaceWithFromLocalStorage(rText){
-    console.log(rText)
-    let cookieTexts = rText.split("$");
+function getValueFromAll(Cname="", jsonValue={}, localAktuels={}){
     let oText = "";
-    let repl = "";
-    console.log("ETAN" + rText);
-    for(const text of cookieTexts){
-        repl = text.match(/^(?:\-)(\w+)/)?.[1] || " null ";
-        console.log("ETAN: " + repl)
-        oText += text.replace("-" + repl, getValueFromLocalStorage(repl));
+    const mezoTagG = Cname.split("-");
+    if(mezoTagG.length > 1 && !isNaN(mezoTagG[0])){
+        switch(Number(mezoTagG[0])){
+            case 0:
+                oText = jsonValue[mezoTagG[1]];
+                break;
+            case 1:
+                oText = getValueFromLocalStorage(mezoTagG[1]);
+                break;
+            case 2:
+                oText = localAktuels[mezoTagG[1]];
+                break;
+        }
     }
-    //text = 
-    return oText;
+    return mezoTagG.length > 2 && !isNaN(mezoTagG[2]) ?
+        oText.split(";")[Number(mezoTagG[2])] || "" : oText;
 }
 
 function getValueFromLocalStorage(Cname){

@@ -12,7 +12,7 @@
 
 <h1>Miket ettem eddig?</h1>
 
-<button>+ Étkezés hozzáadása</button> 
+<button>+ Étkezés hozzáadása</button>
 <select name="alany" id="">
     <option value="">-- Alany Profilok --</option>
     <option value="">Becenév</option>
@@ -49,27 +49,33 @@
     </tbody>
 </table>
 
-<div class="urlap" value="ujvacsora/$datum/$-ELEKTA">
+<div class="urlap" value="ujvacsora/$datum">
     <button class="aktuel">Aktüel</button>
-    <select name="alany" style="display: none;" id="">
+    <select name="alany" id="">
         <option value="0">[faj] kodnev:nev - szuletes</option>
+        <option value="1">Fák</option>
     </select>
-    <p class="constas" aria-label="datum">Jelenlegi dátum: <span>$datum</span></p>
+    <p class="constas" aria-label="datum">Jelenlegi dátum: <span class="constas" tag="0-datum"></span></p>
     <button class="datumszerkesztese">Dátum szerkesztése</button>
     <div id="k1023" style="display: inherit;">
         <div>
-            <input name="VALA" class="consta" value="$-ELEKTA">
-            <label for="m1">Dátum: </label> <input id="m1" name="datum" value="" type="date">
-            <label for="m2">Óra: </label> <input id="m2" class="consta inv" name="hour" value="nowDate">
-            <label for="m3">Perc: </label> <input id="m3" name="minute" type="text">
-            <label for="m4">Másodperc: </label> <input id="m4" name="second" type="text">
-            <label for="m5">Milliszekundum: </label> <input id="m5" name="millisecond" type="text">
+                <input name="VALA" tag="1-ELEKTA" class="consta" value="">
+            <label for="m1">Dátum: </label>
+                <input id="m1" name="datum" value="" type="date">
+            <label for="m2">Óra: </label>
+                <input id="m2" name="hour" tag="" class="inv" value="">
+            <label for="m3">Perc: </label>
+                <input id="m3" name="minute" tag="2-nowDate-1" type="text">
+            <label for="m4">Másodperc: </label>
+                <input id="m4" name="second" type="text">
+            <label for="m5">Milliszekundum: </label>
+                <input id="m5" name="millisecond" type="text">
         </div>
 
         <p>Ez úgy jelent meg, ahogy akartam.</p>
         <button class="kuld">Ye<!--Étkezés hozzáadása--></button>
     </div>
-    <button class="kuld">Tovább</button>
+    <button class="kuldG">Tovább</button>
 </div>
 
 <div class="urlap" value="kajahozzaadas">
