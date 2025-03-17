@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function() {
 
 });
 
-async function examplePOST(hova, mit){
+/*async function examplePOST(hova, mit){
     let response = await fetch(serverhost + hova, {
         method: "POST",
         headers: {
@@ -48,27 +48,22 @@ async function examplePOST(hova, mit){
         body: mit
     })
     return await response.text();
-}
+}*/
 
-async function exampleGET(honnan){
-    let response = await fetch(serverhost + honnan, {
-        method: "GET",
+async function exampleREST(honnan="", method="GET", others={}, cAzon={}, cEdit={}){
+    const fetchJSON = {
+        method: method.toUpperCase(),
         headers: {
             ContentType: 'application/text',
             Accept: '',
-            Other:{
-                Auth: '567'
-            }
+            Others: others
         },
         body: {
-            CAzon: {
-
-            },
-            CEdit: {
-
-            }
+            CAzon: cAzon,
+            CEdit: cEdit
         }
-    })
+    };
+    const response = await fetch(serverhost + honnan, fetchJSON);
     return await response.text();
 }
 
@@ -185,7 +180,7 @@ function doKuld(urlap, MyEvent){
     console.log(jsonValue);
     console.log(tr)
     let sikeresKeres = false;
-    switch(urlap.getAttribute("method")){
+    switch(){
         case "get":
             // Bárhó Bámi
             break;
@@ -211,6 +206,7 @@ function doKuld(urlap, MyEvent){
             break;
     */
     }
+    exampleREST(tr, urlap.getAttribute("method"), )
     if(MyEvent && sikeresKeres){
         document.dispatchEvent(MyEvent);
     }
