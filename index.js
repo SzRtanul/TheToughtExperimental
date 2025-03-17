@@ -1,7 +1,7 @@
 let serverhost = "http://192.168.1.18:18080/";
 let content = document.getElementsByTagName("main")[0];
 callSite("mitettemma");
-let event = new Event("Ehj")
+let events = [];
 const aktuels = {
     nowDate: function(){
         return new Date().toISOString().replace("T", ";");
@@ -54,8 +54,20 @@ async function exampleGET(honnan){
     let response = await fetch(serverhost + honnan, {
         method: "GET",
         headers: {
-            'Content-Type': 'application/text'
+            ContentType: 'application/text',
+            Accept: '',
+            Other:{
+                Auth: '567'
+            }
         },
+        body: {
+            CAzon: {
+
+            },
+            CEdit: {
+
+            }
+        }
     })
     return await response.text();
 }
@@ -119,18 +131,24 @@ function addEvents(){
     }
 
     for(const urlap of urlapok){
-        doAddingToButtons(urlap, "aktuel", [doAktuel]);
-        doAddingToButtons(urlap, "kuld", [doKuld]);
-        doAddingToButtons(urlap, "kuldG", [doAktuel, doKuld]);
+        const MyEvent =
+            new Event(
+                "urlap" + 
+                urlap.getAttribute("action")
+                    .replace(/^\w/, c => c.toUpperCase())
+            )
+        doAddingToButtons(urlap, "aktuel", [doAktuel], MyEvent);
+        doAddingToButtons(urlap, "kuld", [doKuld], MyEvent);
+        doAddingToButtons(urlap, "kuldG", [doAktuel, doKuld], MyEvent);
     }
 }
 
-function doAddingToButtons(urlap, buttonName, methodNames){
+function doAddingToButtons(urlap, buttonName, methodNames, myEvent){
     //Aktüel
     for(const aktuel of urlap.getElementsByClassName(buttonName)){
         aktuel.addEventListener("click", function(){
            for(const method of methodNames){
-                method(urlap);
+                method(urlap, myEvent);
            }
         })
     }
@@ -155,7 +173,7 @@ function doAktuel(urlap){
     }
 }
 
-function doKuld(urlap){
+function doKuld(urlap, MyEvent){
     const jsonValue = getUrlapJSONs(urlap);
     const routG = urlap.getAttribute('value').split("/");
     let tr = "";
@@ -166,12 +184,36 @@ function doKuld(urlap){
     }
     console.log(jsonValue);
     console.log(tr)
-/*
-    examplePOST(
-        tr,
-        JSON.stringify(jsonValue)
-    );
-*/
+    let sikeresKeres = false;
+    switch(urlap.getAttribute("method")){
+        case "get":
+            // Bárhó Bámi
+            break;
+        case "post":
+        /*
+            examplePOST(
+                tr,
+                JSON.stringify(jsonValue)
+            );
+        */
+            // Kitöltendő (Szerkesztendő) mezők
+            break;
+        case "put":
+            //Azonosításhoz használt mezők, Szerkesztendő mezők
+            break;
+        case "delete":
+            //Azonosításhoz használt mezők
+            break;
+    /*
+        case "patch":
+            break;
+        case "head":
+            break;
+    */
+    }
+    if(MyEvent && sikeresKeres){
+        document.dispatchEvent(MyEvent);
+    }
 }
 
 function getMethodStoreObjectWithReturns(jsonAktuels){
