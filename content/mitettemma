@@ -49,7 +49,7 @@
     </tbody>
 </table>
 
-<form action="metafora" method="get" class="urlap" value="ujvacsora/$datum">
+<div action="metafora" method="get" class="urlap" value="ujvacsora/$datum">
     <button class="aktuel">Aktüel</button>
     <select name="alany" id="">
         <option value="0">[faj] kodnev:nev - szuletes</option>
@@ -76,7 +76,7 @@
         <button class="kuld">Ye<!--Étkezés hozzáadása--></button>
     </div>
     <button class="kuldG">Tovább</button>
-</form>
+</div>
 
 <div class="urlap" value="kajahozzaadas">
     <select name="etkezes" id="">

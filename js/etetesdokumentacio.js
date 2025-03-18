@@ -9,3 +9,7 @@ for(const ujvacsora of a){
         });
     }
 }
+
+document.addEventListener("urlapMetafora", function(e){
+    console.log("Ez sikerült!")
+})

@@ -2,6 +2,7 @@ let serverhost = "http://192.168.1.18:18080/";
 let content = document.getElementsByTagName("main")[0];
 callSite("mitettemma");
 let events = [];
+
 const aktuels = {
     nowDate: function(){
         return new Date().toISOString().replace("T", ";");
@@ -57,21 +58,22 @@ async function exampleREST(honnan="", method="GET", others={}, cAzon={}, cEdit={
             ContentType: 'application/text',
             Accept: '',
             Others: others
-        },
-        body: {
-            CAzon: cAzon,
-            CEdit: cEdit
         }
     };
+    switch(method.toUpperCase()){
+        case "GET":
+        case "HEAD":
+            break;
+        default:
+            fetchJSON["body"] = {
+                CAzon: cAzon,
+                CEdit: cEdit
+            };
+            break;
+    }
     const response = await fetch(serverhost + honnan, fetchJSON);
     return await response.text();
 }
-
-class REST{
-
-}
-
-
 
 function callSite(melyik){
     fetch("content/" + melyik, { cache: "no-store" })
@@ -124,14 +126,12 @@ function addEvents(){
             callSite(e.target.name);
         });
     }
-
+    
     for(const urlap of urlapok){
-        const MyEvent =
-            new Event(
-                "urlap" + 
-                urlap.getAttribute("action")
-                    .replace(/^\w/, c => c.toUpperCase())
-            )
+        const urlapAct = urlap.getAttribute("action");
+        const stA =  urlapAct ? urlapAct
+            .toLowerCase().replace(/^\w/, (match) => match.toUpperCase()) : "";
+        const MyEvent = stA ? new Event("urlap"+stA) : null;
         doAddingToButtons(urlap, "aktuel", [doAktuel], MyEvent);
         doAddingToButtons(urlap, "kuld", [doKuld], MyEvent);
         doAddingToButtons(urlap, "kuldG", [doAktuel, doKuld], MyEvent);
@@ -170,44 +170,22 @@ function doAktuel(urlap){
 
 function doKuld(urlap, MyEvent){
     const jsonValue = getUrlapJSONs(urlap);
+    console.log(jsonValue);
     const routG = urlap.getAttribute('value').split("/");
     let tr = "";
     for(const strE of routG){
+        const strEs = strE.split("-");
+        const strEs1 = strEs[1] ? strEs[1] : "ca";
+        console.log(strEs1)
+        //console.log(jsonValue[strEs[1] ? strEs[1] : "ca"][strEs[0].replace("$", "")])
         tr += strE.startsWith("$") ?
-            (jsonValue[strE.replace("$", "")] ||
+            ((jsonValue[strEs1] && jsonValue[strEs1][strEs[0].replace("$", "")]) ||
              "null") +"/" : strE + "/";
     }
-    console.log(jsonValue);
     console.log(tr)
     let sikeresKeres = false;
-    switch(){
-        case "get":
-            // Bárhó Bámi
-            break;
-        case "post":
-        /*
-            examplePOST(
-                tr,
-                JSON.stringify(jsonValue)
-            );
-        */
-            // Kitöltendő (Szerkesztendő) mezők
-            break;
-        case "put":
-            //Azonosításhoz használt mezők, Szerkesztendő mezők
-            break;
-        case "delete":
-            //Azonosításhoz használt mezők
-            break;
-    /*
-        case "patch":
-            break;
-        case "head":
-            break;
-    */
-    }
-    exampleREST(tr, urlap.getAttribute("method"), )
-    if(MyEvent && sikeresKeres){
+   // exampleREST(tr, urlap.getAttribute("method"), jsonValue["oth"], jsonValue["ca"], jsonValue["ce"])
+    if(MyEvent && !sikeresKeres){
         document.dispatchEvent(MyEvent);
     }
 }
@@ -224,7 +202,9 @@ function getUrlapJSONs(urlap){
     const myUrlap = urlap.querySelectorAll("* [name]");
     const jsonValue = {};
     for(const mezo of myUrlap){
-        if(mezo.name.length > 0) jsonValue[mezo.name] = mezo.type !== "checkbox" ? mezo.value : mezo.checked;
+        const mezofieldType = mezo.getAttribute("data-fieldtype") || "ce";
+        if(!jsonValue[mezofieldType]) jsonValue[mezofieldType] = {};
+        if(mezo.name.length > 0) jsonValue[mezofieldType][mezo.name] = mezo.type !== "checkbox" ? mezo.value : mezo.checked;
     }
     return jsonValue;
 }
@@ -235,7 +215,7 @@ function getValueFromAll(Cname="", jsonValue={}, localAktuels={}){
     if(mezoTagG.length > 1 && !isNaN(mezoTagG[0])){
         switch(Number(mezoTagG[0])){
             case 0:
-                oText = jsonValue[mezoTagG[1]];
+                oText = jsonValue[mezoTagG[2] ? mezoTagG[2] : "ce"][mezoTagG[1]];
                 break;
             case 1:
                 oText = getValueFromLocalStorage(mezoTagG[1]);
