@@ -122,9 +122,11 @@ function addEvents(){
         {datum: "EEEEA"},
         {datum: "AAAAE"}
     ];
+    // 
     const retne = document.getElementsByClassName("retn");
     console.log(retne.length);
-    doUjratolt(retne[0], jsA);
+    //doFrissit();
+    //doUjratolt(retne[0], jsA);
 
 
     const contentLinks = document.getElementsByClassName("contentlink");
@@ -177,7 +179,7 @@ function doAktuel(urlap){
     }
 }
 
-function doKuld(urlap, MyEvent){
+async function doKuld(urlap, MyEvent){
     const jsonValue = getUrlapJSONs(urlap);
     console.log(jsonValue);
     const routG = urlap.getAttribute('value').split("/");
@@ -193,24 +195,31 @@ function doKuld(urlap, MyEvent){
     }
     console.log(tr)
     let sikeresKeres = false;
-   // exampleREST(tr, urlap.getAttribute("method"), jsonValue["oth"], jsonValue["ca"], jsonValue["ce"])
+    const jsonResponse = await exampleREST(tr, urlap.getAttribute("method"), jsonValue["oth"], jsonValue["ca"], jsonValue["ce"])
+    
     if(MyEvent && !sikeresKeres){
+        for(const retn of document.querySelectorAll(`[name=${urlap.getAttribute('name')}].retn`)){
+            doUjratolt(retn, jsonResponse);
+        }
+        doFrissit();
         document.dispatchEvent(MyEvent);
     }
 }
 
-function doUjratolt(retn, jsonArray = [{}]){
-    console.log("Legyen valami Csirkés")
+async function doFrissit(retns=document.querySelectorAll("[value].retn")){
+    const jsonResponse = await exampleREST(retn.getAttribute("value"));
+    for(const retn of retns){
+        doUjratolt(retn, jsonResponse);        
+    }
+}
+
+function doUjratolt(retn, jsonArray=[]){
     let fullText = "";
     let retnrowD = null;
-    console.log("Legyen valami Csirkés")
     
     for(const retnrow of retn.getElementsByClassName("retnrow")){
         retnrowD = retnrow.cloneNode(true);
     }
-
-    console.log("Legyen valami Csirkés")
-
     
     if(retnrowD){
         for(const jsonItem of jsonArray){
@@ -219,15 +228,14 @@ function doUjratolt(retn, jsonArray = [{}]){
                 mez.innerHTML = jsonItem[mez.textContent];
             }
             fullText += retnrowDE.outerHTML;
-            console.log("EEEW: " + retnrowDE.outerHTML)
         }
     }
-    console.log("Legyen valami Csirkés")
+
     for(const retnmain of retn.getElementsByClassName("retnmain")){
         retnmain.innerHTML = fullText;
     }
-    console.log("Legyen valami Csirkés")
 }
+
 
 function getMethodStoreObjectWithReturns(jsonAktuels){
     const localAktuels = {};

@@ -13,8 +13,12 @@
     display: none;
 }
 
-.retnmain .retnrow{
+.retnmain > .retnrow{
     display: inherit;
+}
+
+.retnrow legend{
+    border: 1px solid brown;
 }
 
 /*Globál*/

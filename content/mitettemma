@@ -49,7 +49,7 @@
     </tbody>
 </table>
 
-<div action="metafora" method="get" class="urlap" value="ujvacsora/$datum">
+<div name="ujetkezes" action="metafora" method="get" class="urlap" value="ujvacsora/$datum">
     <button class="aktuel">Aktüel</button>
     <select name="alany" id="">
         <option value="0">[faj] kodnev:nev - szuletes</option>
@@ -107,11 +107,26 @@
 
 </div>
 
-<div name="" class="retn" value="">
+<div name="" class="retn" value="ujalany">
     <div class="retnrow">
-            <p class="mez">datum</p>
-            <p class="mez">alany</p>
-            <p class="mez">let</p>
+           <legend>
+                <p class="mez">datum</p>
+                <p class="mez">alany</p>
+                <p class="mez">let</p>
+           </legend>
+    </div>
+    <div class="retnmain">
+
+    </div>
+</div>
+
+<div name="ujetkezes" class="retn" data-arraysep="", data-fieldsep="">
+    <div class="retnrow">
+           <legend>
+                <p class="mez">datum</p>
+                <p class="mez">alany</p>
+                <p class="mez">let</p>
+           </legend>
     </div>
     <div class="retnmain">
 
