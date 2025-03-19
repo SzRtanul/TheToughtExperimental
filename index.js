@@ -118,6 +118,15 @@ function doJSAddingToSite(){
 }
 
 function addEvents(){
+    const jsA = [
+        {datum: "EEEEA"},
+        {datum: "AAAAE"}
+    ];
+    const retne = document.getElementsByClassName("retn");
+    console.log(retne.length);
+    doUjratolt(retne[0], jsA);
+
+
     const contentLinks = document.getElementsByClassName("contentlink");
     const urlapok = document.querySelectorAll("[value].urlap");
 
@@ -188,6 +197,36 @@ function doKuld(urlap, MyEvent){
     if(MyEvent && !sikeresKeres){
         document.dispatchEvent(MyEvent);
     }
+}
+
+function doUjratolt(retn, jsonArray = [{}]){
+    console.log("Legyen valami Csirkés")
+    let fullText = "";
+    let retnrowD = null;
+    console.log("Legyen valami Csirkés")
+    
+    for(const retnrow of retn.getElementsByClassName("retnrow")){
+        retnrowD = retnrow.cloneNode(true);
+    }
+
+    console.log("Legyen valami Csirkés")
+
+    
+    if(retnrowD){
+        for(const jsonItem of jsonArray){
+            const retnrowDE = retnrowD.cloneNode(true);
+            for(const mez of retnrowDE.getElementsByClassName("mez")){
+                mez.innerHTML = jsonItem[mez.textContent];
+            }
+            fullText += retnrowDE.outerHTML;
+            console.log("EEEW: " + retnrowDE.outerHTML)
+        }
+    }
+    console.log("Legyen valami Csirkés")
+    for(const retnmain of retn.getElementsByClassName("retnmain")){
+        retnmain.innerHTML = fullText;
+    }
+    console.log("Legyen valami Csirkés")
 }
 
 function getMethodStoreObjectWithReturns(jsonAktuels){

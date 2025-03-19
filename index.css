@@ -13,6 +13,10 @@
     display: none;
 }
 
+.retnmain .retnrow{
+    display: inherit;
+}
+
 /*Globál*/
 .nav ul li button{
     all: unset;
