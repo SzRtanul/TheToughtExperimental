@@ -40,16 +40,22 @@ document.addEventListener("DOMContentLoaded", function() {
 
 });
 
-/*async function examplePOST(hova, mit){
-    let response = await fetch(serverhost + hova, {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: mit
-    })
-    return await response.text();
-}*/
+const str = 'revenue895erwhgh9reji#íKDSFKI9ÜW'
+/*String.prototype.hashCode = function() {
+    let hash = 0n,
+      i, chr;
+    if (this.length === 0) return hash;
+    for (i = 0; i < this.length; i++) {
+      chr = BigInt(this.charCodeAt(i));
+      hash = ((hash << 5) - hash) + chr;
+      //hash |= 0; // Convert to 32bit integer
+    }
+    return hash;
+}
+console.log(str, str.hashCode());*/
+
+//console.log(await getCryptoHash(str));
+  
 
 async function exampleREST(honnan="", method="GET", others={}, cAzon={}, cEdit={}){
     const fetchJSON = {
@@ -71,8 +77,8 @@ async function exampleREST(honnan="", method="GET", others={}, cAzon={}, cEdit={
             };
             break;
     }
-    const response = await fetch(serverhost + honnan, fetchJSON);
-    return await response.text();
+    const response = await fetch(serverhost + honnan, fetchJSON).catch(error => { return null; });
+    return await response ? "res:" + await response.text() : "HIBA: A szerver elérhetetlen.";
 }
 
 function callSite(melyik){
@@ -123,10 +129,12 @@ function addEvents(){
         {datum: "AAAAE"}
     ];
     // 
+    const txA = "A:::A:::B;;;B:::B:::A"
     const retne = document.getElementsByClassName("retn");
     console.log(retne.length);
     //doFrissit();
-    //doUjratolt(retne[0], jsA, "json");
+    doUjratolt(retne[0], jsA, "json");
+    doUjratolt(retne[2], txA);
 
 
     const contentLinks = document.getElementsByClassName("contentlink");
@@ -160,10 +168,10 @@ function doAddingToButtons(urlap, buttonName, methodNames, myEvent){
     }
 }
 
-function doAktuel(urlap){
+async function doAktuel(urlap){
     const myConst = urlap.querySelectorAll("* [name][tag]"); // Rejtett mezők automatikus kitöltéssel
     const myConstas = urlap.querySelectorAll("* [tag].constas"); // Elemek, amikben változó van
-    const jsonValue = getUrlapJSONs(urlap); // Ürlap mező értékek
+    const jsonValue = await getUrlapJSONs(urlap); // Ürlap mező értékek
     const localAktuels = getMethodStoreObjectWithReturns(aktuels); // Values from Aktüel
 
     for(const mezo of myConst){ // értékcsere LocalStorage-ból vagy Aktüel-ből
@@ -173,14 +181,15 @@ function doAktuel(urlap){
     }
 
     for(const constas of myConstas){ // SzövegVáltozóCsere
+        console.log(jsonValue)
         constas.innerHTML = getValueFromAll(
             constas.getAttribute("tag"), jsonValue, localAktuels
-        );
+        ) || "null";
     }
 }
 
 async function doKuld(urlap, MyEvent){
-    const jsonValue = getUrlapJSONs(urlap);
+    const jsonValue = await getUrlapJSONs(urlap);
     console.log(jsonValue);
     const routG = urlap.getAttribute('value').split("/");
     let tr = "";
@@ -195,15 +204,19 @@ async function doKuld(urlap, MyEvent){
     }
     console.log(tr)
     let sikeresKeres = false;
-    const jsonResponse = await exampleREST(tr, urlap.getAttribute("method"), jsonValue["oth"], jsonValue["ca"], jsonValue["ce"])
-    
-    if(MyEvent && !sikeresKeres){
+    console.log("Küldés folyamatban...")
+    const response = await exampleREST(tr, urlap.getAttribute("method"), jsonValue["oth"], jsonValue["ca"], jsonValue["ce"])
+    console.log("Küldés sikeres!");
+
+    if(MyEvent && response.startsWith("res:") && !sikeresKeres){
         for(const retn of document.querySelectorAll(`[name=${urlap.getAttribute('name')}].retn`)){
-            doUjratolt(retn, jsonResponse);
+            doUjratolt(retn, response);
         }
         doFrissit();
         document.dispatchEvent(MyEvent);
     }
+
+    if(MyEvent) document.dispatchEvent(MyEvent);
 }
 
 async function doFrissit(retns=document.querySelectorAll("[value].retn")){
@@ -225,11 +238,13 @@ function doUjratolt(retn, responseInput="", responseInputType="text"){
        switch(responseInputType){
             case "text":
                 for(const textRow of responseInput.split(";;;")){
+                    console.log("?: "+textRow);
                     const retnrowDE = retnrowD.cloneNode(true);
                     const strA = textRow.split(":::");
                     for(const mez of retnrowDE.getElementsByClassName("mez")){
                         const mezContent = mez.textContent;
-                        mez.innerHTML = !isNaN(mezContent) ? jsonItem[Number(mezContent)] : "null";
+                        console.log("??: "+mezContent)
+                        mez.innerHTML = !isNaN(mezContent) ? strA[Number(mezContent)] : "null";
                     }
                     fullText += retnrowDE.outerHTML;
                 }
@@ -260,15 +275,15 @@ function getMethodStoreObjectWithReturns(jsonAktuels){
     return localAktuels;
 }
 
-function getUrlapJSONs(urlap){
+async function getUrlapJSONs(urlap){
     const myUrlap = urlap.querySelectorAll("* [name]");
     const jsonValue = {};
     for(const mezo of myUrlap){
         const mezofieldType = mezo.getAttribute("data-fieldtype") || "ce";
         if(!jsonValue[mezofieldType]) jsonValue[mezofieldType] = {};
-        if(mezo.name.length > 0) jsonValue[mezofieldType][mezo.name] = mezo.type !== "checkbox" ? mezo.value : mezo.checked;
+        if(mezo.name.length > 0) jsonValue[mezofieldType][mezo.name] = mezo.type !== "checkbox" ? (mezo.classList.contains("chr") ? await getCryptoHash(mezo.value) : mezo.value) : mezo.checked;
     }
-    return jsonValue;
+    return await jsonValue;
 }
 
 function getValueFromAll(Cname="", jsonValue={}, localAktuels={}){
@@ -277,13 +292,13 @@ function getValueFromAll(Cname="", jsonValue={}, localAktuels={}){
     if(mezoTagG.length > 1 && !isNaN(mezoTagG[0])){
         switch(Number(mezoTagG[0])){
             case 0:
-                oText = jsonValue[mezoTagG[2] ? mezoTagG[2] : "ce"][mezoTagG[1]];
+                oText = jsonValue[mezoTagG[2] ? mezoTagG[2] : "ce"][mezoTagG[1]] || "";
                 break;
             case 1:
-                oText = getValueFromLocalStorage(mezoTagG[1]);
+                oText = getValueFromLocalStorage(mezoTagG[1]) || "";
                 break;
             case 2:
-                oText = localAktuels[mezoTagG[1]];
+                oText = localAktuels[mezoTagG[1]] || "";
                 break;
         }
     }
@@ -294,4 +309,9 @@ function getValueFromAll(Cname="", jsonValue={}, localAktuels={}){
 function getValueFromLocalStorage(Cname){
     console.log(Cname)
     return localStorage.getItem(Cname) || "null";
+}
+
+async function getCryptoHash(text){
+    const buffer = await crypto.subtle.digest("SHA-512", new TextEncoder().encode(text));
+    return Array.from(new Uint8Array(buffer)).map(b => b.toString(16).padStart(2, "0")).join("")
 }

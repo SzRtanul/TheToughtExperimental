@@ -1,0 +1,9 @@
+<ul class="lJS">
+    <li>reglog</li>
+</ul>
+
+<div class="urlap" action="logined" method="post">
+    <label for="felh">Felhasználónév:</label><input type="text" name="felhasznaloNev" id="felh">
+    <label for="jelsz">Jelszó:</label><input type="text" name="jelszoHash" id="jelsz">
+    <button class="kuld">Bejelentkezés</button>
+</div>

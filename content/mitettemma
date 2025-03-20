@@ -59,9 +59,9 @@
     <button class="datumszerkesztese">Dátum szerkesztése</button>
     <div id="k1023" style="display: inherit;">
         <div>
-                <input name="VALA" tag="1-ELEKTA" class="consta" value="">
+                <input name="VALA" tag="1-ELEKTA" class="consta chr" value="">
             <label for="m1">Dátum: </label>
-                <input id="m1" name="datum" value="" type="date">
+                <input id="m1" name="datum" value="" type="date">-
             <label for="m2">Óra: </label>
                 <input id="m2" name="hour" tag="" class="inv" value="">
             <label for="m3">Perc: </label>
@@ -107,7 +107,7 @@
 
 </div>
 
-<div name="" class="retn" value="ujalany">
+<div class="retn" value="ujalany">
     <div class="retnrow">
            <legend>
                 <p class="mez">datum</p>
@@ -120,12 +120,25 @@
     </div>
 </div>
 
-<div name="ujetkezes" class="retn" data-arraysep="", data-fieldsep="">
+<div name="ujetkezes" class="retn" data-responsetype="json">
     <div class="retnrow">
            <legend>
                 <p class="mez">datum</p>
                 <p class="mez">alany</p>
                 <p class="mez">let</p>
+           </legend>
+    </div>
+    <div class="retnmain">
+
+    </div>
+</div>
+
+<div name="ujetkezes" class="retn">
+    <div class="retnrow">
+           <legend>
+                <p class="mez">1</p>
+                <p class="mez">2</p>
+                <p class="mez">0</p>
            </legend>
     </div>
     <div class="retnmain">
