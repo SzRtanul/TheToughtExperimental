@@ -126,7 +126,7 @@ function addEvents(){
     const retne = document.getElementsByClassName("retn");
     console.log(retne.length);
     //doFrissit();
-    //doUjratolt(retne[0], jsA);
+    //doUjratolt(retne[0], jsA, "json");
 
 
     const contentLinks = document.getElementsByClassName("contentlink");
@@ -209,11 +209,11 @@ async function doKuld(urlap, MyEvent){
 async function doFrissit(retns=document.querySelectorAll("[value].retn")){
     const jsonResponse = await exampleREST(retn.getAttribute("value"));
     for(const retn of retns){
-        doUjratolt(retn, jsonResponse);        
+        doUjratolt(retn, jsonResponse, retn.getAttribute("data-resposetype") || "text");        
     }
 }
 
-function doUjratolt(retn, jsonArray=[]){
+function doUjratolt(retn, responseInput="", responseInputType="text"){
     let fullText = "";
     let retnrowD = null;
     
@@ -222,13 +222,28 @@ function doUjratolt(retn, jsonArray=[]){
     }
     
     if(retnrowD){
-        for(const jsonItem of jsonArray){
-            const retnrowDE = retnrowD.cloneNode(true);
-            for(const mez of retnrowDE.getElementsByClassName("mez")){
-                mez.innerHTML = jsonItem[mez.textContent];
-            }
-            fullText += retnrowDE.outerHTML;
-        }
+       switch(responseInputType){
+            case "text":
+                for(const textRow of responseInput.split(";;;")){
+                    const retnrowDE = retnrowD.cloneNode(true);
+                    const strA = textRow.split(":::");
+                    for(const mez of retnrowDE.getElementsByClassName("mez")){
+                        const mezContent = mez.textContent;
+                        mez.innerHTML = !isNaN(mezContent) ? jsonItem[Number(mezContent)] : "null";
+                    }
+                    fullText += retnrowDE.outerHTML;
+                }
+                break;
+            case "json":
+                for(const jsonItem of responseInput){
+                    const retnrowDE = retnrowD.cloneNode(true);
+                    for(const mez of retnrowDE.getElementsByClassName("mez")){
+                        mez.innerHTML = jsonItem[mez.textContent];
+                    }
+                    fullText += retnrowDE.outerHTML;
+                }
+                break;
+       }
     }
 
     for(const retnmain of retn.getElementsByClassName("retnmain")){
