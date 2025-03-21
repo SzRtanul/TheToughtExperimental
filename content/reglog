@@ -2,8 +2,9 @@
     <li>reglog</li>
 </ul>
 
-<div class="urlap" action="logined" method="post">
+<div class="urlap" action="logined" method="post" value="login">
     <label for="felh">Felhasználónév:</label><input type="text" name="felhasznaloNev" id="felh">
     <label for="jelsz">Jelszó:</label><input type="text" name="jelszoHash" id="jelsz">
+    <div class="allapot"></div>
     <button class="kuld">Bejelentkezés</button>
 </div>

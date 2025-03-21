@@ -90,7 +90,9 @@ function callSite(melyik){
                 content.innerHTML = iHTML;
                 doCSSAddingToSite();
                 doJSAddingToSite();
+                console.log("Igen?");
                 addEvents();
+                console.log("Igen.");
             } else {
                 content.innerHTML = await res.status + " Error";
             }
@@ -132,9 +134,9 @@ function addEvents(){
     const txA = "A:::A:::B;;;B:::B:::A"
     const retne = document.getElementsByClassName("retn");
     console.log(retne.length);
-    //doFrissit();
+  /*  //doFrissit();
     doUjratolt(retne[0], jsA, "json");
-    doUjratolt(retne[2], txA);
+    doUjratolt(retne[2], txA);*/
 
 
     const contentLinks = document.getElementsByClassName("contentlink");
@@ -190,23 +192,22 @@ async function doAktuel(urlap){
 
 async function doKuld(urlap, MyEvent){
     const jsonValue = await getUrlapJSONs(urlap);
+    const allapotKijelzok = urlap.getElementsByClassName("allapot");
     console.log(jsonValue);
     const routG = urlap.getAttribute('value').split("/");
     let tr = "";
     for(const strE of routG){
         const strEs = strE.split("-");
         const strEs1 = strEs[1] ? strEs[1] : "ca";
-        console.log(strEs1)
         //console.log(jsonValue[strEs[1] ? strEs[1] : "ca"][strEs[0].replace("$", "")])
         tr += strE.startsWith("$") ?
             ((jsonValue[strEs1] && jsonValue[strEs1][strEs[0].replace("$", "")]) ||
              "null") +"/" : strE + "/";
     }
-    console.log(tr)
     let sikeresKeres = false;
-    console.log("Küldés folyamatban...")
+    doUrlapAllapotFrissites(allapotKijelzok, "Küldés folyamatban...");
     const response = await exampleREST(tr, urlap.getAttribute("method"), jsonValue["oth"], jsonValue["ca"], jsonValue["ce"])
-    console.log("Küldés sikeres!");
+    doUrlapAllapotFrissites(allapotKijelzok, "Küldés sikeres!");
 
     if(MyEvent && response.startsWith("res:") && !sikeresKeres){
         for(const retn of document.querySelectorAll(`[name=${urlap.getAttribute('name')}].retn`)){
@@ -266,6 +267,11 @@ function doUjratolt(retn, responseInput="", responseInputType="text"){
     }
 }
 
+function doUrlapAllapotFrissites(mezok, szoveg){
+    for(const mezo of mezok){
+        mezo.innerHTML = szoveg;
+    }
+}
 
 function getMethodStoreObjectWithReturns(jsonAktuels){
     const localAktuels = {};
