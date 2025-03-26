@@ -131,7 +131,7 @@ function addEvents(){
         {datum: "AAAAE"}
     ];
     // 
-    const txA = "A:::A:::B;;;B:::B:::A"
+    const txA = "A:::A:::B:::;;;B:::B:::A"
     const retne = document.getElementsByClassName("retn");
     console.log(retne.length);
   /*  //doFrissit();

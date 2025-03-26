@@ -1,0 +1,7 @@
+h3::before{
+    content: "- ";
+}
+
+/*h3::after{
+    content: "[party]";
+}*/
