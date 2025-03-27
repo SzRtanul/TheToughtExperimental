@@ -10,6 +10,20 @@
     <li><button>Vizsgálatok</button></li>
 </ul>
 
+
+<div name="ujvarcoramaster" action="anevemzorro" method="get" class="urlap", value="ujvacsora">
+    <button class="kuld">LEküld</button>
+</div>
+
+<div name="ujvarcoramaster" class="retn">
+    <div class="retnrow">
+        <p><strong class="mez">0</strong>:<strong class="mez">1</strong>:<strong class="mez">0</strong></p>
+    </div>
+    <div class="retnmain">
+
+    </div>
+</div>
+
 <h1>Miket ettem eddig?</h1>
 
 <button>+ Étkezés hozzáadása</button>
@@ -57,19 +71,30 @@
     </select>
     <p class="constas" aria-label="datum">Jelenlegi dátum: <span class="constas" tag="0-datum"></span></p>
     <button class="datumszerkesztese">Dátum szerkesztése</button>
-    <div id="k1023" style="display: inherit;">
+    <div id="k1023" style="display: none;">
         <div>
+            
                 <input name="VALA" tag="1-ELEKTA" class="consta chr" value="">
-            <label for="m1">Dátum: </label>
-                <input id="m1" name="datum" value="" type="date">-
-            <label for="m2">Óra: </label>
+            <div class="input-container">
+                <label for="m1">Dátum: </label>
+                <input id="m1" name="datum" tag="2-nowDate-0" value="" type="date">
+            </div>
+            <div class="input-container">
+                <label for="m2">Óra: </label>
                 <input id="m2" name="hour" tag="" class="inv" value="">
-            <label for="m3">Perc: </label>
+            </div>
+            <div class="input-container">
+                <label for="m3">Perc: </label>
                 <input id="m3" name="minute" tag="2-nowDate-1" type="text">
-            <label for="m4">Másodperc: </label>
+            </div>
+            <div class="input-container">
+                <label for="m4">Másodperc: </label>
                 <input id="m4" name="second" type="text">
-            <label for="m5">Milliszekundum: </label>
+            </div>
+            <div class="input-container">
+                <label for="m5">Milliszekundum: </label>
                 <input id="m5" name="millisecond" type="text">
+            </div>
         </div>
 
         <p>Ez úgy jelent meg, ahogy akartam.</p>

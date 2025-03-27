@@ -13,6 +13,24 @@
     display: none;
 }
 
+.urlap{
+    border: brown solid 3px;
+    padding: 5px;
+    margin: 13px;
+}
+
+.urlap .kuld{
+    background-color: green;
+}
+
+.urlap .aktuel{
+    background-color: yellow;
+}
+
+.urlap .kuldG{
+    background-color: grey;
+}
+
 .retnmain > .retnrow{
     display: inherit;
 }
@@ -113,3 +131,20 @@ body{
     height: 100%;
     background-color: azure;
 }
+
+/*Experimental*/
+.input-container {
+    display: flex;
+    align-items: center;
+    margin-top: 3px;
+  }
+  
+  label {
+    margin-right: 10px; /* Állítsd be, hogy a címke és az input között legyen távolság */
+  }
+  
+  input {
+    flex-grow: 1; /* Az input kitölti a maradék helyet */
+    padding: 2px;
+    font-size: 16px;
+  }

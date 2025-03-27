@@ -1,4 +1,4 @@
-let serverhost = "http://192.168.1.18:18080/";
+let serverhost = "http://192.168.244.14:18080/";
 let content = document.getElementsByTagName("main")[0];
 callSite("mitettemma");
 let events = [];
@@ -17,10 +17,10 @@ function gluck(){
 //Kísérletek
 console.log("MyRegex 2975hfuiHtE".match(/^\w+/)?.[0] || "");
 //console.log(getValueFromLocalStorage(""));
-/*document.cookie = "Elekta=Fakkkjú";
+/*
 document.cookie = "Suzie=Gere"
 console.log(document.cookie)
-document.cookie = "Elekta=Fakkkj";
+
 document.cookie = "Suzie=Geta"
 console.log(document.cookie)
 document.cookie = "Suzie="
@@ -203,26 +203,43 @@ async function doKuld(urlap, MyEvent){
         tr += strE.startsWith("$") ?
             ((jsonValue[strEs1] && jsonValue[strEs1][strEs[0].replace("$", "")]) ||
              "null") +"/" : strE + "/";
+        tr = tr.substring(0, tr.length-1);
     }
     let sikeresKeres = false;
+    console.log("Lefut?")
+    for(const btn of urlap.querySelectorAll(".kuld, .kuldG")){
+        btn.setAttribute("disabled", "");
+    }
     doUrlapAllapotFrissites(allapotKijelzok, "Küldés folyamatban...");
     const response = await exampleREST(tr, urlap.getAttribute("method"), jsonValue["oth"], jsonValue["ca"], jsonValue["ce"])
     doUrlapAllapotFrissites(allapotKijelzok, "Küldés sikeres!");
+    console.log("Lefut.")
+    for(const btn of urlap.querySelectorAll(".kuld, .kuldG")){
+        btn.removeAttribute("disabled");
+    }
 
     if(MyEvent && response.startsWith("res:") && !sikeresKeres){
+        console.log("Ez fut?")
         for(const retn of document.querySelectorAll(`[name=${urlap.getAttribute('name')}].retn`)){
             doUjratolt(retn, response);
         }
-        doFrissit();
+        //doFrissit();
+
         document.dispatchEvent(MyEvent);
+    }
+    else{
+        const presentationLayer = "111:::222:::333:::;;;333:::555:::666:::"
+        for(const retn of document.querySelectorAll(`[name=${urlap.getAttribute('name')}].retn`)){
+            doUjratolt(retn, presentationLayer);
+        }
     }
 
     if(MyEvent) document.dispatchEvent(MyEvent);
 }
 
-async function doFrissit(retns=document.querySelectorAll("[value].retn")){
-    const jsonResponse = await exampleREST(retn.getAttribute("value"));
+async function doFrissit(retns=document.querySelectorAll("[value].retn:not([value=\"\"])")){
     for(const retn of retns){
+        const jsonResponse = await exampleREST(retn.getAttribute("value"));
         doUjratolt(retn, jsonResponse, retn.getAttribute("data-resposetype") || "text");        
     }
 }
