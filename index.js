@@ -219,9 +219,10 @@ async function doKuld(urlap, MyEvent){
     }
 
     if(MyEvent && response.startsWith("res:") && !sikeresKeres){
-        console.log("Ez fut?")
+        console.log("Ez fut?");
+        const tres = response.replace("res:", "");
         for(const retn of document.querySelectorAll(`[name=${urlap.getAttribute('name')}].retn`)){
-            doUjratolt(retn, response);
+            doUjratolt(retn, tres);
         }
         doFrissit();
         document.dispatchEvent(MyEvent);
