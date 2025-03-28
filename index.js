@@ -1,4 +1,4 @@
-let serverhost = "http://192.168.1.18:18080/";
+let serverhost = "http://experimental.local:18080/";
 let content = document.getElementsByTagName("main")[0];
 callSite("mitettemma");
 let events = [];
