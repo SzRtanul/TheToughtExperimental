@@ -223,21 +223,20 @@ async function doKuld(urlap, MyEvent){
         for(const retn of document.querySelectorAll(`[name=${urlap.getAttribute('name')}].retn`)){
             doUjratolt(retn, response);
         }
-        //doFrissit();
-
+        doFrissit();
         document.dispatchEvent(MyEvent);
     }
-    else{
+  /*  else{
         const presentationLayer = "111:::222:::333:::;;;333:::555:::666:::"
         for(const retn of document.querySelectorAll(`[name=${urlap.getAttribute('name')}].retn`)){
             doUjratolt(retn, presentationLayer);
         }
-    }
+    }*/
 
-    if(MyEvent) document.dispatchEvent(MyEvent);
+   // if(MyEvent) document.dispatchEvent(MyEvent);
 }
 
-async function doFrissit(retns=document.querySelectorAll("[value].retn:not([value=\"\"])")){
+async function doFrissit(retns=document.querySelectorAll("[value].retn:not([name])")){
     for(const retn of retns){
         const jsonResponse = await exampleREST(retn.getAttribute("value"));
         doUjratolt(retn, jsonResponse, retn.getAttribute("data-resposetype") || "text");        
