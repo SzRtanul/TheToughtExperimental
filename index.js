@@ -1,8 +1,9 @@
 let serverhost = "http://experimental.local:18080/";
 let content = document.getElementsByTagName("main")[0];
-callSite("mitettemma");
 let events = [];
+let currentRequest = null;
 
+callSite("mitettemma");
 const aktuels = {
     nowDate: function(){
         return new Date().toISOString().replace("T", ";");
@@ -82,7 +83,39 @@ async function exampleREST(honnan="", method="GET", others={}, cAzon={}, cEdit={
 }
 
 function callSite(melyik){
-    fetch("content/" + melyik, { cache: "no-store" })
+    console.log("U")
+    if (currentRequest) {
+        currentRequest.abort();
+    }
+    console.log("E")
+    currentRequest = new XMLHttpRequest();
+    console.log("E")
+    currentRequest.open("GET", "content/" + melyik, true);
+    currentRequest.setRequestHeader("Cache-Control", "no-store");
+    currentRequest.setRequestHeader("Pragma", "no-cache");
+
+    console.log("E")
+    currentRequest.onload = function () {
+        if (currentRequest.status >= 200 && currentRequest.status < 300) {
+            document.querySelectorAll(".guest").forEach(g => g.remove());
+            let iHTML = currentRequest.responseText;
+            content.innerHTML = iHTML;
+            doCSSAddingToSite();
+            doJSAddingToSite();
+            console.log("Igen?");
+            addEvents();
+            console.log("Igen.");
+        } else {
+            console.error("Request failed with status:", currentRequest.status);
+        }
+    };
+
+    currentRequest.onerror = function () {
+        console.error("Request failed due to network error");
+    };
+    currentRequest.send();
+
+   /* fetch("content/" + melyik, { signal, cache: "no-store" })
         .then(async (res) => {
             if (res.ok) {
                 document.querySelectorAll(".guest").forEach(g => g.remove());
@@ -99,7 +132,7 @@ function callSite(melyik){
         })
         .catch(()=>{
             console.log("ISMERETLEN HIBA")
-        })
+        })*/
 }
 
 function doCSSAddingToSite(){
@@ -125,6 +158,11 @@ function doJSAddingToSite(){
         }
 }
 
+function getEventName(text){
+    return text ? text.toLowerCase()
+                        /*.replace(/^\w/, (match) => match.toUpperCase())*/ : "";
+}
+
 function addEvents(){
     const jsA = [
         {datum: "EEEEA"},
@@ -147,15 +185,21 @@ function addEvents(){
             callSite(e.target.name);
         });
     }
-    
+    let urlapIDn = 0;
     for(const urlap of urlapok){
-        const urlapAct = urlap.getAttribute("action");
-        const stA =  urlapAct ? urlapAct
-            .toLowerCase().replace(/^\w/, (match) => match.toUpperCase()) : "";
-        const MyEvent = stA ? new Event("urlap"+stA) : null;
-        doAddingToButtons(urlap, "aktuel", [doAktuel], MyEvent);
-        doAddingToButtons(urlap, "kuld", [doKuld], MyEvent);
-        doAddingToButtons(urlap, "kuldG", [doAktuel, doKuld], MyEvent);
+        const urlapActName = urlap.getAttribute("action");
+        const urlapVariation = urlap.getAttribute("data-variation") || "";
+        const whenSendEvent = urlapActName ? new CustomEvent("urlapS"+urlapActName, {detail: {urlapID: urlapIDn+"_"}}) : null;
+        const whenAktuelEvent = urlapActName ? new CustomEvent("urlapA"+urlapActName, {detail: {urlapID: urlapIDn+"_"}}) : null;
+        doAddingToButtons(urlap, "aktuel", [doAktuel], whenAktuelEvent);
+        doAddingToButtons(urlap, "kuld", [doKuld], whenSendEvent);
+        doAddingToButtons(urlap, "kuldG", [doAktuel, doKuld], whenSendEvent);
+        const ids = urlap.querySelectorAll("[id]:not([id=''])");
+        for(let i = 0;i < ids.length; i++){
+            console.log(urlapIDn)
+            ids[i].id = urlapIDn + "_" + urlapVariation + ids[i].getAttribute("id");
+        }
+        urlapIDn++;
     }
 }
 
@@ -170,10 +214,10 @@ function doAddingToButtons(urlap, buttonName, methodNames, myEvent){
     }
 }
 
-async function doAktuel(urlap){
+async function doAktuel(urlap, MyEvent){
     const myConst = urlap.querySelectorAll("* [name][tag]"); // Rejtett mezők automatikus kitöltéssel
     const myConstas = urlap.querySelectorAll("* [tag].constas"); // Elemek, amikben változó van
-    const jsonValue = await getUrlapJSONs(urlap); // Ürlap mező értékek
+    let jsonValue = await getUrlapJSONs(urlap); // Ürlap mező értékek
     const localAktuels = getMethodStoreObjectWithReturns(aktuels); // Values from Aktüel
 
     for(const mezo of myConst){ // értékcsere LocalStorage-ból vagy Aktüel-ből
@@ -182,12 +226,15 @@ async function doAktuel(urlap){
         }
     }
 
+    jsonValue = await getUrlapJSONs(urlap);
     for(const constas of myConstas){ // SzövegVáltozóCsere
         console.log(jsonValue)
         constas.innerHTML = getValueFromAll(
             constas.getAttribute("tag"), jsonValue, localAktuels
         ) || "null";
     }
+
+    if(MyEvent) document.dispatchEvent(MyEvent);
 }
 
 async function doKuld(urlap, MyEvent){

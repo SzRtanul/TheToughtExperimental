@@ -6,16 +6,51 @@
 </ul>
 
 <ul class="vizszintes-nav">
-    <li><button>Étkezések</button></li>
-    <li><button>Vizsgálatok</button></li>
+    <li>
+        <button
+        class="contentlink"
+        name="mitettemma">
+                Étkezések
+        </button></li>
+    <li>
+        <button  
+            class="contentlink"
+            name="kiserletdokumentacio">
+                Vizsgálatok
+        </button>
+    </li>
 </ul>
 
+<div class="urlap" name="ujvacsora" value="ujvacsora" action="hozzaadasutan" method="get">
+    <div id="ujvacsoraScene0" class="d-none">
+        <div id="ujvacsoraScene1" class="">
+            <button class="aktuel" id="">Aktuális dátum</button>
+            <p>Jelenlegi dátum:<span class="constas" tag="0-datum">Dátum helye</span></p>
+            <button id="ujvacsoraDateEdit" class="datumedit">Dátum szerkesztése</button>
+        </div>
+        <div id="ujvacsoraScene2" class="input-container d-none">
+            <label for="m1-1235235"></label>
+            <input id="m1-1235235" type="date" name="datum" tag="2-nowDate-0">
+            <button class="aktuel" id="">Aktuális dátum</button>
+            <button class="kuld">Étkezés hozzáadása</button>
+        </div>
+    </div>
+    <button id="kirakat" class="aktuel kirakat">Étkezés hozzáadása</button>
+</div>
 
-<div name="ujvarcoramaster" action="anevemzorro" method="get" class="urlap", value="ujvacsora">
+<div 
+    name="ujvarcoramaster" 
+    action="anevemzorro" 
+    method="get" class="urlap" 
+    value="ujvacsora"
+    >
     <button class="kuld">LEküld</button>
 </div>
 
-<div name="ujvarcoramaster" class="retn">
+<div 
+    name="ujvarcoramaster" 
+    class="retn"
+    >
     <div class="retnrow">
         <p><strong class="mez">0</strong>:<strong class="mez">1</strong>:<strong class="mez">0</strong></p>
     </div>
@@ -36,30 +71,19 @@
     Kimutatás
 </div>
 
-<table class="miket">
-    <thead>
-        <tr>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td></td>
-        </tr>
-    </tbody>
-</table>
-
 <h1>Mikor ettem?</h1>
-<table class="mikor">
+<table class="retn" value="ujvacsora">
+    <tr class="retnrow">
+        <td class="mez">0</td>
+        <td class="mez">1</td>
+    </tr>
     <thead>
         <tr>
             <th></th>
         </tr>
     </thead>
-    <tbody>
-        <tr>
-            <td></td>
-        </tr>
+    <tbody class="retnmain">
+
     </tbody>
 </table>
 
@@ -69,7 +93,7 @@
         <option value="0">[faj] kodnev:nev - szuletes</option>
         <option value="1">Fák</option>
     </select>
-    <p class="constas" aria-label="datum">Jelenlegi dátum: <span class="constas" tag="0-datum"></span></p>
+    <p aria-label="datum">Jelenlegi dátum: <span class="constas" tag="0-datum"></span></p>
     <button class="datumszerkesztese">Dátum szerkesztése</button>
     <div id="k1023" style="display: none;">
         <div>

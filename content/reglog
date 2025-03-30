@@ -6,5 +6,6 @@
     <label for="felh">Felhasználónév:</label><input type="text" name="felhasznaloNev" id="felh">
     <label for="jelsz">Jelszó:</label><input type="text" name="jelszoHash" id="jelsz">
     <div class="allapot"></div>
+    <button class="aktuel">Csak aktuel</button>
     <button class="kuld">Bejelentkezés</button>
 </div>

@@ -10,7 +10,11 @@
 
 
 .urlap .urlap, .retnrow, .d-none{
-    display: none;
+    display: none !important;
+}
+
+.notinv{
+    display: inherit !important;
 }
 
 .urlap{
@@ -137,14 +141,14 @@ body{
     display: flex;
     align-items: center;
     margin-top: 3px;
-  }
+}
   
-  label {
+label {
     margin-right: 10px; /* Állítsd be, hogy a címke és az input között legyen távolság */
-  }
+}
   
-  input {
+input {
     flex-grow: 1; /* Az input kitölti a maradék helyet */
     padding: 2px;
     font-size: 16px;
-  }
+}
