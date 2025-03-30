@@ -194,9 +194,14 @@ function addEvents(){
         doAddingToButtons(urlap, "aktuel", [doAktuel], whenAktuelEvent);
         doAddingToButtons(urlap, "kuld", [doKuld], whenSendEvent);
         doAddingToButtons(urlap, "kuldG", [doAktuel, doKuld], whenSendEvent);
+        const hasID = urlap.hasAttribute("urlapided");
         const ids = urlap.querySelectorAll("[id]:not([id=''])");
+        urlap.id = urlapIDn;
+        urlap.setAttribute("urlapided", "");
+        console.log(hasID)
         for(let i = 0;i < ids.length; i++){
             console.log(urlapIDn)
+            if(hasID) ids[i].id = ids[i].id.replace(/^[^_]+_/, "");
             ids[i].id = urlapIDn + "_" + urlapVariation + ids[i].getAttribute("id");
         }
         urlapIDn++;
