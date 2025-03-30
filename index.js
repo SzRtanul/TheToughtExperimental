@@ -198,6 +198,7 @@ function addEvents(){
         const ids = urlap.querySelectorAll("[id]:not([id=''])");
         urlap.id = urlapIDn;
         urlap.setAttribute("urlapided", "");
+        urlap.style.setProperty("--data-urlapid", urlapIDn+"");
         console.log(hasID)
         for(let i = 0;i < ids.length; i++){
             console.log(urlapIDn)

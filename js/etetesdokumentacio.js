@@ -3,15 +3,13 @@ import { exportedMethods } from "./globaldata.js";
 console.log("Végrehajtja ezt?!");
 exportedMethods.setUrlapButtons(document.querySelectorAll("[id]:not([id=''])"));
 //const urlapButtons = document.querySelectorAll(".urlap [id]button:not(.kuld):not(.aktuel):not(.kuldG)");
-doMindenhezHozzaad(document.querySelectorAll(".urlap .datumedit"), latszat);
-doMindenhezHozzaad(document.querySelectorAll(".urlap .kirakat"), gere);
+exportedMethods.doMindenhezHozzaad(document.querySelectorAll(".urlap .datumedit"), latszat);
+exportedMethods.doMindenhezHozzaad(document.querySelectorAll(".urlap .kirakat"), gere);
 
 
 /*for(const button of urlapButtons){
     button.style.setProperty("background-color", "red");
 }*/
-
-
 
 function getOsszefuz(){
     
@@ -26,23 +24,16 @@ function latszat(e){
 }
 
 function gere(e){
-    const urlapKod = e.target.id.split("_")[0]+"_";
+    console.log(getComputedStyle(e.target).getPropertyValue("--data-urlapid"));
+    const urlapKod = getComputedStyle(e.target).getPropertyValue("--data-urlapid") + "_";
     const uvSC1 = exportedMethods.getIDButtons(urlapKod+"ujvacsoraScene0");
     const kirakat = exportedMethods.getIDButtons(urlapKod+"kirakat")
     uvSC1?.classList.remove("d-none");
     kirakat?.classList.add("d-none")
-    const urlap = exportedMethods.getIDButtons(urlapKod.substring(0, urlapKod.length-1));
+   /* const urlap = exportedMethods.getIDButtons(urlapKod.substring(0, urlapKod.length-1));
     for(const classFi of urlap.getElementsByClassName("aktuel")){
         classFi.classList.add("d-none");
-    }
-}
-
-function doMindenhezHozzaad(mikhez, milyenfuggvenyt, eventtipus="click"){
-    for(const elem of mikhez){
-        elem.addEventListener(eventtipus, function(e){
-            milyenfuggvenyt(e);
-        })
-    }
+    }*/
 }
 
 document.addEventListener("urlapSmetafora", function(e){

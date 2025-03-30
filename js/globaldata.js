@@ -1,7 +1,8 @@
 
 export const exportedMethods = {
     setUrlapButtons: setUrlapButtons,
-    getIDButtons: getIDButtons
+    getIDButtons: getIDButtons,
+    doMindenhezHozzaad: doMindenhezHozzaad
 }
 
 let urlapButtons = [];
@@ -24,4 +25,12 @@ function getIDButtons(buttonID){
         ign = urlapButtons[i].getAttribute("id") !== buttonID;
     };
     return !ign ? urlapButtons[i] : null;
+}
+
+function doMindenhezHozzaad(mikhez, milyenfuggvenyt, eventtipus="click"){
+    for(const elem of mikhez){
+        elem.addEventListener(eventtipus, function(e){
+            milyenfuggvenyt(e);
+        })
+    }
 }
