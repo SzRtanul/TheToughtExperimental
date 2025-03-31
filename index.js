@@ -2,6 +2,7 @@ let serverhost = "http://experimental.local:18080/";
 let content = document.getElementsByTagName("main")[0];
 let events = [];
 let currentRequest = null;
+let ana = 0;
 
 callSite("mitettemma");
 const aktuels = {
@@ -82,7 +83,10 @@ async function exampleREST(honnan="", method="GET", others={}, cAzon={}, cEdit={
     return await response ? "res:" + await response.text() : "HIBA: A szerver elérhetetlen.";
 }
 
+let hanyszor = 0;
+
 function callSite(melyik){
+    console.clear()
     console.log("U")
     if (currentRequest) {
         currentRequest.abort();
@@ -90,7 +94,7 @@ function callSite(melyik){
     console.log("E")
     currentRequest = new XMLHttpRequest();
     console.log("E")
-    currentRequest.open("GET", "content/" + melyik, true);
+    currentRequest.open("GET", "content/" + melyik + "?nocache=" + new Date().getTime(), true);
     currentRequest.setRequestHeader("Cache-Control", "no-store");
     currentRequest.setRequestHeader("Pragma", "no-cache");
 
@@ -105,6 +109,8 @@ function callSite(melyik){
             console.log("Igen?");
             addEvents();
             console.log("Igen.");
+            console.log(hanyszor)
+            hanyszor++;
         } else {
             console.error("Request failed with status:", currentRequest.status);
         }
@@ -163,6 +169,15 @@ function getEventName(text){
                         /*.replace(/^\w/, (match) => match.toUpperCase())*/ : "";
 }
 
+function vmi(e){
+    callSite(e.target.name);
+    console.log("Sok")
+}
+
+function vmi2(e){
+    console.log("Kurva életbe")
+}
+
 function addEvents(){
     const jsA = [
         {datum: "EEEEA"},
@@ -180,11 +195,13 @@ function addEvents(){
     const contentLinks = document.getElementsByClassName("contentlink");
     const urlapok = document.querySelectorAll("[value].urlap");
 
-    for(let i = 0; i< contentLinks.length; i++){
-        contentLinks[i].addEventListener("click", function(e){
-            callSite(e.target.name);
-        });
-    }
+   /* for(let i = 0; i< contentLinks.length; i++){
+        contentLinks[i].addEventListener("click", );
+        }
+        */
+        doAddingToButtons(document, "edesfaszom", [vmi2], null);
+        doAddingToButtons(document, "contentlink", [vmi], null);
+       // ana = 1;
     let urlapIDn = 0;
     for(const urlap of urlapok){
         const urlapActName = urlap.getAttribute("action");
@@ -209,18 +226,31 @@ function addEvents(){
     }
 }
 
-function doAddingToButtons(urlap, buttonName, methodNames, myEvent){
+function doAddingToButtons(urlap, buttonName, methodNames, myEvent){  
     //Aktüel
     for(const aktuel of urlap.getElementsByClassName(buttonName)){
-        aktuel.addEventListener("click", function(){
-           for(const method of methodNames){
-                method(urlap, myEvent);
-           }
-        })
+        // console.log("GGGGGGGGGGGGG!" + buttonName)
+        // console.log(aktuel)
+        //console.log(aktuel.hasAttribute("actioned"))
+        if(!aktuel.hasAttribute("actioned")){
+            console.log(hanyszor + ": " + buttonName)
+            aktuel.addEventListener("click", function(e){
+                for(const method of methodNames){
+                    method(e, urlap, myEvent);
+                }
+            });
+            aktuel.setAttribute("actioned", "true");
+        }
+       // console.log("OOOOOOOOOOOOO!")
+       // console.log(aktuel)
     }
 }
 
-async function doAktuel(urlap, MyEvent){
+function varFunction(){
+    
+}
+
+async function doAktuel(e, urlap, MyEvent){
     const myConst = urlap.querySelectorAll("* [name][tag]"); // Rejtett mezők automatikus kitöltéssel
     const myConstas = urlap.querySelectorAll("* [tag].constas"); // Elemek, amikben változó van
     let jsonValue = await getUrlapJSONs(urlap); // Ürlap mező értékek
@@ -243,7 +273,7 @@ async function doAktuel(urlap, MyEvent){
     if(MyEvent) document.dispatchEvent(MyEvent);
 }
 
-async function doKuld(urlap, MyEvent){
+async function doKuld(e, urlap, MyEvent){
     const jsonValue = await getUrlapJSONs(urlap);
     const allapotKijelzok = urlap.getElementsByClassName("allapot");
     console.log(jsonValue);
@@ -264,7 +294,7 @@ async function doKuld(urlap, MyEvent){
         btn.setAttribute("disabled", "");
     }
     doUrlapAllapotFrissites(allapotKijelzok, "Küldés folyamatban...");
-    const response = await exampleREST(tr, urlap.getAttribute("method"), jsonValue["oth"], jsonValue["ca"], jsonValue["ce"])
+    const response = "";// await exampleREST(tr, urlap.getAttribute("method"), jsonValue["oth"], jsonValue["ca"], jsonValue["ce"])
     doUrlapAllapotFrissites(allapotKijelzok, "Küldés sikeres!");
     console.log("Lefut.")
     for(const btn of urlap.querySelectorAll(".kuld, .kuldG")){
@@ -287,7 +317,10 @@ async function doKuld(urlap, MyEvent){
         }
     }*/
 
-   // if(MyEvent) document.dispatchEvent(MyEvent);
+    if(MyEvent) {
+        console.log("isDispatching: " + hanyszor)
+        document.dispatchEvent(MyEvent);
+    }
 }
 
 async function doFrissit(retns=document.querySelectorAll("[value].retn:not([name])")){
@@ -309,12 +342,12 @@ function doUjratolt(retn, responseInput="", responseInputType="text"){
        switch(responseInputType){
             case "text":
                 for(const textRow of responseInput.split(";;;")){
-                    console.log("?: "+textRow);
+                    console.log("?: " + textRow);
                     const retnrowDE = retnrowD.cloneNode(true);
                     const strA = textRow.split(":::");
                     for(const mez of retnrowDE.getElementsByClassName("mez")){
                         const mezContent = mez.textContent;
-                        console.log("??: "+mezContent)
+                        console.log("??: " + mezContent)
                         mez.innerHTML = !isNaN(mezContent) ? strA[Number(mezContent)] : "null";
                     }
                     fullText += retnrowDE.outerHTML;

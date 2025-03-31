@@ -23,8 +23,8 @@ function latszat(e){
     scene2?.classList.remove("d-none");
 }
 
+
 function gere(e){
-    console.log(getComputedStyle(e.target).getPropertyValue("--data-urlapid"));
     const urlapKod = getComputedStyle(e.target).getPropertyValue("--data-urlapid") + "_";
     const uvSC1 = exportedMethods.getIDButtons(urlapKod+"ujvacsoraScene0");
     const kirakat = exportedMethods.getIDButtons(urlapKod+"kirakat")
@@ -36,14 +36,12 @@ function gere(e){
     }*/
 }
 
+document.addEventListener("urlapShozzaadasutan", function(e){
+    const urlapKod = e.detail.urlapID;
+    console.log("UrlapID: " + urlapKod);
+});
+
 document.addEventListener("urlapSmetafora", function(e){
     console.log("Ez sikerült!");
     document.getElementById("k1023").style.setProperty("display", "inherit");
 });
-
-/*document.addEventListener("urlapAhozzaadasutan", function(e){
-    
-});*/
-
-/*let ev = document.createEvent("EA");
-ev*/
