@@ -22,7 +22,16 @@ eventTarget.addEventListener("urlapShozzaadasutan", function(e){
     console.log(e.detail.urlapID)
     const urlap = exportedMethods.getIDButtons(e.detail.urlapID);
     console.log(urlap ? "not null" : "null")
-    exportedMethods.doMindennelMegcsinál(urlap.getElementsByClassName("scene"), setAnythingOnElement, [["setAttribute"], ["displa", "Szopd ki a faszt"]]);
+    exportedMethods.doMindennelMegcsinál(
+        urlap.getElementsByClassName("scene"), 
+        setAnythingOnElement, 
+        [["setAttribute"], 
+        ["displa", "Szopd ki a faszt"]]);
+    exportedMethods.doMindennelMegcsinál(
+        urlap.getElementsByClassName("scene"), 
+        setAnythingOnElement, 
+        [["style", "setProperty"], 
+        ["display", "none "]]);
 });
 
 eventTarget.addEventListener("urlapSmetafora", function(e){
@@ -55,22 +64,26 @@ function vmi222(elem){
 }
 
 function setAnythingOnElement(elem, dimensions=[], parameters){
-   /* let both = elem && 
+    let both = elem && 
           dimensions && 
           typeof dimensions[Symbol.iterator] === 'function' && 
           dimensions.length > 0;
     let vegsoElem = elem;
+    console.log(vegsoElem);
     for(let i = 0; i < dimensions.length-1 && both; i++){
         vegsoElem = vegsoElem[String(dimensions[i])];
+        console.log(vegsoElem);
         both = vegsoElem ? true : false;
     }
     if(both){ 
         console.log(vegsoElem+"")
-        vegsoElem[dimensions.length-1](...parameters);
-    }*/
+        //vegsoElem = vegsoElem.bind(elem)
+        vegsoElem[dimensions[dimensions.length-1]](...parameters);
+    }
 
-    let vegsoElem = elem["style"];
+    /*let vegsoElem = elem["style"];
     vegsoElem = vegsoElem["setProperty"]
+    vegsoElem("--kurva", "életbe")*/
 }
 
 
