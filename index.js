@@ -1,9 +1,10 @@
+import { eventTarget, exportedMethods } from "./js/globaldata.js";
+
 let serverhost = "http://experimental.local:18080/";
 let content = document.getElementsByTagName("main")[0];
 let events = [];
 let currentRequest = null;
 let ana = 0;
-
 callSite("mitettemma");
 const aktuels = {
     nowDate: function(){
@@ -36,11 +37,6 @@ localStorage.setItem("datum", "2023-04-05")
 //console.log(localStorage.getItem("ELEKTA"));
 //localStorage.clear();
 
-
-document.addEventListener("DOMContentLoaded", function() {
-    //console.log("Az oldal betöltődött!");
-
-});
 
 const str = 'revenue895erwhgh9reji#íKDSFKI9ÜW'
 /*String.prototype.hashCode = function() {
@@ -86,19 +82,19 @@ async function exampleREST(honnan="", method="GET", others={}, cAzon={}, cEdit={
 let hanyszor = 0;
 
 function callSite(melyik){
-    console.clear()
-    console.log("U")
+    //console.clear()
+    //console.log("U")
     if (currentRequest) {
         currentRequest.abort();
     }
-    console.log("E")
+    //console.log("E")
     currentRequest = new XMLHttpRequest();
-    console.log("E")
+    //console.log("E")
     currentRequest.open("GET", "content/" + melyik + "?nocache=" + new Date().getTime(), true);
     currentRequest.setRequestHeader("Cache-Control", "no-store");
     currentRequest.setRequestHeader("Pragma", "no-cache");
 
-    console.log("E")
+    //console.log("E")
     currentRequest.onload = function () {
         if (currentRequest.status >= 200 && currentRequest.status < 300) {
             document.querySelectorAll(".guest").forEach(g => g.remove());
@@ -106,9 +102,9 @@ function callSite(melyik){
             content.innerHTML = iHTML;
             doCSSAddingToSite();
             doJSAddingToSite();
-            console.log("Igen?");
+           // console.log("Igen?");
             addEvents();
-            console.log("Igen.");
+            //console.log("Igen.");
             console.log(hanyszor)
             hanyszor++;
         } else {
@@ -171,14 +167,15 @@ function getEventName(text){
 
 function vmi(e){
     callSite(e.target.name);
-    console.log("Sok")
+    console.log("Sok: " + hanyszor)
 }
 
 function vmi2(e){
-    console.log("Kurva életbe")
+   // console.log("VMnet")
 }
 
 function addEvents(){
+    exportedMethods.doResetEventTarget();
     const jsA = [
         {datum: "EEEEA"},
         {datum: "AAAAE"}
@@ -186,7 +183,7 @@ function addEvents(){
     // 
     const txA = "A:::A:::B:::;;;B:::B:::A"
     const retne = document.getElementsByClassName("retn");
-    console.log(retne.length);
+   // console.log(retne.length);
   /*  //doFrissit();
     doUjratolt(retne[0], jsA, "json");
     doUjratolt(retne[2], txA);*/
@@ -199,8 +196,7 @@ function addEvents(){
         contentLinks[i].addEventListener("click", );
         }
         */
-        doAddingToButtons(document, "edesfaszom", [vmi2], null);
-        doAddingToButtons(document, "contentlink", [vmi], null);
+        doAddingToButtons(document, "contentlink", [vmi], null, "indexContentLink");
        // ana = 1;
     let urlapIDn = 0;
     for(const urlap of urlapok){
@@ -208,9 +204,10 @@ function addEvents(){
         const urlapVariation = urlap.getAttribute("data-variation") || "";
         const whenSendEvent = urlapActName ? new CustomEvent("urlapS"+urlapActName, {detail: {urlapID: urlapIDn+"_"}}) : null;
         const whenAktuelEvent = urlapActName ? new CustomEvent("urlapA"+urlapActName, {detail: {urlapID: urlapIDn+"_"}}) : null;
-        doAddingToButtons(urlap, "aktuel", [doAktuel], whenAktuelEvent);
-        doAddingToButtons(urlap, "kuld", [doKuld], whenSendEvent);
-        doAddingToButtons(urlap, "kuldG", [doAktuel, doKuld], whenSendEvent);
+        doAddingToButtons(urlap, "aktuel", [doAktuel], whenAktuelEvent, "indexAktuel");
+        //doAddingToButtons(urlap, "kuld", [doKuld], whenSendEvent, "indexKuld");
+        exportedMethods.doMindenhezHozzaad(urlap.getElementsByClassName("kuld"), [doKuld], "indexKuld", [urlap, whenSendEvent])
+        doAddingToButtons(urlap, "kuldG", [doAktuel, doKuld], whenSendEvent, "indexKuldG");
         const hasID = urlap.hasAttribute("urlapided");
         const ids = urlap.querySelectorAll("[id]:not([id=''])");
         urlap.id = urlapIDn;
@@ -226,23 +223,24 @@ function addEvents(){
     }
 }
 
-function doAddingToButtons(urlap, buttonName, methodNames, myEvent){  
+function doAddingToButtons(urlap, buttonName, methodNames, myEvent, eventID=""){  
     //Aktüel
     for(const aktuel of urlap.getElementsByClassName(buttonName)){
         // console.log("GGGGGGGGGGGGG!" + buttonName)
         // console.log(aktuel)
         //console.log(aktuel.hasAttribute("actioned"))
-        if(!aktuel.hasAttribute("actioned")){
-            console.log(hanyszor + ": " + buttonName)
+        if(!(eventID &&
+                aktuel.dataset.events &&
+                exportedMethods.isBenneVan(aktuel.dataset.events.split(";"), eventID))
+            ){
             aktuel.addEventListener("click", function(e){
                 for(const method of methodNames){
                     method(e, urlap, myEvent);
                 }
             });
-            aktuel.setAttribute("actioned", "true");
+            if(!aktuel.dataset.events) aktuel.dataset.events = "";
+            if(eventID.length > 0) aktuel.dataset.events += eventID + ";";
         }
-       // console.log("OOOOOOOOOOOOO!")
-       // console.log(aktuel)
     }
 }
 
@@ -270,7 +268,7 @@ async function doAktuel(e, urlap, MyEvent){
         ) || "null";
     }
 
-    if(MyEvent) document.dispatchEvent(MyEvent);
+    if(MyEvent) eventTarget.dispatchEvent(MyEvent);
 }
 
 async function doKuld(e, urlap, MyEvent){
@@ -302,13 +300,13 @@ async function doKuld(e, urlap, MyEvent){
     }
 
     if(MyEvent && response.startsWith("res:") && !sikeresKeres){
-        console.log("Ez fut?");
+      //  console.log("Ez fut?");
         const tres = response.replace("res:", "");
         for(const retn of document.querySelectorAll(`[name=${urlap.getAttribute('name')}].retn`)){
             doUjratolt(retn, tres);
         }
         doFrissit();
-        document.dispatchEvent(MyEvent);
+        eventTarget.dispatchEvent(MyEvent);
     }
   /*  else{
         const presentationLayer = "111:::222:::333:::;;;333:::555:::666:::"
@@ -319,7 +317,7 @@ async function doKuld(e, urlap, MyEvent){
 
     if(MyEvent) {
         console.log("isDispatching: " + hanyszor)
-        document.dispatchEvent(MyEvent);
+        eventTarget.dispatchEvent(MyEvent);
     }
 }
 

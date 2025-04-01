@@ -1,7 +1,9 @@
-document.addEventListener("urlapSlogined", function(e){
+import { eventTarget } from "./globaldata.js";
+
+eventTarget.addEventListener("urlapSlogined", function(e){
     console.log("Király vagyok!");
 });
 
-document.addEventListener("urlapAlogined", function(e){
+eventTarget.addEventListener("urlapAlogined", function(e){
     console.log("Király lettem!");
 });

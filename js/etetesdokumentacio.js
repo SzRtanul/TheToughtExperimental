@@ -1,19 +1,32 @@
-import { exportedMethods } from "./globaldata.js";
+import { eventTarget, exportedMethods } from "./globaldata.js";
 
 console.log("Végrehajtja ezt?!");
 exportedMethods.setUrlapButtons(document.querySelectorAll("[id]:not([id=''])"));
 //const urlapButtons = document.querySelectorAll(".urlap [id]button:not(.kuld):not(.aktuel):not(.kuldG)");
-exportedMethods.doMindenhezHozzaad(document.querySelectorAll(".urlap .datumedit"), latszat);
-exportedMethods.doMindenhezHozzaad(document.querySelectorAll(".urlap .kirakat"), gere);
+exportedMethods.doMindenhezHozzaad(document.querySelectorAll(".urlap .datumedit"), [latszat], "etetesDokumentacioDatumEdit");
+exportedMethods.doMindenhezHozzaad(document.querySelectorAll(".urlap .kirakat"), [gere], "etetesDokumentacioKirakat");
 
 
 /*for(const button of urlapButtons){
     button.style.setProperty("background-color", "red");
 }*/
 
-function getOsszefuz(){
-    
-}
+console.log("EEE: "+exportedMethods.getHanyszor());
+/*if(exportedMethods.getHanyszor() == 0){ 
+    console.log(exportVariables.hanyszor)
+    console.log("VÉÉÉÉÉÉÉG")
+    exportedMethods.doNovelHanyszor();
+}*/
+
+eventTarget.addEventListener("urlapShozzaadasutan", function(e){
+    const urlapKod = e.detail.urlapID;
+    console.log("UrlapID: " + urlapKod);
+});
+
+eventTarget.addEventListener("urlapSmetafora", function(e){
+    console.log("Ez sikerült!");
+    document.getElementById("k1023").style.setProperty("display", "inherit");
+});
 
 function latszat(e){
     const urlapKod = e.target.id.split("_")[0]+"_";
@@ -30,18 +43,11 @@ function gere(e){
     const kirakat = exportedMethods.getIDButtons(urlapKod+"kirakat")
     uvSC1?.classList.remove("d-none");
     kirakat?.classList.add("d-none")
-   /* const urlap = exportedMethods.getIDButtons(urlapKod.substring(0, urlapKod.length-1));
-    for(const classFi of urlap.getElementsByClassName("aktuel")){
-        classFi.classList.add("d-none");
-    }*/
+    const urlap = exportedMethods.getIDButtons(urlapKod.substring(0, urlapKod.length-1));
+    exportedMethods.doMindennelMegcsinál(urlap.getElementsByClassName("aktuel"), vmi222);
 }
 
-document.addEventListener("urlapShozzaadasutan", function(e){
-    const urlapKod = e.detail.urlapID;
-    console.log("UrlapID: " + urlapKod);
-});
-
-document.addEventListener("urlapSmetafora", function(e){
-    console.log("Ez sikerült!");
-    document.getElementById("k1023").style.setProperty("display", "inherit");
-});
+function vmi222(elem){
+    elem.classList.add("d-none");
+    console.log("ELA");
+}
