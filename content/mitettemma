@@ -22,23 +22,27 @@
 </ul>
 
 <div class="urlap" name="ujvacsora" value="ujvacsora" action="hozzaadasutan" method="get">
-    <div id="ujvacsoraScene0" class="d-none">
-        <div id="ujvacsoraScene1" class="">
-            <p>
-                Jelenlegi dátum:
-                    <span class="constas" tag="0-datum">Dátum helye</span>
-                <button class="aktuel" id="">Aktuális dátum</button>
-            </p>
-            <button id="ujvacsoraDateEdit" class="datumedit">Dátum szerkesztése</button>
-        </div>
-        <div id="ujvacsoraScene2" class="input-container d-none">
+    <div id="" class="d-none scene scene0">
+        <button id="kirakat" class="aktuel kirakat">Étkezés hozzáadása</button>
+    </div>
+    <div class="scene scene1">
+        <p>
+            Jelenlegi dátum:
+                <span class="constas" tag="0-datum">Dátum helye</span>
+            <button class="aktuel" id="">Aktuális dátum</button>
+            <button class="kuld">Étkezés hozzáadása</button>
+        </p>
+        <button id="ujvacsoraDateEdit" class="datumedit">Dátum szerkesztése</button>
+    </div>
+    <div class="scene scene2">
+        <div class="input-container">
             <label for="m1-1235235"></label>
             <input id="m1-1235235" type="date" name="datum" tag="2-nowDate-0">
             <button class="aktuel" id="">Aktuális dátum</button>
             <button class="kuld">Étkezés hozzáadása</button>
         </div>
     </div>
-    <button id="kirakat" class="aktuel kirakat">Étkezés hozzáadása</button>
+    
 </div>
 
 <div 

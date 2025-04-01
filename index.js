@@ -116,25 +116,6 @@ function callSite(melyik){
         console.error("Request failed due to network error");
     };
     currentRequest.send();
-
-   /* fetch("content/" + melyik, { signal, cache: "no-store" })
-        .then(async (res) => {
-            if (res.ok) {
-                document.querySelectorAll(".guest").forEach(g => g.remove());
-                let iHTML = await res.text();
-                content.innerHTML = iHTML;
-                doCSSAddingToSite();
-                doJSAddingToSite();
-                console.log("Igen?");
-                addEvents();
-                console.log("Igen.");
-            } else {
-                content.innerHTML = await res.status + " Error";
-            }
-        })
-        .catch(()=>{
-            console.log("ISMERETLEN HIBA")
-        })*/
 }
 
 function doCSSAddingToSite(){
@@ -191,19 +172,13 @@ function addEvents(){
 
     const contentLinks = document.getElementsByClassName("contentlink");
     const urlapok = document.querySelectorAll("[value].urlap");
-
-   /* for(let i = 0; i< contentLinks.length; i++){
-        contentLinks[i].addEventListener("click", );
-        }
-        */
-        doAddingToButtons(document, "contentlink", [vmi], null, "indexContentLink");
-       // ana = 1;
+    doAddingToButtons(document, "contentlink", [vmi], null, "indexContentLink");
     let urlapIDn = 0;
     for(const urlap of urlapok){
         const urlapActName = urlap.getAttribute("action");
         const urlapVariation = urlap.getAttribute("data-variation") || "";
-        const whenSendEvent = urlapActName ? new CustomEvent("urlapS"+urlapActName, {detail: {urlapID: urlapIDn+"_"}}) : null;
-        const whenAktuelEvent = urlapActName ? new CustomEvent("urlapA"+urlapActName, {detail: {urlapID: urlapIDn+"_"}}) : null;
+        const whenSendEvent = urlapActName ? new CustomEvent("urlapS"+urlapActName, {detail: {urlapID: urlapIDn}}) : null;
+        const whenAktuelEvent = urlapActName ? new CustomEvent("urlapA"+urlapActName, {detail: {urlapID: urlapIDn}}) : null;
         doAddingToButtons(urlap, "aktuel", [doAktuel], whenAktuelEvent, "indexAktuel");
         //doAddingToButtons(urlap, "kuld", [doKuld], whenSendEvent, "indexKuld");
         exportedMethods.doMindenhezHozzaad(urlap.getElementsByClassName("kuld"), [doKuld], "indexKuld", [urlap, whenSendEvent])

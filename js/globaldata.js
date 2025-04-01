@@ -40,9 +40,11 @@ function setUrlapButtons(iUrlapButtons){
 function getIDButtons(buttonID){
     let i = -1; // Egy merge rendezés itt talán lesz
     let ign = true;
+    console.log("Paraméter: " + buttonID)
     while(i < urlapButtons.length - 1 && ign){
         i++;
-        ign = urlapButtons[i].getAttribute("id") !== buttonID;
+        console.log("UrlapID: " + urlapButtons[i].id);
+        ign = urlapButtons[i].id !== String(buttonID);
     };
     return !ign ? urlapButtons[i] : null;
 }

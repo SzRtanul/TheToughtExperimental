@@ -11,7 +11,7 @@ exportedMethods.doMindenhezHozzaad(document.querySelectorAll(".urlap .kirakat"),
     button.style.setProperty("background-color", "red");
 }*/
 
-console.log("EEE: "+exportedMethods.getHanyszor());
+//console.log("EEE: "+exportedMethods.getHanyszor());
 /*if(exportedMethods.getHanyszor() == 0){ 
     console.log(exportVariables.hanyszor)
     console.log("VÉÉÉÉÉÉÉG")
@@ -19,8 +19,10 @@ console.log("EEE: "+exportedMethods.getHanyszor());
 }*/
 
 eventTarget.addEventListener("urlapShozzaadasutan", function(e){
-    const urlapKod = e.detail.urlapID;
-    console.log("UrlapID: " + urlapKod);
+    console.log(e.detail.urlapID)
+    const urlap = exportedMethods.getIDButtons(e.detail.urlapID);
+    console.log(urlap ? "not null" : "null")
+    exportedMethods.doMindennelMegcsinál(urlap.getElementsByClassName("scene"), setAnythingOnElement, [["setAttribute"], ["displa", "Szopd ki a faszt"]]);
 });
 
 eventTarget.addEventListener("urlapSmetafora", function(e){
@@ -44,10 +46,31 @@ function gere(e){
     uvSC1?.classList.remove("d-none");
     kirakat?.classList.add("d-none")
     const urlap = exportedMethods.getIDButtons(urlapKod.substring(0, urlapKod.length-1));
-    exportedMethods.doMindennelMegcsinál(urlap.getElementsByClassName("aktuel"), vmi222);
+    //exportedMethods.doMindennelMegcsinál(urlap.getElementsByClassName("aktuel"), vmi222);
 }
 
 function vmi222(elem){
     elem.classList.add("d-none");
     console.log("ELA");
 }
+
+function setAnythingOnElement(elem, dimensions=[], parameters){
+   /* let both = elem && 
+          dimensions && 
+          typeof dimensions[Symbol.iterator] === 'function' && 
+          dimensions.length > 0;
+    let vegsoElem = elem;
+    for(let i = 0; i < dimensions.length-1 && both; i++){
+        vegsoElem = vegsoElem[String(dimensions[i])];
+        both = vegsoElem ? true : false;
+    }
+    if(both){ 
+        console.log(vegsoElem+"")
+        vegsoElem[dimensions.length-1](...parameters);
+    }*/
+
+    let vegsoElem = elem["style"];
+    vegsoElem = vegsoElem["setProperty"]
+}
+
+
