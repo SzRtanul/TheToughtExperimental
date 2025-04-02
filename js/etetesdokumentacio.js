@@ -62,5 +62,3 @@ function vmi222(elem){
     elem.classList.add("d-none");
     console.log("ELA");
 }
-
-

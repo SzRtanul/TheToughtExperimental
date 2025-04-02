@@ -12,6 +12,7 @@ export const exportedMethods = {
     setAnythingOnElement: setAnythingOnElement,
     doResetEventTarget: doResetEventTarget,
     isBenneVan: bennevan,
+    isBenneHol: bennehol
 };
 
 export const exportVariables = {
@@ -98,4 +99,12 @@ function bennevan(myarray, value){
         both = myarray[i] === value;
     }
     return both;
+}
+
+function bennehol(myarray, value){
+    let hely = -1;
+    for(let i = 0; i < myarray.length && !both; i++){
+        hely = myarray[i] === value ? i : hely;
+    }
+    return hely;
 }

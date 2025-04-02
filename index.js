@@ -196,6 +196,41 @@ function addEvents(){
         }
         urlapIDn++;
     }
+
+    //Retn
+    const retnHeaders = document.querySelectorAll(".retn>.retnmain>.retnheader");
+    const retnRows = document.querySelectorAll(".retn>.retnmain>.retnrow");
+    exportedMethods.doMindenhezHozzaad(
+        retnHeaders.getElementsByClassName("deleteall"), 
+        [doRetnKijelolteketTorol], 
+        "indexRetnAllDelete", []
+    );
+    exportedMethods.doMindenhezHozzaad(
+        retnRows.getElementsByClassName("delete"),
+        [doRetnRowTorol],
+        "indexRetnRowDelete",
+        []
+    );
+    exportedMethods.doMindenhezHozzaad(
+        retnRows.getElementsByClassName("edit"),
+        [doRetnRowSzerkeszt],
+        "indexRetnRowEdit",
+        []
+    );
+
+    exportedMethods.doMindenhezHozzaad(
+        retnRows.getElementsByClassName("editsend"),
+        [doRetnRowKuldSzerkesztes],
+        "indexRetnRowEditSend",
+        []
+    );
+
+    exportedMethods.doMindenhezHozzaad(
+        retnRows.getElementsByClassName("canceledit"),
+        [doRetnRowKuldSzerkesztes],
+        "indexRetnRowCancelEdit",
+        []
+    );
 }
 
 function doAddingToButtons(urlap, buttonName, methodNames, myEvent, eventID=""){  
@@ -303,14 +338,59 @@ async function doFrissit(retns=document.querySelectorAll("[value].retn:not([name
     }
 }
 
+async function doRetnKijelolteketTorol(e){
+    console.log("EEEE: " + e.target.classList);
+    ;
+    for(;;){
+
+    }
+}
+
+async function doRetnRowTorol(e, retnrow){
+    // azonosítási adatok összegyűjtése <0>
+    console.log("EEEE: " + e.target.classList);
+    
+    ;
+}
+
+function doRetnRowSzerkeszt(e, retnrow){
+    //Szerkeszthető mezők kijelölése
+    console.log("EEEE: " + e.target.classList);
+    ;
+}
+
+async function doRetnRowKuldSzerkesztes(e, retnrow, retnrowBase){
+    //Szerkesztett mezők összegyűjtése
+    console.log("EEEE: " + e.target.classList);
+    ;
+}
+
+function doRetnRowMegseSzerkeszt(e, retnrow){
+    console.log("EEEE: " + e.target.classList);
+    ;
+}
+
+
+
 function doUjratolt(retn, responseInput="", responseInputType="text"){
     let fullText = "";
-    let retnrowD = null;
+    const retnheaderD = retn.getElementsByClassName("retnheader")[0]?.cloneNode(true);
+    const retnrowD = retn.getElementsByClassName("retnrow")[0]?.cloneNode(true);
     
-    for(const retnrow of retn.getElementsByClassName("retnrow")){
-        retnrowD = retnrow.cloneNode(true);
+    if(retnheaderD){
+        const adatsorrend = retn.getAttribute("data-adatsorrend");
+        if(adatsorrend){
+            retnheaderD.value="-1";
+            const strA = adatsorrend.split(";");
+            for(const mez of retnheaderD.getElementsByClassName("mez")){
+                const mezContent = mez.textContent;
+                console.log("??: " + mezContent)
+                mez.innerHTML = !isNaN(mezContent) ? strA[Number(mezContent)] : "null";
+            }
+            fullText += retnheaderD.outerHTML;
+        }
     }
-    
+
     if(retnrowD){
        switch(responseInputType){
             case "text":
@@ -323,7 +403,7 @@ function doUjratolt(retn, responseInput="", responseInputType="text"){
                         console.log("??: " + mezContent)
                         mez.innerHTML = !isNaN(mezContent) ? strA[Number(mezContent)] : "null";
                     }
-                    //if(retnrowDE.value) retnrowDE.
+                    if(retnrowDE.value) retnrowDE.value = !isNaN(retnrowDE.value) ? strA[Number(retnrowDE.value)] : "-1";
                     for(const tagValue of retnrowDE.querySelectorAll("[value]:not([value=''])")){
                         const tagValueContent = tagValue.getAttribute("value");
                         tagValue.value = !isNaN(tagValueContent) ? strA[Number(tagValueContent)] : "";
@@ -352,6 +432,8 @@ function doUjratolt(retn, responseInput="", responseInputType="text"){
     }
 }
 
+
+
 function doUrlapAllapotFrissites(mezok, szoveg){
     for(const mezo of mezok){
         mezo.innerHTML = szoveg;
@@ -367,14 +449,13 @@ function getMethodStoreObjectWithReturns(jsonAktuels){
 }
 
 async function getUrlapJSONs(urlap){
-    const myUrlap = urlap.querySelectorAll("* [name]");
+    const myUrlap = urlap.querySelectorAll("* [name]:not([name=''])");
     const jsonValue = {};
     for(const mezo of myUrlap){
         const mezofieldType = mezo.getAttribute("data-fieldtype") || "ce";
-        if(!jsonValue[mezofieldType]) jsonValue[mezofieldType] = {};
         console.log("GGGGGG: " + mezo.name)
         if (typeof mezo.name !== "string" || mezo.name.trim() === "") mezo.name="";
-        if(mezo.name.length > 0) jsonValue[mezofieldType][mezo.name] = mezo.type !== "checkbox" ? (mezo.classList.contains("chr") ? await getCryptoHash(mezo.value) : mezo.value) : mezo.checked;
+        if(jsonValue[mezofieldType] && mezo.name.length > 0) jsonValue[mezofieldType][mezo.name] = mezo.type !== "checkbox" ? (mezo.classList.contains("chr") ? await getCryptoHash(mezo.value) : mezo.value) : mezo.checked;
     }
     return await jsonValue;
 }
