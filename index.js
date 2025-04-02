@@ -283,12 +283,12 @@ async function doKuld(e, urlap, MyEvent){
         doFrissit();
         eventTarget.dispatchEvent(MyEvent);
     }
-  /*  else{
+    else{
         const presentationLayer = "111:::222:::333:::;;;333:::555:::666:::"
         for(const retn of document.querySelectorAll(`[name=${urlap.getAttribute('name')}].retn`)){
             doUjratolt(retn, presentationLayer);
         }
-    }*/
+    }
 
     if(MyEvent) {
         console.log("isDispatching: " + hanyszor)
@@ -323,6 +323,11 @@ function doUjratolt(retn, responseInput="", responseInputType="text"){
                         console.log("??: " + mezContent)
                         mez.innerHTML = !isNaN(mezContent) ? strA[Number(mezContent)] : "null";
                     }
+                    //if(retnrowDE.value) retnrowDE.
+                    for(const tagValue of retnrowDE.querySelectorAll("[value]:not([value=''])")){
+                        const tagValueContent = tagValue.getAttribute("value");
+                        tagValue.value = !isNaN(tagValueContent) ? strA[Number(tagValueContent)] : "";
+                    }
                     fullText += retnrowDE.outerHTML;
                 }
                 break;
@@ -331,6 +336,10 @@ function doUjratolt(retn, responseInput="", responseInputType="text"){
                     const retnrowDE = retnrowD.cloneNode(true);
                     for(const mez of retnrowDE.getElementsByClassName("mez")){
                         mez.innerHTML = jsonItem[mez.textContent];
+                    }
+                    for(const tagValue of retnrowDE.querySelectorAll("[value]:not([value=''])")){
+                        const tagValueContent = tagValue.getAttribute("value");
+                        tagValue.value = jsonItem[tagValueContent];
                     }
                     fullText += retnrowDE.outerHTML;
                 }
@@ -363,6 +372,8 @@ async function getUrlapJSONs(urlap){
     for(const mezo of myUrlap){
         const mezofieldType = mezo.getAttribute("data-fieldtype") || "ce";
         if(!jsonValue[mezofieldType]) jsonValue[mezofieldType] = {};
+        console.log("GGGGGG: " + mezo.name)
+        if (typeof mezo.name !== "string" || mezo.name.trim() === "") mezo.name="";
         if(mezo.name.length > 0) jsonValue[mezofieldType][mezo.name] = mezo.type !== "checkbox" ? (mezo.classList.contains("chr") ? await getCryptoHash(mezo.value) : mezo.value) : mezo.checked;
     }
     return await jsonValue;

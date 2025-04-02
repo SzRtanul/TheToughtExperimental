@@ -9,6 +9,7 @@ export const exportedMethods = {
     getIDButtons: getIDButtons,
     getHanyszor: getHanyszor,
     setUrlapButtons: setUrlapButtons,
+    setAnythingOnElement: setAnythingOnElement,
     doResetEventTarget: doResetEventTarget,
     isBenneVan: bennevan,
 };
@@ -69,6 +70,25 @@ function doMindenhezHozzaad(mikhez, methods=[], eventID="", parameters=[], event
 function doMindennelMegcsinál(miken, mitmethod, parameters=[]){
     for(const elem of miken){
         mitmethod(elem, ...parameters);
+    }
+}
+
+function setAnythingOnElement(elem, dimensions=[], parameters){
+    let both = elem && 
+          dimensions && 
+          typeof dimensions[Symbol.iterator] === 'function' && 
+          dimensions.length > 0;
+    let vegsoElem = elem;
+    //console.log(vegsoElem);
+    for(let i = 0; i < dimensions.length-1 && both; i++){
+        vegsoElem = vegsoElem[String(dimensions[i])];
+       // console.log(vegsoElem);
+        both = vegsoElem ? true : false;
+    }
+    if(both){ 
+        console.log(vegsoElem+"")
+        //vegsoElem = vegsoElem.bind(elem)
+        vegsoElem[dimensions[dimensions.length-1]](...parameters);
     }
 }
 

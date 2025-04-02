@@ -102,9 +102,8 @@
     </select>
     <p aria-label="datum">Jelenlegi dátum: <span class="constas" tag="0-datum"></span></p>
     <button class="datumszerkesztese">Dátum szerkesztése</button>
-    <div id="k1023" style="display: none;">
+    <div id="k1023" style="display: inherit;">
         <div>
-            
                 <input name="VALA" tag="1-ELEKTA" class="consta chr" value="">
             <div class="input-container">
                 <label for="m1">Dátum: </label>
@@ -125,6 +124,12 @@
             <div class="input-container">
                 <label for="m5">Milliszekundum: </label>
                 <input id="m5" name="millisecond" type="text">
+            </div>
+            <div class="retn" name="ujetkezes" data-adatsorrend="id:datum:ido:penz:idopenz">
+                <option value="0" class="retnrow"><div>2</div><div>3</div></option>
+                <select name="etel" id="" class="retnmain">
+                    <option value="">Fas</option>
+                </select>
             </div>
         </div>
 

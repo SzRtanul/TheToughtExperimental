@@ -24,19 +24,19 @@ eventTarget.addEventListener("urlapShozzaadasutan", function(e){
     console.log(urlap ? "not null" : "null")
     exportedMethods.doMindennelMegcsinál(
         urlap.getElementsByClassName("scene"), 
-        setAnythingOnElement, 
+        exportedMethods.setAnythingOnElement, 
         [["setAttribute"], 
         ["displa", "Szopd ki a faszt"]]);
     exportedMethods.doMindennelMegcsinál(
         urlap.getElementsByClassName("scene"), 
-        setAnythingOnElement, 
+        exportedMethods.setAnythingOnElement, 
         [["style", "setProperty"], 
         ["display", "none "]]);
 });
 
 eventTarget.addEventListener("urlapSmetafora", function(e){
     console.log("Ez sikerült!");
-    document.getElementById("k1023").style.setProperty("display", "inherit");
+   // document.getElementById("k1023").style.setProperty("display", "inherit");
 });
 
 function latszat(e){
@@ -61,29 +61,6 @@ function gere(e){
 function vmi222(elem){
     elem.classList.add("d-none");
     console.log("ELA");
-}
-
-function setAnythingOnElement(elem, dimensions=[], parameters){
-    let both = elem && 
-          dimensions && 
-          typeof dimensions[Symbol.iterator] === 'function' && 
-          dimensions.length > 0;
-    let vegsoElem = elem;
-    console.log(vegsoElem);
-    for(let i = 0; i < dimensions.length-1 && both; i++){
-        vegsoElem = vegsoElem[String(dimensions[i])];
-        console.log(vegsoElem);
-        both = vegsoElem ? true : false;
-    }
-    if(both){ 
-        console.log(vegsoElem+"")
-        //vegsoElem = vegsoElem.bind(elem)
-        vegsoElem[dimensions[dimensions.length-1]](...parameters);
-    }
-
-    /*let vegsoElem = elem["style"];
-    vegsoElem = vegsoElem["setProperty"]
-    vegsoElem("--kurva", "életbe")*/
 }
 
 

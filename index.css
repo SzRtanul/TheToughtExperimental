@@ -9,8 +9,12 @@
 }
 
 
-.urlap .urlap, .retnrow, .d-none{
+.d-none{
     display: none !important;
+}
+
+.urlap .urlap, .retnrow{
+    display: none;
 }
 
 .notinv{
