@@ -196,41 +196,6 @@ function addEvents(){
         }
         urlapIDn++;
     }
-
-    //Retn
-    const retnHeaders = document.querySelectorAll(".retn>.retnmain>.retnheader");
-    const retnRows = document.querySelectorAll(".retn>.retnmain>.retnrow");
-    exportedMethods.doMindenhezHozzaad(
-        retnHeaders.getElementsByClassName("deleteall"), 
-        [doRetnKijelolteketTorol], 
-        "indexRetnAllDelete", []
-    );
-    exportedMethods.doMindenhezHozzaad(
-        retnRows.getElementsByClassName("delete"),
-        [doRetnRowTorol],
-        "indexRetnRowDelete",
-        []
-    );
-    exportedMethods.doMindenhezHozzaad(
-        retnRows.getElementsByClassName("edit"),
-        [doRetnRowSzerkeszt],
-        "indexRetnRowEdit",
-        []
-    );
-
-    exportedMethods.doMindenhezHozzaad(
-        retnRows.getElementsByClassName("editsend"),
-        [doRetnRowKuldSzerkesztes],
-        "indexRetnRowEditSend",
-        []
-    );
-
-    exportedMethods.doMindenhezHozzaad(
-        retnRows.getElementsByClassName("canceledit"),
-        [doRetnRowKuldSzerkesztes],
-        "indexRetnRowCancelEdit",
-        []
-    );
 }
 
 function doAddingToButtons(urlap, buttonName, methodNames, myEvent, eventID=""){  
@@ -425,6 +390,7 @@ function doUjratolt(retn, responseInput="", responseInputType="text"){
                 }
                 break;
        }
+       doRefreshRetnEvents();
     }
 
     for(const retnmain of retn.getElementsByClassName("retnmain")){
@@ -432,7 +398,48 @@ function doUjratolt(retn, responseInput="", responseInputType="text"){
     }
 }
 
-
+function doRefreshRetnEvents(min=document){
+     //Retn
+     const retnHeaders = min.querySelectorAll(".retn>.retnmain>.retnheader");
+     const retnRows = min.querySelectorAll(".retn>.retnmain>.retnrow");
+     if(retnHeaders && retnHeaders[0]){
+         exportedMethods.doMindenhezHozzaad(
+             retnHeaders[0].getElementsByClassName("deleteall"), 
+             [doRetnKijelolteketTorol], 
+             "indexRetnAllDelete", []
+         );
+     }
+     console.log("FutTs")
+     for(const retnRow of retnRows){
+         console.log("Fut")
+         exportedMethods.doMindenhezHozzaad(
+             retnRow.getElementsByClassName("delete"),
+             [doRetnRowTorol],
+             "indexRetnRowDelete",
+             []
+         );
+         exportedMethods.doMindenhezHozzaad(
+             retnRow.getElementsByClassName("edit"),
+             [doRetnRowSzerkeszt],
+             "indexRetnRowEdit",
+             []
+         );
+ 
+         exportedMethods.doMindenhezHozzaad(
+             retnRow.getElementsByClassName("editsend"),
+             [doRetnRowKuldSzerkesztes],
+             "indexRetnRowEditSend",
+             []
+         );
+ 
+         exportedMethods.doMindenhezHozzaad(
+             retnRow.getElementsByClassName("canceledit"),
+             [doRetnRowKuldSzerkesztes],
+             "indexRetnRowCancelEdit",
+             []
+         );
+     }
+}
 
 function doUrlapAllapotFrissites(mezok, szoveg){
     for(const mezo of mezok){
