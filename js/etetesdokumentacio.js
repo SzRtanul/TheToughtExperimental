@@ -26,7 +26,7 @@ eventTarget.addEventListener("urlapShozzaadasutan", function(e){
         urlap.getElementsByClassName("scene"), 
         exportedMethods.setAnythingOnElement, 
         [["setAttribute"], 
-        ["displa", "Szopd ki a faszt"]]);
+        ["ela", "testing"]]);
     exportedMethods.doMindennelMegcsinál(
         urlap.getElementsByClassName("scene"), 
         exportedMethods.setAnythingOnElement, 

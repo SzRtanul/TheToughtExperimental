@@ -263,14 +263,14 @@ async function doKuld(e, urlap, MyEvent){
     }
     let sikeresKeres = false;
     console.log("Lefut?")
-    for(const btn of urlap.querySelectorAll(".kuld, .kuldG")){
+    for(const btn of urlap.querySelectorAll("*:not(.urlap):not(.retn) .kuld, .kuldG")){
         btn.setAttribute("disabled", "");
     }
     doUrlapAllapotFrissites(allapotKijelzok, "Küldés folyamatban...");
     const response = "";// await exampleREST(tr, urlap.getAttribute("method"), jsonValue["oth"], jsonValue["ca"], jsonValue["ce"])
     doUrlapAllapotFrissites(allapotKijelzok, "Küldés sikeres!");
     console.log("Lefut.")
-    for(const btn of urlap.querySelectorAll(".kuld, .kuldG")){
+    for(const btn of urlap.querySelectorAll("*:not(.urlap):not(.retn) .kuld, .kuldG")){
         btn.removeAttribute("disabled");
     }
 
@@ -409,9 +409,7 @@ function doRefreshRetnEvents(min=document){
              "indexRetnAllDelete", []
          );
      }
-     console.log("FutTs")
      for(const retnRow of retnRows){
-         console.log("Fut")
          exportedMethods.doMindenhezHozzaad(
              retnRow.getElementsByClassName("delete"),
              [doRetnRowTorol],
