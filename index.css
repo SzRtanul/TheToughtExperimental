@@ -13,7 +13,7 @@
     display: none !important;
 }
 
-.urlap .urlap, .retnheader, .retnrow{
+.retnheader, .retnrow{
     display: none;
 }
 
@@ -45,6 +45,10 @@
 
 .retnmain > .retnrow, .retnmain > .retnheader{
     display: inherit;
+}
+
+.retnheader{
+    border: 2px solid rgb(255, 27, 27);
 }
 
 .retnrow{

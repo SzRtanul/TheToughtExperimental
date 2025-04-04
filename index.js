@@ -3,7 +3,8 @@ import { eventTarget, exportedMethods } from "./js/globaldata.js";
 const serverhost = "http://experimental.local:18080/";
 const content = document.getElementsByTagName("main")[0];
 const fieldDataTypes = {
-    datum: "date"
+    datum: "date",
+    korte: "date"
 }
 let events = [];
 let currentRequest = null;
@@ -178,6 +179,7 @@ function addEvents(){
     doAddingToButtons(document, "contentlink", [vmi], null, "indexContentLink");
     let urlapIDn = 0;
     for(const urlap of urlapok){
+        urlap.querySelectorAll(".urlap").forEach(g => g.remove());
         const urlapActName = urlap.getAttribute("action");
         const urlapVariation = urlap.getAttribute("data-variation") || "";
         const whenSendEvent = urlapActName ? new CustomEvent("urlapS"+urlapActName, {detail: {urlapID: urlapIDn}}) : null;
@@ -287,7 +289,7 @@ async function doKuld(e, urlap, MyEvent){
         eventTarget.dispatchEvent(MyEvent);
     }
     else{
-        const presentationLayer = "111:::222:::333:::;;;333:::555:::666:::"
+        const presentationLayer = "alma;korte;szilva|||111:::222:::333:::;;;333:::555:::666:::"
         for(const retn of document.querySelectorAll(`[name=${urlap.getAttribute('name')}].retn`)){
             doUjratolt(retn, presentationLayer);
         }
@@ -315,10 +317,17 @@ async function doRetnKijelolteketTorol(e){
     }
 }
 
-async function doRetnRowTorol(e, retnrow, ca){
+async function doRetnRowTorol(e, retnrow, cAs = []){
     // azonosítási adatok összegyűjtése <0>
     console.log("EEEE: " + e.target.classList);
-    
+    const cAJSON = {};
+    const fieldsJSON = JSON.parse(retnrow.dataset.fieldsJSON);
+    for(const cA of cAs){
+        cAJSON[cA] = fieldsJSON[cA]; 
+    }
+    console.log("DATASETDEL: ")
+    console.log(cAJSON);
+    //exampleREST("query", "delete", {}, cAJSON);
     ;
 }
 
@@ -344,19 +353,21 @@ function doRetnRowMegseSzerkeszt(e){
 function doUjratolt(retn, responseInput="", responseInputType="text"){
     let fullText = "";
     //const mezNames = retn.getAttribute("data-adatsorrend");
-    const retnheaderD = retn.getElementsByClassName("retnheader")[0]?.cloneNode(true);
+    const retnheaderD = retn.querySelector(":scope>.retnheader")?.cloneNode(true);
     const resPlit = responseInput.split(";;;");
-    const adatsorrend = resPlit[0] && resPlit[0].split("|||").length > 1 ? resPlit[0].split("|||")[0].split(";"): "";
-    const retnrowD = retn.getElementsByClassName("retnrow")[0]?.cloneNode(true);
+    console.log(resPlit)
+    const adatsorrend = resPlit[0] && resPlit[0].split("|||").length > 1 ? resPlit[0].split("|||")[0].split(";") : [];
+    const retnrowD = retn.querySelector(":scope>.retnrow")?.cloneNode(true);
+    console.log("EEEHJ: "+responseInput);
+    console.log(adatsorrend)
     
     if(retnheaderD){
         if(adatsorrend){
             retnheaderD.value="-1";
-            const strA = adatsorrend.split(";");
             for(const mez of retnheaderD.getElementsByClassName("mez")){
                 const mezContent = mez.textContent;
                 console.log("??: " + mezContent)
-                mez.innerHTML = !isNaN(mezContent) ? strA[Number(mezContent)] : "null";
+                mez.innerHTML = !isNaN(mezContent) ? adatsorrend[mezContent] : "null";
             }
             fullText += retnheaderD.outerHTML;
         }
@@ -369,6 +380,11 @@ function doUjratolt(retn, responseInput="", responseInputType="text"){
                     console.log("?: " + textRow);
                     const retnrowDE = retnrowD.cloneNode(true);
                     const strA = textRow.split(":::");
+                    const retnRowJSON = {};
+                    for(let i = 0; i<adatsorrend.length; i++){
+                        retnRowJSON[adatsorrend[i]] = strA[i];
+                    }
+                    retnrowDE.dataset.fieldsJSON = JSON.stringify(retnRowJSON);
                     for(const mez of retnrowDE.getElementsByClassName("mez")){
                         const mezContent = mez.textContent;
                         console.log("??: " + mezContent)
@@ -396,57 +412,64 @@ function doUjratolt(retn, responseInput="", responseInputType="text"){
                 }
                 break;
        }
-       doRefreshRetnEvents();
     }
-
-    for(const retnmain of retn.getElementsByClassName("retnmain")){
+    
+    for(const retnmain of retn.querySelectorAll(":scope > .retnmain")){
         retnmain.innerHTML = fullText;
     }
+    doAddEventsToARetn(retn);
 }
 
 function doRefreshRetnEvents(min=document.getElementsByClassName("retn")){
      //Retn
      for(const retn of min){
-         const retnHeaders = retn.querySelectorAll(".retnmain>.retnheader");
-         const retnRows = retn.querySelectorAll(".retnmain>.retnrow");
-         const retnCA = retn.getAttribute("data-azon");
-         const retnCE = retn.getAttribute("data-edit");
-         if(retnHeaders && retnHeaders[0]){
-             exportedMethods.doMindenhezHozzaad(
-                 retnHeaders[0].getElementsByClassName("deleteall"), 
-                 [doRetnKijelolteketTorol], 
-                 "indexRetnAllDelete", []
-             );
-         }
-         for(const retnRow of retnRows){
-             exportedMethods.doMindenhezHozzaad(
-                 retnRow.getElementsByClassName("delete"),
-                 [doRetnRowTorol],
-                 "indexRetnRowDelete",
-                 [retnRow]
-             );
-             exportedMethods.doMindenhezHozzaad(
-                 retnRow.getElementsByClassName("edit"),
-                 [doRetnRowSzerkeszt],
-                 "indexRetnRowEdit",
-                 []
-             );
-     
-           /*  exportedMethods.doMindenhezHozzaad(
-                 retnRow.getElementsByClassName("editsend"),
-                 [doRetnRowKuldSzerkesztes],
-                 "indexRetnRowEditSend",
-                 []
-             );
-     
-             exportedMethods.doMindenhezHozzaad(
-                 retnRow.getElementsByClassName("canceledit"),
-                 [doRetnRowMegseSzerkeszt],
-                 "indexRetnRowCancelEdit",
-                 []
-             );*/
-         }
+        doAddEventsToARetn(retn);
      }
+}
+
+function doAddEventsToARetn(retn){
+    console.log("Fut ez?")
+    console.log(retn.innerHTML);
+    const retnHeaders = retn.querySelectorAll(":scope > .retnmain > .retnheader");
+    const retnRows = retn.querySelectorAll(":scope > .retnmain > .retnrow");
+    console.log("RetnRow: " + retnRows.length)
+    const retnCA = retn.getAttribute("data-azon")?.split(";");
+    const retnCE = retn.getAttribute("data-edit");
+    if(retnHeaders && retnHeaders[0]){
+        exportedMethods.doMindenhezHozzaad(
+            retnHeaders[0].getElementsByClassName("deleteall"), 
+            [doRetnKijelolteketTorol], 
+            "indexRetnAllDelete", []
+        );
+    }
+    for(const retnRow of retnRows){
+        exportedMethods.doMindenhezHozzaad(
+            retnRow.getElementsByClassName("delete"),
+            [doRetnRowTorol],
+            "indexRetnRowDelete",
+            [retnRow, ["korte"]]
+        );
+        exportedMethods.doMindenhezHozzaad(
+            retnRow.getElementsByClassName("edit"),
+            [doRetnRowSzerkeszt],
+            "indexRetnRowEdit",
+            [retnRow, retnCA, retnCE]
+        );
+
+      /*  exportedMethods.doMindenhezHozzaad(
+            retnRow.getElementsByClassName("editsend"),
+            [doRetnRowKuldSzerkesztes],
+            "indexRetnRowEditSend",
+            []
+        );
+
+        exportedMethods.doMindenhezHozzaad(
+            retnRow.getElementsByClassName("canceledit"),
+            [doRetnRowMegseSzerkeszt],
+            "indexRetnRowCancelEdit",
+            []
+        );*/
+    }
 }
 
 function doUrlapAllapotFrissites(mezok, szoveg){

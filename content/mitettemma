@@ -126,22 +126,26 @@
                 <input id="m5" name="millisecond" type="text">
             </div>
             <div class="retn" name="ujetkezes" data-adatsorrend="id:datum:ido:penz:idopenz">
-                <div value="-1" class="retnheader">--ELEK-- <div>
-                    <button class="deleteall">Töröl mindent</button>
-                    <div class="columname">0</div>
-                </div></div>
-                <div value="0" class="retnrow"><div>2</div><div>3</div><div>
-                    <button class="delete">Töröl</button>
-                    <button class="edit">Szerkeszt</button>
-                    <button class="editsend">Küldés</button>
-                    <button class="canceledit">Mégse</button>
-                </div></div>
-                <div name="etel" id="" class="retnmain">
+                <div value="-1" class="retnheader">--ELEK-- 
+                    <div>
+                        <button class="deleteall">Töröl mindent</button>
+                        <div class="columname">0</div>
+                    </div>
+                </div>
+                <div value="0" class="retnrow">
+                    <div>2</div><div>3</div>
+                    <div>
+                        <button class="delete">Töröl</button>
+                        <button class="edit">Szerkeszt</button>
+                        <button class="editsend">Küldés</button>
+                        <button class="canceledit">Mégse</button>
+                    </div>
+                </div>
+                <div class="retnmain">
                     <div value="">Fas</div>
                 </div>
             </div>
         </div>
-
         <p>Ez úgy jelent meg, ahogy akartam.</p>
         <button class="kuld">Ye<!--Étkezés hozzáadása--></button>
     </div>
