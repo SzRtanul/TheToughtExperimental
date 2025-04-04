@@ -1,10 +1,13 @@
 import { eventTarget, exportedMethods } from "./js/globaldata.js";
 
-let serverhost = "http://experimental.local:18080/";
-let content = document.getElementsByTagName("main")[0];
+const serverhost = "http://experimental.local:18080/";
+const content = document.getElementsByTagName("main")[0];
+const fieldDataTypes = {
+    datum: "date"
+}
 let events = [];
 let currentRequest = null;
-let ana = 0;
+
 callSite("mitettemma");
 const aktuels = {
     nowDate: function(){
@@ -162,7 +165,7 @@ function addEvents(){
         {datum: "AAAAE"}
     ];
     // 
-    const txA = "A:::A:::B:::;;;B:::B:::A"
+    const txA = "alma;korte;szilva|||A:::A:::B:::;;;B:::B:::A"
     const retne = document.getElementsByClassName("retn");
    // console.log(retne.length);
   /*  //doFrissit();
@@ -298,7 +301,8 @@ async function doKuld(e, urlap, MyEvent){
 
 async function doFrissit(retns=document.querySelectorAll("[value].retn:not([name])")){
     for(const retn of retns){
-        const jsonResponse = await exampleREST(retn.getAttribute("value"));
+        const adatsorrend = retn.getAttribute("data-adatsorrend") || "*";
+        const jsonResponse = await exampleREST(retn.getAttribute("value"), "get", {/*visszakért oszlopnevek*/});
         doUjratolt(retn, jsonResponse, retn.getAttribute("data-resposetype") || "text");        
     }
 }
@@ -311,26 +315,26 @@ async function doRetnKijelolteketTorol(e){
     }
 }
 
-async function doRetnRowTorol(e, retnrow){
+async function doRetnRowTorol(e, retnrow, ca){
     // azonosítási adatok összegyűjtése <0>
     console.log("EEEE: " + e.target.classList);
     
     ;
 }
 
-function doRetnRowSzerkeszt(e, retnrow){
+function doRetnRowSzerkeszt(e, retnrow, ca, ce){
     //Szerkeszthető mezők kijelölése
     console.log("EEEE: " + e.target.classList);
     ;
 }
 
-async function doRetnRowKuldSzerkesztes(e, retnrow, retnrowBase){
+async function doRetnRowKuldSzerkesztes(e){
     //Szerkesztett mezők összegyűjtése
     console.log("EEEE: " + e.target.classList);
     ;
 }
 
-function doRetnRowMegseSzerkeszt(e, retnrow){
+function doRetnRowMegseSzerkeszt(e){
     console.log("EEEE: " + e.target.classList);
     ;
 }
@@ -339,11 +343,13 @@ function doRetnRowMegseSzerkeszt(e, retnrow){
 
 function doUjratolt(retn, responseInput="", responseInputType="text"){
     let fullText = "";
+    //const mezNames = retn.getAttribute("data-adatsorrend");
     const retnheaderD = retn.getElementsByClassName("retnheader")[0]?.cloneNode(true);
+    const resPlit = responseInput.split(";;;");
+    const adatsorrend = resPlit[0] && resPlit[0].split("|||").length > 1 ? resPlit[0].split("|||")[0].split(";"): "";
     const retnrowD = retn.getElementsByClassName("retnrow")[0]?.cloneNode(true);
     
     if(retnheaderD){
-        const adatsorrend = retn.getAttribute("data-adatsorrend");
         if(adatsorrend){
             retnheaderD.value="-1";
             const strA = adatsorrend.split(";");
@@ -355,7 +361,7 @@ function doUjratolt(retn, responseInput="", responseInputType="text"){
             fullText += retnheaderD.outerHTML;
         }
     }
-
+    
     if(retnrowD){
        switch(responseInputType){
             case "text":
@@ -398,44 +404,48 @@ function doUjratolt(retn, responseInput="", responseInputType="text"){
     }
 }
 
-function doRefreshRetnEvents(min=document){
+function doRefreshRetnEvents(min=document.getElementsByClassName("retn")){
      //Retn
-     const retnHeaders = min.querySelectorAll(".retn>.retnmain>.retnheader");
-     const retnRows = min.querySelectorAll(".retn>.retnmain>.retnrow");
-     if(retnHeaders && retnHeaders[0]){
-         exportedMethods.doMindenhezHozzaad(
-             retnHeaders[0].getElementsByClassName("deleteall"), 
-             [doRetnKijelolteketTorol], 
-             "indexRetnAllDelete", []
-         );
-     }
-     for(const retnRow of retnRows){
-         exportedMethods.doMindenhezHozzaad(
-             retnRow.getElementsByClassName("delete"),
-             [doRetnRowTorol],
-             "indexRetnRowDelete",
-             []
-         );
-         exportedMethods.doMindenhezHozzaad(
-             retnRow.getElementsByClassName("edit"),
-             [doRetnRowSzerkeszt],
-             "indexRetnRowEdit",
-             []
-         );
- 
-         exportedMethods.doMindenhezHozzaad(
-             retnRow.getElementsByClassName("editsend"),
-             [doRetnRowKuldSzerkesztes],
-             "indexRetnRowEditSend",
-             []
-         );
- 
-         exportedMethods.doMindenhezHozzaad(
-             retnRow.getElementsByClassName("canceledit"),
-             [doRetnRowKuldSzerkesztes],
-             "indexRetnRowCancelEdit",
-             []
-         );
+     for(const retn of min){
+         const retnHeaders = retn.querySelectorAll(".retnmain>.retnheader");
+         const retnRows = retn.querySelectorAll(".retnmain>.retnrow");
+         const retnCA = retn.getAttribute("data-azon");
+         const retnCE = retn.getAttribute("data-edit");
+         if(retnHeaders && retnHeaders[0]){
+             exportedMethods.doMindenhezHozzaad(
+                 retnHeaders[0].getElementsByClassName("deleteall"), 
+                 [doRetnKijelolteketTorol], 
+                 "indexRetnAllDelete", []
+             );
+         }
+         for(const retnRow of retnRows){
+             exportedMethods.doMindenhezHozzaad(
+                 retnRow.getElementsByClassName("delete"),
+                 [doRetnRowTorol],
+                 "indexRetnRowDelete",
+                 [retnRow]
+             );
+             exportedMethods.doMindenhezHozzaad(
+                 retnRow.getElementsByClassName("edit"),
+                 [doRetnRowSzerkeszt],
+                 "indexRetnRowEdit",
+                 []
+             );
+     
+           /*  exportedMethods.doMindenhezHozzaad(
+                 retnRow.getElementsByClassName("editsend"),
+                 [doRetnRowKuldSzerkesztes],
+                 "indexRetnRowEditSend",
+                 []
+             );
+     
+             exportedMethods.doMindenhezHozzaad(
+                 retnRow.getElementsByClassName("canceledit"),
+                 [doRetnRowMegseSzerkeszt],
+                 "indexRetnRowCancelEdit",
+                 []
+             );*/
+         }
      }
 }
 

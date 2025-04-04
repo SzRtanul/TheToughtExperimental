@@ -13,7 +13,7 @@
     display: none !important;
 }
 
-.urlap .urlap, .retnrow{
+.urlap .urlap, .retnheader, .retnrow{
     display: none;
 }
 
@@ -39,8 +39,16 @@
     background-color: grey;
 }
 
-.retnmain > .retnrow{
+.retn{
+    border: 2px solid black;
+}
+
+.retnmain > .retnrow, .retnmain > .retnheader{
     display: inherit;
+}
+
+.retnrow{
+    border: 2px solid greenyellow;
 }
 
 .retnrow legend{
