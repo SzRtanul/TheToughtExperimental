@@ -184,7 +184,7 @@ function addEvents(){
         retn.id = retnIDn;
         retnIDn++;
     }
-    
+
     for(const urlap of urlapok){
         urlap.querySelectorAll(".urlap").forEach(g => g.remove());
         const urlapActName = urlap.getAttribute("action");
@@ -364,11 +364,11 @@ function doUjratolt(retn, responseInput="", responseInputType="text"){
     let fullText = "";
     console.log("GYÖKÉR VAGYOK: " + responseInput)
     //const mezNames = retn.getAttribute("data-adatsorrend");
-    const retnheaderD = retn.querySelector(":scope>.retnheader")?.cloneNode(true);
+    const retnheaderD = retn.querySelector(":scope>.immler>.retnheader")?.cloneNode(true);
     const resPlit = responseInput.split(";;;");
     console.log(resPlit)
     const adatsorrend = resPlit[0] && resPlit[0].split("|||").length > 1 ? resPlit[0].split("|||")[0].split(";") : [];
-    const retnrowD = retn.querySelector(":scope>.retnrow")?.cloneNode(true);
+    const retnrowD = retn.querySelector(":scope>.immler>.retnrow")?.cloneNode(true);
     console.log("EEEHJ: "+responseInput);
     console.log(adatsorrend)
     

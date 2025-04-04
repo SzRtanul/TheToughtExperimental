@@ -13,9 +13,9 @@
     display: none !important;
 }
 
-/*.retnheader, .retnrow{
+.immler{
     display: none;
-}*/
+}
 
 .notinv{
     display: inherit !important;
@@ -59,7 +59,7 @@
     border: 1px solid brown;
 }
 
-.retn > .retnmain .mez:not([id='0'].retn > .retnmain .retn .mez):not(.retn > .retnrow .mez):not(.retn > .retnheader .mez) {
+.retn > .retnmain .mez:not([id='1'].retn > .retnmain .retn .mez):not(.immler .mez) {
     background-color: aqua;
 }
 
