@@ -59,7 +59,7 @@
     border: 1px solid brown;
 }
 
-[id='0'].retn :not([id='0'].retn .retn) .mez{
+.retn > .retnmain .mez:not([id='0'].retn > .retnmain .retn .mez):not(.retn > .retnrow .mez):not(.retn > .retnheader .mez) {
     background-color: aqua;
 }
 
