@@ -178,6 +178,13 @@ function addEvents(){
     const urlapok = document.querySelectorAll("[value].urlap");
     doAddingToButtons(document, "contentlink", [vmi], null, "indexContentLink");
     let urlapIDn = 0;
+    let retnIDn = 0;
+
+    for(const retn of document.getElementsByClassName("retn")){
+        retn.id = retnIDn;
+        retnIDn++;
+    }
+    
     for(const urlap of urlapok){
         urlap.querySelectorAll(".urlap").forEach(g => g.remove());
         const urlapActName = urlap.getAttribute("action");
@@ -303,11 +310,12 @@ async function doKuld(e, urlap, MyEvent){
 }
 
 async function doFrissit(retns=document.querySelectorAll("[value].retn:not([name])")){
+    /**/
     for(const retn of retns){
         const adatsorrend = retn.getAttribute("data-adatsorrend") || "*";
         const jsonResponse = "ajkarepo:::ala:::;;;uqherguear:::ame;;;argergoekq:::NN:::;;;aareerear:::RR"//await exampleREST(retn.getAttribute("value"), "get", {/*visszakért oszlopnevek*/});
         
-       doUjratolt(retn, jsonResponse, retn.getAttribute("data-resposetype") || "text");        
+        doUjratolt(retn, jsonResponse, retn.getAttribute("data-resposetype") || "text");        
     }
 }
 
@@ -367,7 +375,7 @@ function doUjratolt(retn, responseInput="", responseInputType="text"){
     if(retnheaderD){
         if(adatsorrend){
             retnheaderD.value="-1";
-            for(const mez of retnheaderD.querySelectorAll(":scope mez")){
+            for(const mez of retnheaderD.querySelectorAll(":scope *:not(.retn) .mez")){
                 const mezContent = mez.getAttribute("dtag");
                 console.log("??: " + mezContent)
                 mez.innerHTML = !isNaN(mezContent) ? adatsorrend[mezContent] : "null";
@@ -431,8 +439,7 @@ function doRefreshRetnEvents(min=document.getElementsByClassName("retn")){
 }
 
 function doAddEventsToARetn(retn){
-    console.log("Fut ez?")
-    console.log(retn.innerHTML);
+    console.log("Fut ez?");
     const retnHeaders = retn.querySelectorAll(":scope > .retnmain > .retnheader");
     const retnRows = retn.querySelectorAll(":scope > .retnmain > .retnrow");
     console.log("RetnRow: " + retnRows.length)

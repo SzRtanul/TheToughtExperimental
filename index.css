@@ -13,9 +13,9 @@
     display: none !important;
 }
 
-.retnheader, .retnrow{
+/*.retnheader, .retnrow{
     display: none;
-}
+}*/
 
 .notinv{
     display: inherit !important;
@@ -57,6 +57,10 @@
 
 .retnrow legend{
     border: 1px solid brown;
+}
+
+[id='0'].retn :not([id='0'].retn .retn) .mez{
+    background-color: aqua;
 }
 
 /*Globál*/
