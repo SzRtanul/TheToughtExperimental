@@ -21,6 +21,30 @@
     </li>
 </ul>
 
+<div name="testRetn" class="urlap" value="ujalany">
+    <button class="kuld">KK</button>
+</div>
+
+<div name="testRetn" class="retn">
+    <div class="retnheader">ALAHAMA</div>
+    <div class="retnrow">
+        <p class="mez" dtag="0">0</p>
+        <p class="mez" dtag="1">1</p>
+        <p class="mez" dtag="2">2</p>
+        <div class="retn" value="salom">
+            <div class="retnrow">
+                <p class="mez" dtag="1"></p>
+            </div>
+            <div class="retnmain">
+
+            </div>
+        </div>
+    </div>
+    <div class="retnmain">
+
+    </div>
+</div>
+
 <div class="urlap" name="ujvacsora" value="ujvacsora" action="hozzaadasutan" method="get">
     <div id="" class="d-none scene scene0">
         <button id="kirakat" class="aktuel kirakat">Étkezés hozzáadása</button>

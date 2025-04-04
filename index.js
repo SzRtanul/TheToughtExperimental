@@ -292,6 +292,7 @@ async function doKuld(e, urlap, MyEvent){
         const presentationLayer = "alma;korte;szilva|||111:::222:::333:::;;;333:::555:::666:::"
         for(const retn of document.querySelectorAll(`[name=${urlap.getAttribute('name')}].retn`)){
             doUjratolt(retn, presentationLayer);
+            doFrissit();
         }
     }
 
@@ -304,8 +305,9 @@ async function doKuld(e, urlap, MyEvent){
 async function doFrissit(retns=document.querySelectorAll("[value].retn:not([name])")){
     for(const retn of retns){
         const adatsorrend = retn.getAttribute("data-adatsorrend") || "*";
-        const jsonResponse = await exampleREST(retn.getAttribute("value"), "get", {/*visszakért oszlopnevek*/});
-        doUjratolt(retn, jsonResponse, retn.getAttribute("data-resposetype") || "text");        
+        const jsonResponse = "ajkarepo:::ala:::;;;uqherguear:::ame;;;argergoekq:::NN:::;;;aareerear:::RR"//await exampleREST(retn.getAttribute("value"), "get", {/*visszakért oszlopnevek*/});
+        
+       doUjratolt(retn, jsonResponse, retn.getAttribute("data-resposetype") || "text");        
     }
 }
 
@@ -352,6 +354,7 @@ function doRetnRowMegseSzerkeszt(e){
 
 function doUjratolt(retn, responseInput="", responseInputType="text"){
     let fullText = "";
+    console.log("GYÖKÉR VAGYOK: " + responseInput)
     //const mezNames = retn.getAttribute("data-adatsorrend");
     const retnheaderD = retn.querySelector(":scope>.retnheader")?.cloneNode(true);
     const resPlit = responseInput.split(";;;");
@@ -364,8 +367,8 @@ function doUjratolt(retn, responseInput="", responseInputType="text"){
     if(retnheaderD){
         if(adatsorrend){
             retnheaderD.value="-1";
-            for(const mez of retnheaderD.getElementsByClassName("mez")){
-                const mezContent = mez.textContent;
+            for(const mez of retnheaderD.querySelectorAll(":scope mez")){
+                const mezContent = mez.getAttribute("dtag");
                 console.log("??: " + mezContent)
                 mez.innerHTML = !isNaN(mezContent) ? adatsorrend[mezContent] : "null";
             }
