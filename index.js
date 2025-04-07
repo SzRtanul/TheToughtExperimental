@@ -1,5 +1,4 @@
 import { eventTarget, exportedMethods } from "./js/globaldata.js";
-
 const serverhost = "http://experimental.local:18080/";
 const content = document.getElementsByTagName("main")[0];
 const fieldDataTypes = {
@@ -8,7 +7,6 @@ const fieldDataTypes = {
 }
 let events = [];
 let currentRequest = null;
-
 callSite("mitettemma");
 const aktuels = {
     nowDate: function(){
@@ -19,15 +17,13 @@ const aktuels = {
 function gluck(){
     return "Ernai";
 }
-//console.log(aktuels.nowDate())
-
+;
 //Kísérletek
 console.log("MyRegex 2975hfuiHtE".match(/^\w+/)?.[0] || "");
-//console.log(getValueFromLocalStorage(""));
+;
 /*
 document.cookie = "Suzie=Gere"
 console.log(document.cookie)
-
 document.cookie = "Suzie=Geta"
 console.log(document.cookie)
 document.cookie = "Suzie="
@@ -38,10 +34,8 @@ console.log(await examplePOST("exa/166"))
 console.log(await exampleGET("exa"))*/
 localStorage.setItem("ELEKTA", "HARakiri")
 localStorage.setItem("datum", "2023-04-05")
-//console.log(localStorage.getItem("ELEKTA"));
+;
 //localStorage.clear();
-
-
 const str = 'revenue895erwhgh9reji#íKDSFKI9ÜW'
 /*String.prototype.hashCode = function() {
     let hash = 0n,
@@ -55,10 +49,8 @@ const str = 'revenue895erwhgh9reji#íKDSFKI9ÜW'
     return hash;
 }
 console.log(str, str.hashCode());*/
-
-//console.log(await getCryptoHash(str));
+;
   
-
 async function exampleREST(honnan="", method="GET", others={}, cAzon={}, cEdit={}){
     const fetchJSON = {
         method: method.toUpperCase(),
@@ -82,23 +74,20 @@ async function exampleREST(honnan="", method="GET", others={}, cAzon={}, cEdit={
     const response = await fetch(serverhost + honnan, fetchJSON).catch(error => { return null; });
     return await response ? "res:" + await response.text() : "HIBA: A szerver elérhetetlen.";
 }
-
 let hanyszor = 0;
-
 function callSite(melyik){
     //console.clear()
-    //console.log("U")
+    
     if (currentRequest) {
         currentRequest.abort();
     }
-    //console.log("E")
+    
     currentRequest = new XMLHttpRequest();
-    //console.log("E")
+    
     currentRequest.open("GET", "content/" + melyik + "?nocache=" + new Date().getTime(), true);
     currentRequest.setRequestHeader("Cache-Control", "no-store");
     currentRequest.setRequestHeader("Pragma", "no-cache");
-
-    //console.log("E")
+    
     currentRequest.onload = function () {
         if (currentRequest.status >= 200 && currentRequest.status < 300) {
             document.querySelectorAll(".guest").forEach(g => g.remove());
@@ -106,22 +95,18 @@ function callSite(melyik){
             content.innerHTML = iHTML;
             doCSSAddingToSite();
             doJSAddingToSite();
-           // console.log("Igen?");
             addEvents();
-            //console.log("Igen.");
             console.log(hanyszor)
             hanyszor++;
         } else {
             console.error("Request failed with status:", currentRequest.status);
         }
     };
-
     currentRequest.onerror = function () {
         console.error("Request failed due to network error");
     };
     currentRequest.send();
 }
-
 function doCSSAddingToSite(){
     for(const lCSS of content.getElementsByClassName("lCSS")){
         for(const jll of lCSS.getElementsByTagName("li")){
@@ -132,7 +117,6 @@ function doCSSAddingToSite(){
         }
     }
 }
-
 function doJSAddingToSite(){
     for(const lJS of content.getElementsByClassName("lJS"))
         for(const jll of lJS.getElementsByTagName("li")){
@@ -144,21 +128,17 @@ function doJSAddingToSite(){
             document.body.appendChild(sc);
         }
 }
-
 function getEventName(text){
     return text ? text.toLowerCase()
                         /*.replace(/^\w/, (match) => match.toUpperCase())*/ : "";
 }
-
 function vmi(e){
     callSite(e.target.name);
     console.log("Sok: " + hanyszor)
 }
-
 function vmi2(e){
-   // console.log("VMnet")
+   
 }
-
 function addEvents(){
     exportedMethods.doResetEventTarget();
     const jsA = [
@@ -166,25 +146,21 @@ function addEvents(){
         {datum: "AAAAE"}
     ];
     // 
+    //doFrissit();
     const txA = "alma;korte;szilva|||A:::A:::B:::;;;B:::B:::A"
     const retne = document.getElementsByClassName("retn");
-   // console.log(retne.length);
-  /*  //doFrissit();
+    /*  //
     doUjratolt(retne[0], jsA, "json");
     doUjratolt(retne[2], txA);*/
-
-
     const contentLinks = document.getElementsByClassName("contentlink");
     const urlapok = document.querySelectorAll("[value].urlap");
     doAddingToButtons(document, "contentlink", [vmi], null, "indexContentLink");
     let urlapIDn = 0;
     let retnIDn = 0;
-
     for(const retn of document.getElementsByClassName("retn")){
-        retn.id = retnIDn;
+        retn.id = "retn_" + retnIDn;
         retnIDn++;
     }
-
     for(const urlap of urlapok){
         urlap.querySelectorAll(".urlap").forEach(g => g.remove());
         const urlapActName = urlap.getAttribute("action");
@@ -200,22 +176,18 @@ function addEvents(){
         urlap.id = urlapIDn;
         urlap.setAttribute("urlapided", "");
         urlap.style.setProperty("--data-urlapid", urlapIDn+"");
-        console.log(hasID)
-        for(let i = 0;i < ids.length; i++){
-            console.log(urlapIDn)
+        
+        for(let i = 0;i < ids.length; i++){        
             if(hasID) ids[i].id = ids[i].id.replace(/^[^_]+_/, "");
             ids[i].id = urlapIDn + "_" + urlapVariation + ids[i].getAttribute("id");
         }
         urlapIDn++;
     }
+    exportedMethods.doaddIDTo(document, "film", "def");
 }
-
 function doAddingToButtons(urlap, buttonName, methodNames, myEvent, eventID=""){  
     //Aktüel
-    for(const aktuel of urlap.getElementsByClassName(buttonName)){
-        // console.log("GGGGGGGGGGGGG!" + buttonName)
-        // console.log(aktuel)
-        //console.log(aktuel.hasAttribute("actioned"))
+    for(const aktuel of urlap.getElementsByClassName(buttonName)){    
         if(!(eventID &&
                 aktuel.dataset.events &&
                 exportedMethods.isBenneVan(aktuel.dataset.events.split(";"), eventID))
@@ -230,64 +202,54 @@ function doAddingToButtons(urlap, buttonName, methodNames, myEvent, eventID=""){
         }
     }
 }
-
 function varFunction(){
     
 }
-
 async function doAktuel(e, urlap, MyEvent){
     const myConst = urlap.querySelectorAll("* [name][tag]"); // Rejtett mezők automatikus kitöltéssel
     const myConstas = urlap.querySelectorAll("* [tag].constas"); // Elemek, amikben változó van
     let jsonValue = await getUrlapJSONs(urlap); // Ürlap mező értékek
     const localAktuels = getMethodStoreObjectWithReturns(aktuels); // Values from Aktüel
-
     for(const mezo of myConst){ // értékcsere LocalStorage-ból vagy Aktüel-ből
         if(mezo.name.length > 0 && (!mezo.value || mezo.value.length == 0)){
             mezo.value = getValueFromAll(mezo.getAttribute("tag"), jsonValue, localAktuels)
         }
     }
-
     jsonValue = await getUrlapJSONs(urlap);
     for(const constas of myConstas){ // SzövegVáltozóCsere
+        console.log("OOOOOOOOOOOOOOO")
         console.log(jsonValue)
         constas.innerHTML = getValueFromAll(
             constas.getAttribute("tag"), jsonValue, localAktuels
         ) || "null";
     }
-
     if(MyEvent) eventTarget.dispatchEvent(MyEvent);
 }
-
 async function doKuld(e, urlap, MyEvent){
     const jsonValue = await getUrlapJSONs(urlap);
     const allapotKijelzok = urlap.getElementsByClassName("allapot");
-    console.log(jsonValue);
     const routG = urlap.getAttribute('value').split("/");
     let tr = "";
     for(const strE of routG){
         const strEs = strE.split("-");
         const strEs1 = strEs[1] ? strEs[1] : "ca";
-        //console.log(jsonValue[strEs[1] ? strEs[1] : "ca"][strEs[0].replace("$", "")])
         tr += strE.startsWith("$") ?
             ((jsonValue[strEs1] && jsonValue[strEs1][strEs[0].replace("$", "")]) ||
              "null") +"/" : strE + "/";
         tr = tr.substring(0, tr.length-1);
     }
     let sikeresKeres = false;
-    console.log("Lefut?")
     for(const btn of urlap.querySelectorAll("*:not(.urlap):not(.retn) .kuld, .kuldG")){
         btn.setAttribute("disabled", "");
     }
     doUrlapAllapotFrissites(allapotKijelzok, "Küldés folyamatban...");
     const response = "";// await exampleREST(tr, urlap.getAttribute("method"), jsonValue["oth"], jsonValue["ca"], jsonValue["ce"])
     doUrlapAllapotFrissites(allapotKijelzok, "Küldés sikeres!");
-    console.log("Lefut.")
+   
     for(const btn of urlap.querySelectorAll("*:not(.urlap):not(.retn) .kuld, .kuldG")){
         btn.removeAttribute("disabled");
     }
-
     if(MyEvent && response.startsWith("res:") && !sikeresKeres){
-      //  console.log("Ez fut?");
         const tres = response.replace("res:", "");
         for(const retn of document.querySelectorAll(`[name=${urlap.getAttribute('name')}].retn`)){
             doUjratolt(retn, tres);
@@ -296,88 +258,80 @@ async function doKuld(e, urlap, MyEvent){
         eventTarget.dispatchEvent(MyEvent);
     }
     else{
-        const presentationLayer = "alma;korte;szilva|||111:::222:::333:::;;;333:::555:::666:::"
+        const presentationLayer = "alma;korte;szilva|||1:::Érd:::P:::N:::;;;2:::V:::6:::666:::"
         for(const retn of document.querySelectorAll(`[name=${urlap.getAttribute('name')}].retn`)){
-            doUjratolt(retn, presentationLayer);
-            doFrissit();
+            doUjratolt(retn, presentationLayer, "text", "Ürlap");
+           // doFrissit();
         }
     }
-
-    if(MyEvent) {
-        console.log("isDispatching: " + hanyszor)
+    if(MyEvent) {    
         eventTarget.dispatchEvent(MyEvent);
     }
 }
-
-async function doFrissit(retns=document.querySelectorAll("[value].retn:not([name])")){
-    /**/
-    for(const retn of retns){
-        const adatsorrend = retn.getAttribute("data-adatsorrend") || "*";
-        const jsonResponse = "ajkarepo:::ala:::;;;uqherguear:::ame;;;argergoekq:::NN:::;;;aareerear:::RR"//await exampleREST(retn.getAttribute("value"), "get", {/*visszakért oszlopnevek*/});
-        
-        doUjratolt(retn, jsonResponse, retn.getAttribute("data-resposetype") || "text");        
-    }
-}
-
 async function doRetnKijelolteketTorol(e){
-    console.log("EEEE: " + e.target.classList);
-    ;
     for(;;){
-
     }
 }
-
 async function doRetnRowTorol(e, retnrow, cAs = []){
     // azonosítási adatok összegyűjtése <0>
-    console.log("EEEE: " + e.target.classList);
     const cAJSON = {};
     const fieldsJSON = JSON.parse(retnrow.dataset.fieldsJSON);
     for(const cA of cAs){
         cAJSON[cA] = fieldsJSON[cA]; 
     }
-    console.log("DATASETDEL: ")
-    console.log(cAJSON);
     //exampleREST("query", "delete", {}, cAJSON);
-    ;
 }
-
 function doRetnRowSzerkeszt(e, retnrow, ca, ce){
     //Szerkeszthető mezők kijelölése
-    console.log("EEEE: " + e.target.classList);
-    ;
 }
-
 async function doRetnRowKuldSzerkesztes(e){
     //Szerkesztett mezők összegyűjtése
-    console.log("EEEE: " + e.target.classList);
-    ;
 }
-
 function doRetnRowMegseSzerkeszt(e){
-    console.log("EEEE: " + e.target.classList);
-    ;
+    
+}
+let hana = 0;
+function doFrissit(retns=document.querySelectorAll("[value].retn:not([name])"), tere){
+    /**/
+  
+    for(let i = retns.length-1; i > -1 ; i--){
+        console.log(i)
+        const adatsorrend = retns[i].getAttribute("data-adatsorrend") || "*";
+        const jsonResponse = "al;ko;szil|||1:::ajkarepo:::ala:::;;;1:::uqherguear:::ame;;;2:::argergoekq:::NN:::;;;1:::aareerear:::RR"//await exampleREST(retn.getAttribute("value"), "get", {/*visszakért oszlopnevek*/}); 
+        whataf(retns[i], jsonResponse, retns[i].getAttribute("data-resposetype") || "text", "Frissit");        
+    }
+   // hana=0;
 }
 
 
+function doUjratolt(retn, responseInput="", responseInputType="text", tere){
+    doFrissit(retn.querySelectorAll(":scope>.immler>.retnrow .retn"), "LER");
+    whataf(retn, responseInput, responseInputType, tere);
+    for(const retnmain of retn.querySelectorAll(":scope>.immler .retnmain")){
+        retnmain.innerHTML = '';
+    }
+    doAddEventsToARetn(retn);
+}
 
-function doUjratolt(retn, responseInput="", responseInputType="text"){
+function whataf(retn, responseInput="", responseInputType="text", tere){
     let fullText = "";
-    console.log("GYÖKÉR VAGYOK: " + responseInput)
-    //const mezNames = retn.getAttribute("data-adatsorrend");
+    const retnID = retn.getAttribute("retnID");
+    // const mezNames = retn.getAttribute("data-adatsorrend");
+    hana++;
+    console.log("HANAAAAAAAA: " + hana);
+    console.log(responseInput)
     const retnheaderD = retn.querySelector(":scope>.immler>.retnheader")?.cloneNode(true);
     const resPlit = responseInput.split(";;;");
-    console.log(resPlit)
-    const adatsorrend = resPlit[0] && resPlit[0].split("|||").length > 1 ? resPlit[0].split("|||")[0].split(";") : [];
+    const r2 = resPlit[0].split("|||");
+    const adatsorrend = r2 && r2.length > 1 ? r2[0].split(";") : [];
+    if(r2 && r2.length>1) resPlit[0] = r2[1]; 
+
     const retnrowD = retn.querySelector(":scope>.immler>.retnrow")?.cloneNode(true);
-    console.log("EEEHJ: "+responseInput);
-    console.log(adatsorrend)
-    
     if(retnheaderD){
         if(adatsorrend){
             retnheaderD.value="-1";
-            for(const mez of retnheaderD.querySelectorAll(":scope *:not(.retn) .mez")){
-                const mezContent = mez.getAttribute("dtag");
-                console.log("??: " + mezContent)
+            for(const mez of retnheaderD.querySelectorAll(".mez")){
+                const mezContent = mez.getAttribute("dtag");    
                 mez.innerHTML = !isNaN(mezContent) ? adatsorrend[mezContent] : "null";
             }
             fullText += retnheaderD.outerHTML;
@@ -385,31 +339,82 @@ function doUjratolt(retn, responseInput="", responseInputType="text"){
     }
     
     if(retnrowD){
-       switch(responseInputType){
+        console.log("Eddig eljut?: " + hana)
+        for(const retnaa of retnrowD.querySelectorAll(".retn")){
+            for(const immler of retnaa.querySelectorAll(".immler")){
+                immler.remove();
+            }
+            for(const mez of retnaa.querySelectorAll(".mez")){
+                mez.classList.remove("mez");
+            }
+        }
+      
+        switch(responseInputType){
             case "text":
-                for(const textRow of responseInput.split(";;;")){
-                    console.log("?: " + textRow);
-                    const retnrowDE = retnrowD.cloneNode(true);
-                    const strA = textRow.split(":::");
+                for(const textRow of resPlit/*responseInput.split(";;;")*/){ // rekordokra bontás
+                    const retnrowDE = retnrowD.cloneNode(true); // Sablon sor clone-ozása
+                    const strA = textRow.split(":::"); // mezőkre bontás
+                    // Eltárolt JSON létrehozása .retn funkciókhoz
                     const retnRowJSON = {};
-                    for(let i = 0; i<adatsorrend.length; i++){
+                    for(let i = 0; i < adatsorrend.length; i++){
                         retnRowJSON[adatsorrend[i]] = strA[i];
                     }
-                    retnrowDE.dataset.fieldsJSON = JSON.stringify(retnRowJSON);
+                    retnrowDE.dataset.fiel = JSON.stringify(retnRowJSON);
+                    // .retn mezők beállítása
                     for(const mez of retnrowDE.getElementsByClassName("mez")){
-                        const mezContent = mez.textContent;
-                        console.log("??: " + mezContent)
-                        mez.innerHTML = !isNaN(mezContent) ? strA[Number(mezContent)] : "null";
+                        const mezContent = mez.getAttribute("dtag");
+                        mez.innerHTML = !isNaN(mezContent) ? strA[Number(mezContent)] + ": " + tere +"-" + hana : "null: " + tere;
                     }
+                    // No Comment...
+                    for(const retnaa of retnrowDE.querySelectorAll(".retn")){
+                        const sorszures = retnaa.getAttribute("data-clwhere")?.split(";") || ""; //client side
+                        // cl check
+                        for(let i = 0; i<sorszures.length; i++){
+                            const r2 = sorszures[i].split("=");
+                            if(!(sorszures.length > 0 && r2.length > 1 && retnRowJSON[r2[1]])){
+                                sorszures.splice(i,1);
+                                i--;
+                            }
+                        }
+                        for(const retnrowAA of retnaa.querySelectorAll(":scope > .retnmain > .retnrow")){
+                            const childData = JSON.parse(retnrowAA.dataset.fiel);
+                            let both = true;
+                            
+                           // console.log("CHILD: ")
+                           // console.log(childData);
+                           // console.log(retnRowJSON);
+                            
+                            for(let i = 0; i < sorszures.length && both; i++){
+                                const ye = sorszures[i].split("=");
+                           //   console.log("AAAAA: " + sorszures[i])
+                            //   console.log(ye[0]+":"+ye[1]);
+                            //   console.log(childData[ye[0]] +":"+retnRowJSON[ye[1]])
+                                both = childData[ye[0]] === retnRowJSON[ye[1]];
+                            //  console.log(hana)
+                            //  console.log(both)
+                            }
+                        //    console.log(both);
+                            if(!both){ 
+                                //   retnrowAA.style.setProperty("background-color", "red");
+                                retnrowAA.remove()
+                            }
+                        }
+                    }
+                    //.retn láthatatlan értékek beállítása
                     if(retnrowDE.value) retnrowDE.value = !isNaN(retnrowDE.value) ? strA[Number(retnrowDE.value)] : "-1";
                     for(const tagValue of retnrowDE.querySelectorAll("[value]:not([value=''])")){
-                        const tagValueContent = tagValue.getAttribute("value");
+                        const tagValueContent = tagValue.getAttribute("ntag");
                         tagValue.value = !isNaN(tagValueContent) ? strA[Number(tagValueContent)] : "";
                     }
                     fullText += retnrowDE.outerHTML;
                 }
+                // retn jelölések törlése a 
+                for(const retnaa of retnrowD.querySelectorAll(".retn")){
+                    retnaa.classList.remove("retn");
+                }
                 break;
-            case "json":
+        // ELAVULT:
+        /*   case "json":
                 for(const jsonItem of responseInput){
                     const retnrowDE = retnrowD.cloneNode(true);
                     for(const mez of retnrowDE.getElementsByClassName("mez")){
@@ -421,14 +426,14 @@ function doUjratolt(retn, responseInput="", responseInputType="text"){
                     }
                     fullText += retnrowDE.outerHTML;
                 }
-                break;
+                break;*/
        }
+      // console.log(retnrowD.outerHTML)
     }
     
     for(const retnmain of retn.querySelectorAll(":scope > .retnmain")){
         retnmain.innerHTML = fullText;
     }
-    doAddEventsToARetn(retn);
 }
 
 function doRefreshRetnEvents(min=document.getElementsByClassName("retn")){
@@ -439,10 +444,8 @@ function doRefreshRetnEvents(min=document.getElementsByClassName("retn")){
 }
 
 function doAddEventsToARetn(retn){
-    console.log("Fut ez?");
     const retnHeaders = retn.querySelectorAll(":scope > .retnmain > .retnheader");
     const retnRows = retn.querySelectorAll(":scope > .retnmain > .retnrow");
-    console.log("RetnRow: " + retnRows.length)
     const retnCA = retn.getAttribute("data-azon")?.split(";");
     const retnCE = retn.getAttribute("data-edit");
     if(retnHeaders && retnHeaders[0]){
@@ -465,14 +468,12 @@ function doAddEventsToARetn(retn){
             "indexRetnRowEdit",
             [retnRow, retnCA, retnCE]
         );
-
       /*  exportedMethods.doMindenhezHozzaad(
             retnRow.getElementsByClassName("editsend"),
             [doRetnRowKuldSzerkesztes],
             "indexRetnRowEditSend",
             []
         );
-
         exportedMethods.doMindenhezHozzaad(
             retnRow.getElementsByClassName("canceledit"),
             [doRetnRowMegseSzerkeszt],
@@ -480,14 +481,15 @@ function doAddEventsToARetn(retn){
             []
         );*/
     }
-}
+    exportedMethods.doaddIDTo(retn, "film", retn.id+"retf_");
+    eventTarget.dispatchEvent(new Event("actionRetnFrissul"));
 
+}
 function doUrlapAllapotFrissites(mezok, szoveg){
     for(const mezo of mezok){
         mezo.innerHTML = szoveg;
     }
 }
-
 function getMethodStoreObjectWithReturns(jsonAktuels){
     const localAktuels = {};
     for(const key in jsonAktuels){
@@ -495,19 +497,17 @@ function getMethodStoreObjectWithReturns(jsonAktuels){
     }
     return localAktuels;
 }
-
 async function getUrlapJSONs(urlap){
     const myUrlap = urlap.querySelectorAll("* [name]:not([name=''])");
     const jsonValue = {};
     for(const mezo of myUrlap){
         const mezofieldType = mezo.getAttribute("data-fieldtype") || "ce";
-        console.log("GGGGGG: " + mezo.name)
+        if(!jsonValue[mezofieldType]) jsonValue[mezofieldType] = {};
         if (typeof mezo.name !== "string" || mezo.name.trim() === "") mezo.name="";
         if(jsonValue[mezofieldType] && mezo.name.length > 0) jsonValue[mezofieldType][mezo.name] = mezo.type !== "checkbox" ? (mezo.classList.contains("chr") ? await getCryptoHash(mezo.value) : mezo.value) : mezo.checked;
     }
     return await jsonValue;
 }
-
 function getValueFromAll(Cname="", jsonValue={}, localAktuels={}){
     let oText = "";
     const mezoTagG = Cname.split("-");
@@ -527,12 +527,9 @@ function getValueFromAll(Cname="", jsonValue={}, localAktuels={}){
     return mezoTagG.length > 2 && !isNaN(mezoTagG[2]) ?
         oText.split(";")[Number(mezoTagG[2])] || "" : oText;
 }
-
 function getValueFromLocalStorage(Cname){
-    console.log(Cname)
     return localStorage.getItem(Cname) || "null";
 }
-
 async function getCryptoHash(text){
     const buffer = await crypto.subtle.digest("SHA-512", new TextEncoder().encode(text));
     return Array.from(new Uint8Array(buffer)).map(b => b.toString(16).padStart(2, "0")).join("")

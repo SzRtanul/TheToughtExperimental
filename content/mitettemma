@@ -8,8 +8,8 @@
 <ul class="vizszintes-nav">
     <li>
         <button
-        class="contentlink"
-        name="mitettemma">
+            class="contentlink"
+            name="mitettemma">
                 Étkezések
         </button></li>
     <li>
@@ -21,55 +21,35 @@
     </li>
 </ul>
 
-<div name="testRetn" class="urlap" value="ujalany">
-    <button class="kuld">KK</button>
-</div>
 
-<div name="testRetn" class="retn outer">
-    <div class="immler">
-        <div class="retnheader">ALAHAMA</div>
-        <div class="retnrow">
-            <p class="mez" dtag="0">0</p>
-            <p class="mez" dtag="1">1</p>
-            <p class="mez" dtag="2">2</p>
-            <div class="retn inner" value="salom">
-                <div class="retnrow">
-                    <p class="mez" dtag="0">nn</p>
-                    <p><div class="retn" value="22"><div class="retnmain"></div><div class="immler"><div class="retnrow"><div class="mez" dtag="0">00</div></div></div></div></p>
-                </div>
-                <div class="retnmain">
-    
-                </div>
+
+<div class="film">
+    <div class="urlap scene sceneI diszlet diszlet0" name="ujvacsora" value="ujvacsora" action="hozzaadasutan" method="get">
+        <div class="scene sceneI scen scen0">
+            <button id="kirakat" class="aktuel kirakat">Étkezés hozzáadása</button>
+        </div>
+        <div class="scene scen scen1">
+            <p>
+                Jelenlegi dátum:
+                    <span class="constas" tag="0-datum">Dátum helye</span>
+                <button class="aktuel" id="">Aktuális dátum</button>
+                <button class="kuld">Étkezés hozzáadása</button>
+            </p>
+            <button class="datumedit">Dátum szerkesztése</button>
+        </div>
+        <div class="scene scen scen2">
+            <div class="input-container">
+                <label for="m1-1235235"></label>
+                <input id="m1-1235235" type="date" name="datum" tag="2-nowDate-0">
+                <button class="aktuel" id="">Aktuális dátum</button>
+                <button class="kuld">Étkezés hozzáadása</button>
             </div>
-        </div>
+        </div>    
     </div>
-    <div class="retnmain">
 
+    <div class="scene diszlet diszlet1">
+        Ehj
     </div>
-</div>
-
-<div class="urlap" name="ujvacsora" value="ujvacsora" action="hozzaadasutan" method="get">
-    <div id="" class="d-none scene scene0">
-        <button id="kirakat" class="aktuel kirakat">Étkezés hozzáadása</button>
-    </div>
-    <div class="scene scene1">
-        <p>
-            Jelenlegi dátum:
-                <span class="constas" tag="0-datum">Dátum helye</span>
-            <button class="aktuel" id="">Aktuális dátum</button>
-            <button class="kuld">Étkezés hozzáadása</button>
-        </p>
-        <button id="ujvacsoraDateEdit" class="datumedit">Dátum szerkesztése</button>
-    </div>
-    <div class="scene scene2">
-        <div class="input-container">
-            <label for="m1-1235235"></label>
-            <input id="m1-1235235" type="date" name="datum" tag="2-nowDate-0">
-            <button class="aktuel" id="">Aktuális dátum</button>
-            <button class="kuld">Étkezés hozzáadása</button>
-        </div>
-    </div>
-    
 </div>
 
 <div 
@@ -85,8 +65,10 @@
     name="ujvarcoramaster" 
     class="retn"
     >
-    <div class="retnrow">
-        <p><strong class="mez">0</strong>:<strong class="mez">1</strong>:<strong class="mez">0</strong></p>
+    <div class="immler">
+        <div class="retnrow">
+            <p><strong class="mez film">0</strong>:<strong class="mez">1</strong>:<strong class="mez">0</strong></p>
+        </div>
     </div>
     <div class="retnmain">
 
@@ -106,20 +88,24 @@
 </div>
 
 <h1>Mikor ettem?</h1>
-<table class="retn" value="ujvacsora">
-    <tr class="retnrow">
-        <td class="mez">0</td>
-        <td class="mez">1</td>
-    </tr>
-    <thead>
-        <tr>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody class="retnmain">
+<div class="retn" value="ujvacsora">
+    <div class="immler">
+        <thead class="retnheader">
+            <tr>
+                <th>OJE</th>
+            </tr>
+        </thead>
+        <tbody class="retnrow">
+            <tr>
+                <td class="mez">0</td>
+                <td class="mez">1</td>
+            </tr>
+        </tbody>
+    </div>
+    <table class="retnmain">
 
-    </tbody>
-</table>
+    </table>
+</div>
 
 <div name="ujetkezes" action="metafora" method="get" class="urlap" value="ujvacsora/$datum">
     <button class="aktuel">Aktüel</button>
@@ -129,7 +115,7 @@
     </select>
     <p aria-label="datum">Jelenlegi dátum: <span class="constas" tag="0-datum"></span></p>
     <button class="datumszerkesztese">Dátum szerkesztése</button>
-    <div id="k1023" style="display: inherit;">
+    <div style="display: inherit;">
         <div>
                 <input name="VALA" tag="1-ELEKTA" class="consta chr" value="">
             <div class="input-container">
@@ -209,12 +195,14 @@
 </div>
 
 <div class="retn" value="ujalany">
-    <div class="retnrow">
-           <legend>
-                <p class="mez">datum</p>
-                <p class="mez">alany</p>
-                <p class="mez">let</p>
-           </legend>
+    <div class="immler">
+        <div class="retnrow">
+            <legend>
+                 <p class="mez">datum</p>
+                 <p class="mez">alany</p>
+                 <p class="mez">let</p>
+            </legend>
+        </div>
     </div>
     <div class="retnmain">
 
@@ -222,12 +210,14 @@
 </div>
 
 <div name="ujetkezes" class="retn" data-responsetype="json">
-    <div class="retnrow">
-           <legend>
-                <p class="mez">datum</p>
-                <p class="mez">alany</p>
-                <p class="mez">let</p>
-           </legend>
+    <div class="immler">
+        <div class="retnrow">
+            <legend>
+                 <p class="mez">datum</p>
+                 <p class="mez">alany</p>
+                 <p class="mez">let</p>
+            </legend>
+     </div>
     </div>
     <div class="retnmain">
 
@@ -235,12 +225,14 @@
 </div>
 
 <div name="ujetkezes" class="retn">
-    <div class="retnrow">
-           <legend>
-                <p class="mez">1</p>
-                <p class="mez">2</p>
-                <p class="mez">0</p>
-           </legend>
+    <div class="immler">
+        <div class="retnrow">
+            <legend>
+                 <p class="mez">1</p>
+                 <p class="mez">2</p>
+                 <p class="mez">0</p>
+            </legend>
+     </div>
     </div>
     <div class="retnmain">
 

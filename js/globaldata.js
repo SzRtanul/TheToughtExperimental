@@ -6,13 +6,16 @@ export const exportedMethods = {
     doMindenhezHozzaad: doMindenhezHozzaad,
     doNovelHanyszor: doNovelHanyszor,
     doMindennelMegcsinál: doMindennelMegcsinál,
+    doResetEventTarget: doResetEventTarget,
+    doJelenetValtas: doJelenetValtas,
+    doaddIDTo: doaddIDTo,
     getIDButtons: getIDButtons,
     getHanyszor: getHanyszor,
+    getUrlapFromE: getUrlapFromE,
     setUrlapButtons: setUrlapButtons,
     setAnythingOnElement: setAnythingOnElement,
-    doResetEventTarget: doResetEventTarget,
     isBenneVan: bennevan,
-    isBenneHol: bennehol
+    isBenneHol: bennehol,
 };
 
 export const exportVariables = {
@@ -57,7 +60,7 @@ function doMindenhezHozzaad(mikhez, methods=[], eventID="", parameters=[], event
                 elem.dataset.events && 
                 exportedMethods.isBenneVan(elem.dataset.events.split(";"), eventID))
         ){
-            elem.addEventListener(eventtipus, function(e){
+            elem.addEventListener(elem.getAttribute(eventID+"event") || eventtipus, function(e){
                 for(const method of methods){
                     method(e, ...parameters);
                 }
@@ -74,6 +77,23 @@ function doMindennelMegcsinál(miken, mitmethod, parameters=[]){
     }
 }
 
+function getanythingFromelement(elem, dimensions=[]){
+    let both = elem && 
+          dimensions && 
+          typeof dimensions[Symbol.iterator] === 'function' && 
+          dimensions.length > 0;
+    let vegsoElem = elem;
+    //console.log(vegsoElem);
+    for(let i = 0; i < dimensions.length-1 && both; i++){
+        vegsoElem = vegsoElem[String(dimensions[i])];
+       // console.log(vegsoElem);
+        both = vegsoElem ? true : false;
+    }
+    if(both){ 
+        return vegsoElem[dimensions[dimensions.length-1]];
+    }
+}
+
 function setAnythingOnElement(elem, dimensions=[], parameters){
     let both = elem && 
           dimensions && 
@@ -87,11 +107,10 @@ function setAnythingOnElement(elem, dimensions=[], parameters){
         both = vegsoElem ? true : false;
     }
     if(both){ 
-        console.log(vegsoElem+"")
-        //vegsoElem = vegsoElem.bind(elem)
         vegsoElem[dimensions[dimensions.length-1]](...parameters);
     }
 }
+
 
 function bennevan(myarray, value){
     let both = false;
@@ -107,4 +126,33 @@ function bennehol(myarray, value){
         hely = myarray[i] === value ? i : hely;
     }
     return hely;
+}
+
+function getUrlapFromE(e){
+    const urlapKod = getComputedStyle(e.target).getPropertyValue("--data-urlapid");
+    const urlap = exportedMethods.getIDButtons(urlapKod);
+    return urlap;
+}
+
+function doJelenetValtas(urlap, hova, tipus="scen"){
+    exportedMethods.doMindennelMegcsinál(
+        urlap.querySelectorAll("."+tipus + ".sceneI"), 
+        exportedMethods.setAnythingOnElement, 
+        [["classList", "remove"], 
+        ["sceneI"]]);
+    exportedMethods.doMindennelMegcsinál(
+        urlap.getElementsByClassName(tipus+hova), 
+        exportedMethods.setAnythingOnElement, 
+        [["classList", "add"], 
+        ["sceneI"]]);
+    console.log("Eljutott")
+}
+
+function doaddIDTo(environment, classsName="", elotag=""){
+    let cID = 0;
+    const items = environment.getElementsByClassName(classsName);
+    for(let i = 0; i<items.length; i++){
+        items[i].id = elotag + cID;
+        items[i].style.setProperty("--"+classsName+"ID", items[i].id+"");
+    }
 }

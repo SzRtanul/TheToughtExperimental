@@ -15,6 +15,9 @@
 
 .immler{
     display: none;
+    /* 
+    background-color: red;
+   */
 }
 
 .notinv{
@@ -39,12 +42,8 @@
     background-color: grey;
 }
 
-.retn{
+.retn, .retn [value]{
     border: 2px solid black;
-}
-
-.retnmain > .retnrow, .retnmain > .retnheader{
-    display: inherit;
 }
 
 .retnheader{
@@ -52,7 +51,7 @@
 }
 
 .retnrow{
-    border: 2px solid greenyellow;
+    border: 5px solid greenyellow;
 }
 
 .retnrow legend{
@@ -171,4 +170,13 @@ input {
     flex-grow: 1; /* Az input kitölti a maradék helyet */
     padding: 2px;
     font-size: 16px;
+}
+
+/* This SCENE */
+.scene{
+    display: none;
+}
+
+.sceneI{
+    display: inherit;
 }
