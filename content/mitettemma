@@ -23,10 +23,16 @@
 
 
 
-<div class="film">
-    <div class="urlap scene sceneI diszlet diszlet0" name="ujvacsora" value="ujvacsora" action="hozzaadasutan" method="get">
+<div class="film" cim="nemonyomaban">
+    <div 
+        class="urlap scene sceneI diszlet diszlet0" 
+        name="ujvacsora" 
+        value="ujvacsora"
+        nextToIfSuccess="scen:0;diszlet:1"
+        action="hozzaadasutan" 
+        method="get">
         <div class="scene sceneI scen scen0">
-            <button id="kirakat" class="aktuel kirakat">Étkezés hozzáadása</button>
+            <button id="kirakat" class="aktuel kirakat" nextTo="scen:1">Étkezés hozzáadása</button>
         </div>
         <div class="scene scen scen1">
             <p>
@@ -35,7 +41,7 @@
                 <button class="aktuel" id="">Aktuális dátum</button>
                 <button class="kuld">Étkezés hozzáadása</button>
             </p>
-            <button class="datumedit">Dátum szerkesztése</button>
+            <button class="datumedit" nextTo="scen:2">Dátum szerkesztése</button>
         </div>
         <div class="scene scen scen2">
             <div class="input-container">
@@ -48,7 +54,61 @@
     </div>
 
     <div class="scene diszlet diszlet1">
-        Ehj
+        <div class="">
+            <div 
+                class="urlap"
+                value="query"
+                name="etkezesek"
+            > <!--Etkezesvalaszto-->
+                <div 
+                    class="retn"
+                    value="etkezes"
+                    data-adatsorrend="id, datum"
+                    innerjoin="ottlaka-holID;"
+                >
+                    <div class="immler">
+                        <option class="retnrow" tag="0" value="">1</option>
+                    </div>
+                    <select class="retnmain" name="id" id=""></select>
+                </div>
+                <button class="kuld">Küld</button>
+            </div>
+            <div 
+                class="retn" 
+                name="etkezesek"
+            >
+                <div class="immler">
+                    <p class="retnheader"><span class="mez" dtag="0"></span><span class="mez"dtag="1">1</span></p>
+                    <div class="retnrow">
+                        <div class="mez" dtag="0">null</div>
+                        <div class="film">
+                            <button 
+                                class="scene sceneI scen scen0 mez" 
+                                nextTo="scen:1"
+                                dtag="1"
+                            >1
+                            </button>
+                            <div 
+                                class="scene scen scen1 urlap"
+                                value="val"
+                                nextToIfSuccess="scen:0"
+                            >
+                                <input 
+                                    name="id" ntag="0" 
+                                    data-fieldtype="ca"
+                                    type="text" class="inv" 
+                                >
+                                <input name="datum" type="text" ntag="1">
+                                <button class="kuld">Küld</button>    
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="retnmain">
+
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

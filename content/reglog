@@ -4,7 +4,7 @@
 
 <div class="urlap" action="logined" method="post" value="login">
     <label for="felh">Felhasználónév:</label><input type="text" name="felhasznaloNev" id="felh">
-    <label for="jelsz">Jelszó:</label><input type="text" name="jelszoHash" id="jelsz">
+    <label for="jelsz">Jelszó:</label><input type="password" name="jelszoHash" id="jelsz" class="xhr">
     <div class="allapot"></div>
     <button class="aktuel">Csak aktuel</button>
     <button class="kuld">Bejelentkezés</button>

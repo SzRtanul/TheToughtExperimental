@@ -1,26 +1,15 @@
 export let eventTarget = new EventTarget();
 let urlapButtons = [];
 let hanyszor = /*Number(localStorage.getItem("ala")) ||*/ 0;
-
-export const exportedMethods = {
-    doMindenhezHozzaad: doMindenhezHozzaad,
-    doNovelHanyszor: doNovelHanyszor,
-    doMindennelMegcsinál: doMindennelMegcsinál,
-    doResetEventTarget: doResetEventTarget,
-    doJelenetValtas: doJelenetValtas,
-    doaddIDTo: doaddIDTo,
-    getIDButtons: getIDButtons,
-    getHanyszor: getHanyszor,
-    getUrlapFromE: getUrlapFromE,
-    setUrlapButtons: setUrlapButtons,
-    setAnythingOnElement: setAnythingOnElement,
-    isBenneVan: bennevan,
-    isBenneHol: bennehol,
+const aktuels = {
+    nowDate: function(){
+        return new Date().toISOString().replace("T", ";");
+    },
+    novaDate: gluck
 };
-
-export const exportVariables = {
-    hanyszor: hanyszor
-};
+function gluck(){
+    return "Ernai";
+}
 
 function getHanyszor(){
     return hanyszor;
@@ -45,10 +34,10 @@ function setUrlapButtons(iUrlapButtons){
 function getIDButtons(buttonID){
     let i = -1; // Egy merge rendezés itt talán lesz
     let ign = true;
-    console.log("Paraméter: " + buttonID)
+    //console\.log("Paraméter: " + buttonID)
     while(i < urlapButtons.length - 1 && ign){
         i++;
-        console.log("UrlapID: " + urlapButtons[i].id);
+        //console\.log("UrlapID: " + urlapButtons[i].id);
         ign = urlapButtons[i].id !== String(buttonID);
     };
     return !ign ? urlapButtons[i] : null;
@@ -60,11 +49,14 @@ function doMindenhezHozzaad(mikhez, methods=[], eventID="", parameters=[], event
                 elem.dataset.events && 
                 exportedMethods.isBenneVan(elem.dataset.events.split(";"), eventID))
         ){
-            elem.addEventListener(elem.getAttribute(eventID+"event") || eventtipus, function(e){
-                for(const method of methods){
-                    method(e, ...parameters);
+            elem.addEventListener(elem.getAttribute(eventID+"event") || eventtipus, async function(e){
+                let both = true;
+                for(let i = 0; i < methods.length && both; i++){
+                    const pr = parameters[i] ?? [];
+                    const parame = await methods[i](e, ...pr);
+                    both = typeof parame === "boolean" ? parame : true;
                 }
-            })
+            });
             if(!elem.dataset.events) elem.dataset.events = "";
             if(eventID.length > 0) elem.dataset.events += eventID + ";";
         }
@@ -77,16 +69,16 @@ function doMindennelMegcsinál(miken, mitmethod, parameters=[]){
     }
 }
 
-function getanythingFromelement(elem, dimensions=[]){
+function getanythingFromElement(elem, dimensions=[]){
     let both = elem && 
           dimensions && 
           typeof dimensions[Symbol.iterator] === 'function' && 
           dimensions.length > 0;
     let vegsoElem = elem;
-    //console.log(vegsoElem);
+    ////console\.log(vegsoElem);
     for(let i = 0; i < dimensions.length-1 && both; i++){
         vegsoElem = vegsoElem[String(dimensions[i])];
-       // console.log(vegsoElem);
+       // //console\.log(vegsoElem);
         both = vegsoElem ? true : false;
     }
     if(both){ 
@@ -100,17 +92,16 @@ function setAnythingOnElement(elem, dimensions=[], parameters){
           typeof dimensions[Symbol.iterator] === 'function' && 
           dimensions.length > 0;
     let vegsoElem = elem;
-    //console.log(vegsoElem);
+    ////console\.log(vegsoElem);
     for(let i = 0; i < dimensions.length-1 && both; i++){
         vegsoElem = vegsoElem[String(dimensions[i])];
-       // console.log(vegsoElem);
+       // //console\.log(vegsoElem);
         both = vegsoElem ? true : false;
     }
     if(both){ 
         vegsoElem[dimensions[dimensions.length-1]](...parameters);
     }
 }
-
 
 function bennevan(myarray, value){
     let both = false;
@@ -134,6 +125,28 @@ function getUrlapFromE(e){
     return urlap;
 }
 
+function doEnvAutoJumpJelenet(environment, mialapjan="nextTo"){
+    const hovas = environment.getAttribute(mialapjan)?.split(';');
+    const film = environment.closest(".film");
+    for(let i = 0; i < hovas?.length || 0; i++){
+        const hova = hovas[i].split(':')
+        if(hova?.length > 1){
+            if(film) exportedMethods.doJelenetValtas(film, hova[1], hova[0])
+        }
+    }
+}
+
+function actionableAutoJumpJelenet(e, mialapjan="nextTo"){
+    const hovas = e.target.getAttribute(mialapjan)?.split(';');
+    const film = e.target.closest(".film");
+    for(let i = 0; i < hovas?.length || 0; i++){
+        const hova = hovas[i].split(':')
+        if(hova?.length > 1){
+            if(film) exportedMethods.doJelenetValtas(film, hova[1], hova[0])
+        }
+    }
+}
+
 function doJelenetValtas(urlap, hova, tipus="scen"){
     exportedMethods.doMindennelMegcsinál(
         urlap.querySelectorAll("."+tipus + ".sceneI"), 
@@ -145,7 +158,7 @@ function doJelenetValtas(urlap, hova, tipus="scen"){
         exportedMethods.setAnythingOnElement, 
         [["classList", "add"], 
         ["sceneI"]]);
-    console.log("Eljutott")
+    //console\.log("Eljutott")
 }
 
 function doaddIDTo(environment, classsName="", elotag=""){
@@ -156,3 +169,108 @@ function doaddIDTo(environment, classsName="", elotag=""){
         items[i].style.setProperty("--"+classsName+"ID", items[i].id+"");
     }
 }
+
+function doUrlapAllapotFrissites(mezok, szoveg){
+    for(const mezo of mezok){
+        mezo.innerHTML = szoveg;
+    }
+}
+function getMethodStoreObjectWithReturns(jsonAktuels){
+    const localAktuels = {};
+    for(const key in jsonAktuels){
+        localAktuels[key] = aktuels[key]();
+    }
+    return localAktuels;
+}
+async function getUrlapJSONs(urlap){
+    const myUrlap = urlap.querySelectorAll("* [name]:not([name=''])");
+    const jsonValue = {};
+    for(const mezo of myUrlap){
+        const mezofieldType = mezo.getAttribute("data-fieldtype") || "ce";
+        if(!jsonValue[mezofieldType]) jsonValue[mezofieldType] = {};
+        if (typeof mezo.name !== "string" || mezo.name.trim() === "") mezo.name="";
+        if(jsonValue[mezofieldType] && mezo.name.length > 0) 
+            jsonValue[mezofieldType][mezo.name] = 
+                mezo.type !== "checkbox" ? 
+                    (mezo.classList.contains("chr") ? 
+                        await getCryptoHash(mezo.value) : 
+                            mezo.value) : mezo.checked
+            ;
+
+    }
+    return await jsonValue;
+}
+function getValueFromAll(Cname="", jsonValue={}, localAktuels={}){
+    let oText = "";
+    const mezoTagG = Cname.split("-");
+    if(mezoTagG.length > 1 && !isNaN(mezoTagG[0])){
+        switch(Number(mezoTagG[0])){
+            case 0:
+                oText = jsonValue[mezoTagG[2] ? mezoTagG[2] : "ce"][mezoTagG[1]] || "";
+                break;
+            case 1:
+                oText = getValueFromLocalStorage(mezoTagG[1]) || "";
+                break;
+            case 2:
+                oText = localAktuels[mezoTagG[1]] || "";
+                break;
+        }
+    }
+    return mezoTagG.length > 2 && !isNaN(mezoTagG[2]) ?
+        oText.split(";")[Number(mezoTagG[2])] || "" : oText;
+}
+function getValueFromLocalStorage(Cname){
+    return localStorage.getItem(Cname) || "null";
+}
+async function getCryptoHash(text){
+    const buffer = await crypto.subtle.digest("SHA-512", new TextEncoder().encode(text));
+    return Array.from(new Uint8Array(buffer)).map(b => b.toString(16).padStart(2, "0")).join("")
+}
+
+//Aktuel
+async function doAktuel(e, urlap, MyEvent){
+    const myConst = urlap.querySelectorAll("* [name][tag]"); // Rejtett mezők automatikus kitöltéssel
+    const myConstas = urlap.querySelectorAll("* [tag].constas"); // Elemek, amikben változó van
+    let jsonValue = await exportedMethods.getUrlapJSONs(urlap); // Ürlap mező értékek
+    const localAktuels = exportedMethods.getMethodStoreObjectWithReturns(aktuels); // Values from Aktüel
+    for(const mezo of myConst){ // értékcsere LocalStorage-ból vagy Aktüel-ből
+        if(mezo.name.length > 0 && (!mezo.value || mezo.value.length == 0)){
+            mezo.value = exportedMethods.getValueFromAll(mezo.getAttribute("tag"), jsonValue, localAktuels)
+        }
+    }
+    jsonValue = await exportedMethods.getUrlapJSONs(urlap);
+    for(const constas of myConstas){ // SzövegVáltozóCsere
+        //console\.log("OOOOOOOOOOOOOOO")
+        //console\.log(jsonValue)
+        constas.innerHTML = exportedMethods.getValueFromAll(
+            constas.getAttribute("tag"), jsonValue, localAktuels
+        ) || "null";
+    }
+    if(MyEvent) eventTarget.dispatchEvent(MyEvent);
+}
+
+export const exportedMethods = {
+    doMindenhezHozzaad: doMindenhezHozzaad,
+    doNovelHanyszor: doNovelHanyszor,
+    doMindennelMegcsinál: doMindennelMegcsinál,
+    doResetEventTarget: doResetEventTarget,
+    doEnvAutoJumpJelenet: doEnvAutoJumpJelenet,
+    actionableAutoJumpJelenet: actionableAutoJumpJelenet,
+    doJelenetValtas: doJelenetValtas,
+    //doaddIDTo: doaddIDTo,
+    doUrlapAllapotFrissites: doUrlapAllapotFrissites,
+    doAktuel: doAktuel,
+    getIDButtons: getIDButtons,
+    getHanyszor: getHanyszor,
+    getanythingFromElement: getanythingFromElement,
+    getUrlapFromE: getUrlapFromE,
+    getMethodStoreObjectWithReturns: getMethodStoreObjectWithReturns,
+    getUrlapJSONs: getUrlapJSONs,
+    getValueFromAll: getValueFromAll,
+    getValueFromLocalStorage: getValueFromLocalStorage,
+    getCryptoHash: getCryptoHash,
+    setUrlapButtons: setUrlapButtons,
+    setAnythingOnElement: setAnythingOnElement,
+    isBenneVan: bennevan,
+    isBenneHol: bennehol,
+};

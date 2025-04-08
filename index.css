@@ -3,7 +3,7 @@
     background-color: red;
 }
 
-[name][tag].inv{
+[name][tag].inv, [name][ntag].inv{
     background-color: unset;
     display: none;
 }

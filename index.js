@@ -1,37 +1,27 @@
 import { eventTarget, exportedMethods } from "./js/globaldata.js";
+import { exportedEvents } from "./js/global/events.js";
 const serverhost = "http://experimental.local:18080/";
 const content = document.getElementsByTagName("main")[0];
 const fieldDataTypes = {
     datum: "date",
     korte: "date"
 }
-let events = [];
 let currentRequest = null;
 callSite("mitettemma");
-const aktuels = {
-    nowDate: function(){
-        return new Date().toISOString().replace("T", ";");
-    },
-    novaDate: gluck
-};
-function gluck(){
-    return "Ernai";
-}
-;
+
 //Kísérletek
-console.log("MyRegex 2975hfuiHtE".match(/^\w+/)?.[0] || "");
-;
+//console\.log("MyRegex 2975hfuiHtE".match(/^\w+/)?.[0] || "");
 /*
 document.cookie = "Suzie=Gere"
-console.log(document.cookie)
+//console\.log(document.cookie)
 document.cookie = "Suzie=Geta"
-console.log(document.cookie)
+//console\.log(document.cookie)
 document.cookie = "Suzie="
-console.log(document.cookie);
-console.log(getValueFromCookie("Elekta"))*/
-/*console.log(await exampleGET("exa"))
-console.log(await examplePOST("exa/166"))
-console.log(await exampleGET("exa"))*/
+//console\.log(document.cookie);
+//console\.log(getValueFromCookie("Elekta"))*/
+/*//console\.log(await exampleGET("exa"))
+//console\.log(await examplePOST("exa/166"))
+//console\.log(await exampleGET("exa"))*/
 localStorage.setItem("ELEKTA", "HARakiri")
 localStorage.setItem("datum", "2023-04-05")
 ;
@@ -48,9 +38,9 @@ const str = 'revenue895erwhgh9reji#íKDSFKI9ÜW'
     }
     return hash;
 }
-console.log(str, str.hashCode());*/
+//console\.log(str, str.hashCode());*/
 ;
-  
+
 async function exampleREST(honnan="", method="GET", others={}, cAzon={}, cEdit={}){
     const fetchJSON = {
         method: method.toUpperCase(),
@@ -95,9 +85,8 @@ function callSite(melyik){
             content.innerHTML = iHTML;
             doCSSAddingToSite();
             doJSAddingToSite();
+            //doFrissit();
             addEvents();
-            console.log(hanyszor)
-            hanyszor++;
         } else {
             console.error("Request failed with status:", currentRequest.status);
         }
@@ -134,99 +123,91 @@ function getEventName(text){
 }
 function vmi(e){
     callSite(e.target.name);
-    console.log("Sok: " + hanyszor)
 }
-function vmi2(e){
-   
-}
-function addEvents(){
+
+export function addEvents(environment=document){ 
+    doFrissit(environment);
+    const prot = ":not(.immler *)";
     exportedMethods.doResetEventTarget();
     const jsA = [
         {datum: "EEEEA"},
         {datum: "AAAAE"}
     ];
     // 
-    //doFrissit();
-    const txA = "alma;korte;szilva|||A:::A:::B:::;;;B:::B:::A"
-    const retne = document.getElementsByClassName("retn");
-    /*  //
-    doUjratolt(retne[0], jsA, "json");
-    doUjratolt(retne[2], txA);*/
-    const contentLinks = document.getElementsByClassName("contentlink");
-    const urlapok = document.querySelectorAll("[value].urlap");
-    doAddingToButtons(document, "contentlink", [vmi], null, "indexContentLink");
-    let urlapIDn = 0;
+    const txA = "alma;korte;szilva|||A:::A:::B:::;;;B:::B:::A";
+    const contentLinks = environment.getElementsByClassName("contentlink");
+    const urlapok = environment.querySelectorAll("[value].urlap"+prot);
+    exportedMethods.doMindenhezHozzaad(
+        environment.querySelectorAll(".contentlink"+prot),
+        [vmi], "indexContentLink"
+    );
     let retnIDn = 0;
-    for(const retn of document.getElementsByClassName("retn")){
-        retn.id = "retn_" + retnIDn;
+    // Retn
+    for(const retn of environment.getElementsByClassName("retn")){
+        let retnK = '';
+        const NNretn = retn.closest("[id].retn:not([id=''])");
+        if(NNretn) retnK = NNretn.getAttribute("id");
+        retn.id = retnK + "retn_" + retnIDn;
+        retn.style.setProperty("--data-retnID", retnK + "retn_" + retnIDn)
+        exportedEvents.doAddEventsToARetn(retn);
         retnIDn++;
     }
+    // Urlap
+    let urlapIDn = 0;
     for(const urlap of urlapok){
         urlap.querySelectorAll(".urlap").forEach(g => g.remove());
+        let retnK = '';
+        const NNretn = urlap.closest("[id].retn:not([id=''])");
+        if(NNretn) retnK = NNretn.getAttribute("id");
+        const fullID = retnK+urlapIDn;
         const urlapActName = urlap.getAttribute("action");
         const urlapVariation = urlap.getAttribute("data-variation") || "";
-        const whenSendEvent = urlapActName ? new CustomEvent("urlapS"+urlapActName, {detail: {urlapID: urlapIDn}}) : null;
-        const whenAktuelEvent = urlapActName ? new CustomEvent("urlapA"+urlapActName, {detail: {urlapID: urlapIDn}}) : null;
-        doAddingToButtons(urlap, "aktuel", [doAktuel], whenAktuelEvent, "indexAktuel");
-        //doAddingToButtons(urlap, "kuld", [doKuld], whenSendEvent, "indexKuld");
-        exportedMethods.doMindenhezHozzaad(urlap.getElementsByClassName("kuld"), [doKuld], "indexKuld", [urlap, whenSendEvent])
-        doAddingToButtons(urlap, "kuldG", [doAktuel, doKuld], whenSendEvent, "indexKuldG");
+        const whenSendEvent = urlapActName ? new CustomEvent("urlapS"+urlapActName, {detail: {urlapID: fullID}}) : null;
+        const whenAktuelEvent = urlapActName ? new CustomEvent("urlapA"+urlapActName, {detail: {urlapID: fullID}}) : null;
+
+        exportedMethods.doMindenhezHozzaad(
+            urlap.querySelectorAll(".aktuel"+prot),
+            [exportedMethods.doAktuel], "indexAktuel",
+            [[urlap, whenAktuelEvent]]
+        );
+        exportedMethods.doMindenhezHozzaad(
+            urlap.querySelectorAll(".kuld"+prot),
+            [doKuld], "indexKuld",
+            [[urlap, whenSendEvent]]
+        );
+        exportedMethods.doMindenhezHozzaad(
+            urlap.querySelectorAll(".kuldG"+prot),
+            [exportedMethods.doAktuel, doKuld], "indexKuldG",
+            [[urlap, whenSendEvent]]
+        );
+
         const hasID = urlap.hasAttribute("urlapided");
-        const ids = urlap.querySelectorAll("[id]:not([id=''])");
-        urlap.id = urlapIDn;
+        const ids = urlap.querySelectorAll("[id]:not([id=''])" + prot);
+        urlap.id = fullID;
         urlap.setAttribute("urlapided", "");
-        urlap.style.setProperty("--data-urlapid", urlapIDn+"");
-        
+        urlap.style.setProperty("--data-urlapid", fullID+"");
         for(let i = 0;i < ids.length; i++){        
             if(hasID) ids[i].id = ids[i].id.replace(/^[^_]+_/, "");
-            ids[i].id = urlapIDn + "_" + urlapVariation + ids[i].getAttribute("id");
+            ids[i].id = fullID + "_" + urlapVariation + ids[i].getAttribute("id");
+        }
+        const fors = urlap.querySelectorAll("[for]:not([for=''])" + prot);
+        for(let i = 0;i < fors.length; i++){        
+            if(hasID) fors[i].for = fors[i].getAttribute("for").replace(/^[^_]+_/, "");
+            fors[i].setAttribute("for", fullID + "_" + urlapVariation + fors[i].getAttribute("for"));
         }
         urlapIDn++;
     }
-    exportedMethods.doaddIDTo(document, "film", "def");
+    //exportedMethods.doaddIDTo(document, "film", "def");
+   exportedMethods.doMindenhezHozzaad(
+    environment.querySelectorAll(".film [nextTo]:not([nextTo=''])" + prot),
+        [exportedMethods.actionableAutoJumpJelenet], "filmAutoJump"
+    );
+
 }
-function doAddingToButtons(urlap, buttonName, methodNames, myEvent, eventID=""){  
-    //Aktüel
-    for(const aktuel of urlap.getElementsByClassName(buttonName)){    
-        if(!(eventID &&
-                aktuel.dataset.events &&
-                exportedMethods.isBenneVan(aktuel.dataset.events.split(";"), eventID))
-            ){
-            aktuel.addEventListener("click", function(e){
-                for(const method of methodNames){
-                    method(e, urlap, myEvent);
-                }
-            });
-            if(!aktuel.dataset.events) aktuel.dataset.events = "";
-            if(eventID.length > 0) aktuel.dataset.events += eventID + ";";
-        }
-    }
-}
-function varFunction(){
-    
-}
-async function doAktuel(e, urlap, MyEvent){
-    const myConst = urlap.querySelectorAll("* [name][tag]"); // Rejtett mezők automatikus kitöltéssel
-    const myConstas = urlap.querySelectorAll("* [tag].constas"); // Elemek, amikben változó van
-    let jsonValue = await getUrlapJSONs(urlap); // Ürlap mező értékek
-    const localAktuels = getMethodStoreObjectWithReturns(aktuels); // Values from Aktüel
-    for(const mezo of myConst){ // értékcsere LocalStorage-ból vagy Aktüel-ből
-        if(mezo.name.length > 0 && (!mezo.value || mezo.value.length == 0)){
-            mezo.value = getValueFromAll(mezo.getAttribute("tag"), jsonValue, localAktuels)
-        }
-    }
-    jsonValue = await getUrlapJSONs(urlap);
-    for(const constas of myConstas){ // SzövegVáltozóCsere
-        console.log("OOOOOOOOOOOOOOO")
-        console.log(jsonValue)
-        constas.innerHTML = getValueFromAll(
-            constas.getAttribute("tag"), jsonValue, localAktuels
-        ) || "null";
-    }
-    if(MyEvent) eventTarget.dispatchEvent(MyEvent);
-}
+
+//Kuld
 async function doKuld(e, urlap, MyEvent){
-    const jsonValue = await getUrlapJSONs(urlap);
+    const jsonValue = await exportedMethods.getUrlapJSONs(urlap);
     const allapotKijelzok = urlap.getElementsByClassName("allapot");
     const routG = urlap.getAttribute('value').split("/");
     let tr = "";
@@ -242,17 +223,17 @@ async function doKuld(e, urlap, MyEvent){
     for(const btn of urlap.querySelectorAll("*:not(.urlap):not(.retn) .kuld, .kuldG")){
         btn.setAttribute("disabled", "");
     }
-    doUrlapAllapotFrissites(allapotKijelzok, "Küldés folyamatban...");
+    exportedMethods.doUrlapAllapotFrissites(allapotKijelzok, "Küldés folyamatban...");
     const response = "";// await exampleREST(tr, urlap.getAttribute("method"), jsonValue["oth"], jsonValue["ca"], jsonValue["ce"])
-    doUrlapAllapotFrissites(allapotKijelzok, "Küldés sikeres!");
-   
+    exportedMethods.doUrlapAllapotFrissites(allapotKijelzok, "Küldés sikeres!");
+    console.log(jsonValue)
     for(const btn of urlap.querySelectorAll("*:not(.urlap):not(.retn) .kuld, .kuldG")){
         btn.removeAttribute("disabled");
     }
     if(MyEvent && response.startsWith("res:") && !sikeresKeres){
         const tres = response.replace("res:", "");
         for(const retn of document.querySelectorAll(`[name=${urlap.getAttribute('name')}].retn`)){
-            doUjratolt(retn, tres);
+            exportedEvents.doUjratolt(retn, tres);
         }
         doFrissit();
         eventTarget.dispatchEvent(MyEvent);
@@ -260,277 +241,16 @@ async function doKuld(e, urlap, MyEvent){
     else{
         const presentationLayer = "alma;korte;szilva|||1:::Érd:::P:::N:::;;;2:::V:::6:::666:::"
         for(const retn of document.querySelectorAll(`[name=${urlap.getAttribute('name')}].retn`)){
-            doUjratolt(retn, presentationLayer, "text", "Ürlap");
-           // doFrissit();
+            exportedEvents.doUjratolt(retn, presentationLayer, "text", "Ürlap");
         }
+        doFrissit();
+        exportedMethods.doEnvAutoJumpJelenet(urlap, "NextToIfSuccess");
     }
     if(MyEvent) {    
         eventTarget.dispatchEvent(MyEvent);
     }
 }
-async function doRetnKijelolteketTorol(e){
-    for(;;){
-    }
-}
-async function doRetnRowTorol(e, retnrow, cAs = []){
-    // azonosítási adatok összegyűjtése <0>
-    const cAJSON = {};
-    const fieldsJSON = JSON.parse(retnrow.dataset.fieldsJSON);
-    for(const cA of cAs){
-        cAJSON[cA] = fieldsJSON[cA]; 
-    }
-    //exampleREST("query", "delete", {}, cAJSON);
-}
-function doRetnRowSzerkeszt(e, retnrow, ca, ce){
-    //Szerkeszthető mezők kijelölése
-}
-async function doRetnRowKuldSzerkesztes(e){
-    //Szerkesztett mezők összegyűjtése
-}
-function doRetnRowMegseSzerkeszt(e){
-    
-}
-let hana = 0;
-function doFrissit(retns=document.querySelectorAll("[value].retn:not([name])"), tere){
-    /**/
-  
-    for(let i = retns.length-1; i > -1 ; i--){
-        console.log(i)
-        const adatsorrend = retns[i].getAttribute("data-adatsorrend") || "*";
-        const jsonResponse = "al;ko;szil|||1:::ajkarepo:::ala:::;;;1:::uqherguear:::ame;;;2:::argergoekq:::NN:::;;;1:::aareerear:::RR"//await exampleREST(retn.getAttribute("value"), "get", {/*visszakért oszlopnevek*/}); 
-        whataf(retns[i], jsonResponse, retns[i].getAttribute("data-resposetype") || "text", "Frissit");        
-    }
-   // hana=0;
-}
 
-
-function doUjratolt(retn, responseInput="", responseInputType="text", tere){
-    doFrissit(retn.querySelectorAll(":scope>.immler>.retnrow .retn"), "LER");
-    whataf(retn, responseInput, responseInputType, tere);
-    for(const retnmain of retn.querySelectorAll(":scope>.immler .retnmain")){
-        retnmain.innerHTML = '';
-    }
-    doAddEventsToARetn(retn);
-}
-
-function whataf(retn, responseInput="", responseInputType="text", tere){
-    let fullText = "";
-    const retnID = retn.getAttribute("retnID");
-    // const mezNames = retn.getAttribute("data-adatsorrend");
-    hana++;
-    console.log("HANAAAAAAAA: " + hana);
-    console.log(responseInput)
-    const retnheaderD = retn.querySelector(":scope>.immler>.retnheader")?.cloneNode(true);
-    const resPlit = responseInput.split(";;;");
-    const r2 = resPlit[0].split("|||");
-    const adatsorrend = r2 && r2.length > 1 ? r2[0].split(";") : [];
-    if(r2 && r2.length>1) resPlit[0] = r2[1]; 
-
-    const retnrowD = retn.querySelector(":scope>.immler>.retnrow")?.cloneNode(true);
-    if(retnheaderD){
-        if(adatsorrend){
-            retnheaderD.value="-1";
-            for(const mez of retnheaderD.querySelectorAll(".mez")){
-                const mezContent = mez.getAttribute("dtag");    
-                mez.innerHTML = !isNaN(mezContent) ? adatsorrend[mezContent] : "null";
-            }
-            fullText += retnheaderD.outerHTML;
-        }
-    }
-    
-    if(retnrowD){
-        console.log("Eddig eljut?: " + hana)
-        for(const retnaa of retnrowD.querySelectorAll(".retn")){
-            for(const immler of retnaa.querySelectorAll(".immler")){
-                immler.remove();
-            }
-            for(const mez of retnaa.querySelectorAll(".mez")){
-                mez.classList.remove("mez");
-            }
-        }
-      
-        switch(responseInputType){
-            case "text":
-                for(const textRow of resPlit/*responseInput.split(";;;")*/){ // rekordokra bontás
-                    const retnrowDE = retnrowD.cloneNode(true); // Sablon sor clone-ozása
-                    const strA = textRow.split(":::"); // mezőkre bontás
-                    // Eltárolt JSON létrehozása .retn funkciókhoz
-                    const retnRowJSON = {};
-                    for(let i = 0; i < adatsorrend.length; i++){
-                        retnRowJSON[adatsorrend[i]] = strA[i];
-                    }
-                    retnrowDE.dataset.fiel = JSON.stringify(retnRowJSON);
-                    // .retn mezők beállítása
-                    for(const mez of retnrowDE.getElementsByClassName("mez")){
-                        const mezContent = mez.getAttribute("dtag");
-                        mez.innerHTML = !isNaN(mezContent) ? strA[Number(mezContent)] + ": " + tere +"-" + hana : "null: " + tere;
-                    }
-                    // No Comment...
-                    for(const retnaa of retnrowDE.querySelectorAll(".retn")){
-                        const sorszures = retnaa.getAttribute("data-clwhere")?.split(";") || ""; //client side
-                        // cl check
-                        for(let i = 0; i<sorszures.length; i++){
-                            const r2 = sorszures[i].split("=");
-                            if(!(sorszures.length > 0 && r2.length > 1 && retnRowJSON[r2[1]])){
-                                sorszures.splice(i,1);
-                                i--;
-                            }
-                        }
-                        for(const retnrowAA of retnaa.querySelectorAll(":scope > .retnmain > .retnrow")){
-                            const childData = JSON.parse(retnrowAA.dataset.fiel);
-                            let both = true;
-                            
-                           // console.log("CHILD: ")
-                           // console.log(childData);
-                           // console.log(retnRowJSON);
-                            
-                            for(let i = 0; i < sorszures.length && both; i++){
-                                const ye = sorszures[i].split("=");
-                           //   console.log("AAAAA: " + sorszures[i])
-                            //   console.log(ye[0]+":"+ye[1]);
-                            //   console.log(childData[ye[0]] +":"+retnRowJSON[ye[1]])
-                                both = childData[ye[0]] === retnRowJSON[ye[1]];
-                            //  console.log(hana)
-                            //  console.log(both)
-                            }
-                        //    console.log(both);
-                            if(!both){ 
-                                //   retnrowAA.style.setProperty("background-color", "red");
-                                retnrowAA.remove()
-                            }
-                        }
-                    }
-                    //.retn láthatatlan értékek beállítása
-                    if(retnrowDE.value) retnrowDE.value = !isNaN(retnrowDE.value) ? strA[Number(retnrowDE.value)] : "-1";
-                    for(const tagValue of retnrowDE.querySelectorAll("[value]:not([value=''])")){
-                        const tagValueContent = tagValue.getAttribute("ntag");
-                        tagValue.value = !isNaN(tagValueContent) ? strA[Number(tagValueContent)] : "";
-                    }
-                    fullText += retnrowDE.outerHTML;
-                }
-                // retn jelölések törlése a 
-                for(const retnaa of retnrowD.querySelectorAll(".retn")){
-                    retnaa.classList.remove("retn");
-                }
-                break;
-        // ELAVULT:
-        /*   case "json":
-                for(const jsonItem of responseInput){
-                    const retnrowDE = retnrowD.cloneNode(true);
-                    for(const mez of retnrowDE.getElementsByClassName("mez")){
-                        mez.innerHTML = jsonItem[mez.textContent];
-                    }
-                    for(const tagValue of retnrowDE.querySelectorAll("[value]:not([value=''])")){
-                        const tagValueContent = tagValue.getAttribute("value");
-                        tagValue.value = jsonItem[tagValueContent];
-                    }
-                    fullText += retnrowDE.outerHTML;
-                }
-                break;*/
-       }
-      // console.log(retnrowD.outerHTML)
-    }
-    
-    for(const retnmain of retn.querySelectorAll(":scope > .retnmain")){
-        retnmain.innerHTML = fullText;
-    }
-}
-
-function doRefreshRetnEvents(min=document.getElementsByClassName("retn")){
-     //Retn
-     for(const retn of min){
-        doAddEventsToARetn(retn);
-     }
-}
-
-function doAddEventsToARetn(retn){
-    const retnHeaders = retn.querySelectorAll(":scope > .retnmain > .retnheader");
-    const retnRows = retn.querySelectorAll(":scope > .retnmain > .retnrow");
-    const retnCA = retn.getAttribute("data-azon")?.split(";");
-    const retnCE = retn.getAttribute("data-edit");
-    if(retnHeaders && retnHeaders[0]){
-        exportedMethods.doMindenhezHozzaad(
-            retnHeaders[0].getElementsByClassName("deleteall"), 
-            [doRetnKijelolteketTorol], 
-            "indexRetnAllDelete", []
-        );
-    }
-    for(const retnRow of retnRows){
-        exportedMethods.doMindenhezHozzaad(
-            retnRow.getElementsByClassName("delete"),
-            [doRetnRowTorol],
-            "indexRetnRowDelete",
-            [retnRow, ["korte"]]
-        );
-        exportedMethods.doMindenhezHozzaad(
-            retnRow.getElementsByClassName("edit"),
-            [doRetnRowSzerkeszt],
-            "indexRetnRowEdit",
-            [retnRow, retnCA, retnCE]
-        );
-      /*  exportedMethods.doMindenhezHozzaad(
-            retnRow.getElementsByClassName("editsend"),
-            [doRetnRowKuldSzerkesztes],
-            "indexRetnRowEditSend",
-            []
-        );
-        exportedMethods.doMindenhezHozzaad(
-            retnRow.getElementsByClassName("canceledit"),
-            [doRetnRowMegseSzerkeszt],
-            "indexRetnRowCancelEdit",
-            []
-        );*/
-    }
-    exportedMethods.doaddIDTo(retn, "film", retn.id+"retf_");
-    eventTarget.dispatchEvent(new Event("actionRetnFrissul"));
-
-}
-function doUrlapAllapotFrissites(mezok, szoveg){
-    for(const mezo of mezok){
-        mezo.innerHTML = szoveg;
-    }
-}
-function getMethodStoreObjectWithReturns(jsonAktuels){
-    const localAktuels = {};
-    for(const key in jsonAktuels){
-        localAktuels[key] = aktuels[key]();
-    }
-    return localAktuels;
-}
-async function getUrlapJSONs(urlap){
-    const myUrlap = urlap.querySelectorAll("* [name]:not([name=''])");
-    const jsonValue = {};
-    for(const mezo of myUrlap){
-        const mezofieldType = mezo.getAttribute("data-fieldtype") || "ce";
-        if(!jsonValue[mezofieldType]) jsonValue[mezofieldType] = {};
-        if (typeof mezo.name !== "string" || mezo.name.trim() === "") mezo.name="";
-        if(jsonValue[mezofieldType] && mezo.name.length > 0) jsonValue[mezofieldType][mezo.name] = mezo.type !== "checkbox" ? (mezo.classList.contains("chr") ? await getCryptoHash(mezo.value) : mezo.value) : mezo.checked;
-    }
-    return await jsonValue;
-}
-function getValueFromAll(Cname="", jsonValue={}, localAktuels={}){
-    let oText = "";
-    const mezoTagG = Cname.split("-");
-    if(mezoTagG.length > 1 && !isNaN(mezoTagG[0])){
-        switch(Number(mezoTagG[0])){
-            case 0:
-                oText = jsonValue[mezoTagG[2] ? mezoTagG[2] : "ce"][mezoTagG[1]] || "";
-                break;
-            case 1:
-                oText = getValueFromLocalStorage(mezoTagG[1]) || "";
-                break;
-            case 2:
-                oText = localAktuels[mezoTagG[1]] || "";
-                break;
-        }
-    }
-    return mezoTagG.length > 2 && !isNaN(mezoTagG[2]) ?
-        oText.split(";")[Number(mezoTagG[2])] || "" : oText;
-}
-function getValueFromLocalStorage(Cname){
-    return localStorage.getItem(Cname) || "null";
-}
-async function getCryptoHash(text){
-    const buffer = await crypto.subtle.digest("SHA-512", new TextEncoder().encode(text));
-    return Array.from(new Uint8Array(buffer)).map(b => b.toString(16).padStart(2, "0")).join("")
+function doFrissit(retns=document.querySelectorAll("[value].retn:not([name])")){
+    exportedEvents.doFrissit(retns);
 }
