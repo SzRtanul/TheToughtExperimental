@@ -49,14 +49,20 @@ function doMindenhezHozzaad(mikhez, methods=[], eventID="", parameters=[], event
                 elem.dataset.events && 
                 exportedMethods.isBenneVan(elem.dataset.events.split(";"), eventID))
         ){
-            elem.addEventListener(elem.getAttribute(eventID+"event") || eventtipus, async function(e){
-                let both = true;
-                for(let i = 0; i < methods.length && both; i++){
-                    const pr = parameters[i] ?? [];
-                    const parame = await methods[i](e, ...pr);
-                    both = typeof parame === "boolean" ? parame : true;
-                }
-            });
+            const eventcharchain = (elem.getAttribute(eventID+"Event") ?? eventtipus) || "";
+            const eventtypeslist = eventcharchain.split(';') ?? [];
+            for(let i = 0; i<eventtypeslist.length; i++){
+                console.log(eventtypeslist[i])
+                elem.addEventListener(eventtypeslist[i], async function(e){
+                    let both = true;
+                    for(let i = 0; i < methods.length && both; i++){
+                        const pr = parameters[i] ?? [];
+                        const parame = await methods[i](e, ...pr);
+                        both = typeof parame === "boolean" ? parame : true;
+                    }
+                    console.log(eventtypeslist[i])
+                });
+            }
             if(!elem.dataset.events) elem.dataset.events = "";
             if(eventID.length > 0) elem.dataset.events += eventID + ";";
         }

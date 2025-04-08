@@ -30,7 +30,9 @@
         value="ujvacsora"
         nextToIfSuccess="scen:0;diszlet:1"
         action="hozzaadasutan" 
-        method="get">
+        method="get"
+        disp="enekhang"
+    >
         <div class="scene sceneI scen scen0">
             <button id="kirakat" class="aktuel kirakat" nextTo="scen:1">Étkezés hozzáadása</button>
         </div>
@@ -50,7 +52,7 @@
                 <button class="aktuel" id="">Aktuális dátum</button>
                 <button class="kuld">Étkezés hozzáadása</button>
             </div>
-        </div>    
+        </div>
     </div>
 
     <div class="scene diszlet diszlet1">
@@ -67,11 +69,16 @@
                     innerjoin="ottlaka-holID;"
                 >
                     <div class="immler">
-                        <option class="retnrow" tag="0" value="">1</option>
+                        <option 
+                            class="retnrow" 
+                            ntag="0"
+                            value=""
+                        >
+                            <span class="mez" dtag="2" >ERAN</span>
+                        </option>
                     </div>
-                    <select class="retnmain" name="id" id=""></select>
+                    <select class="retnmain kuld remt" name="id" indexKuldEvent="change;enekhang"></select>
                 </div>
-                <button class="kuld">Küld</button>
             </div>
             <div 
                 class="retn" 
@@ -82,7 +89,7 @@
                     <div class="retnrow">
                         <div class="mez" dtag="0">null</div>
                         <div class="film">
-                            <button 
+                            <button
                                 class="scene sceneI scen scen0 mez" 
                                 nextTo="scen:1"
                                 dtag="1"
@@ -258,24 +265,25 @@
     <div class="immler">
         <div class="retnrow">
             <legend>
-                 <p class="mez">datum</p>
+                 <p class="mez" dtag="1">datum</p>
                  <p class="mez">alany</p>
                  <p class="mez">let</p>
             </legend>
         </div>
     </div>
+    EE
     <div class="retnmain">
 
     </div>
 </div>
-
+ENA
 <div name="ujetkezes" class="retn" data-responsetype="json">
     <div class="immler">
         <div class="retnrow">
             <legend>
-                 <p class="mez">datum</p>
-                 <p class="mez">alany</p>
-                 <p class="mez">let</p>
+                 <p class="mez" dtag="1">datum</p>
+                 <p class="mez" dtag="2">alany</p>
+                 <p class="mez" dtag="0">let</p>
             </legend>
      </div>
     </div>
@@ -288,9 +296,9 @@
     <div class="immler">
         <div class="retnrow">
             <legend>
-                 <p class="mez">1</p>
-                 <p class="mez">2</p>
-                 <p class="mez">0</p>
+                 <p class="mez" dtag="1">1</p>
+                 <p class="mez" dtag="2">2</p>
+                 <p class="mez" dtag="0">0</p>
             </legend>
      </div>
     </div>

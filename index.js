@@ -1,5 +1,5 @@
 import { eventTarget, exportedMethods } from "./js/globaldata.js";
-import { exportedEvents } from "./js/global/events.js";
+import { exportedRetnMethods } from "./js/global/events.js";
 const serverhost = "http://experimental.local:18080/";
 const content = document.getElementsByTagName("main")[0];
 const fieldDataTypes = {
@@ -7,8 +7,9 @@ const fieldDataTypes = {
     korte: "date"
 }
 let currentRequest = null;
-callSite("mitettemma");
-
+console.log(localStorage.getItem("oldal") )
+sessionStorage.setItem("oldal", sessionStorage.getItem("oldal") ?? "mitettemma")
+callSite(sessionStorage.getItem("oldal"));
 //Kísérletek
 //console\.log("MyRegex 2975hfuiHtE".match(/^\w+/)?.[0] || "");
 /*
@@ -85,8 +86,9 @@ function callSite(melyik){
             content.innerHTML = iHTML;
             doCSSAddingToSite();
             doJSAddingToSite();
-            //doFrissit();
             addEvents();
+            doFrissit();
+            sessionStorage.setItem("oldal", melyik);
         } else {
             console.error("Request failed with status:", currentRequest.status);
         }
@@ -149,7 +151,7 @@ export function addEvents(environment=document){
         if(NNretn) retnK = NNretn.getAttribute("id");
         retn.id = retnK + "retn_" + retnIDn;
         retn.style.setProperty("--data-retnID", retnK + "retn_" + retnIDn)
-        exportedEvents.doAddEventsToARetn(retn);
+        exportedRetnMethods.doAddEventsToARetn(retn);
         retnIDn++;
     }
     // Urlap
@@ -233,7 +235,7 @@ async function doKuld(e, urlap, MyEvent){
     if(MyEvent && response.startsWith("res:") && !sikeresKeres){
         const tres = response.replace("res:", "");
         for(const retn of document.querySelectorAll(`[name=${urlap.getAttribute('name')}].retn`)){
-            exportedEvents.doUjratolt(retn, tres);
+            exportedRetnMethods.doUjratolt(retn, tres);
         }
         doFrissit();
         eventTarget.dispatchEvent(MyEvent);
@@ -241,16 +243,22 @@ async function doKuld(e, urlap, MyEvent){
     else{
         const presentationLayer = "alma;korte;szilva|||1:::Érd:::P:::N:::;;;2:::V:::6:::666:::"
         for(const retn of document.querySelectorAll(`[name=${urlap.getAttribute('name')}].retn`)){
-            exportedEvents.doUjratolt(retn, presentationLayer, "text", "Ürlap");
+            exportedRetnMethods.doUjratolt(retn, presentationLayer, "text", "Ürlap");
         }
-        doFrissit();
+        //doFrissit();
         exportedMethods.doEnvAutoJumpJelenet(urlap, "NextToIfSuccess");
     }
     if(MyEvent) {    
         eventTarget.dispatchEvent(MyEvent);
     }
+    const dipes = urlap.getAttribute("disp") ?? "";
+    for(const dipe of dipes.split(';')) {
+        for(const vutton of document.querySelectorAll(".remt:not(.immler *)")){
+            vutton.dispatchEvent(new Event(dipe));
+        }
+    }
 }
 
 function doFrissit(retns=document.querySelectorAll("[value].retn:not([name])")){
-    exportedEvents.doFrissit(retns);
+    exportedRetnMethods.doFrissit(retns);
 }
