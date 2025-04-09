@@ -1,4 +1,5 @@
 import { addEvents } from "../../index.js";
+import { exportedMethods } from "../globaldata.js";
 
 export const exportedRetnMethods = {
     doAddEventsToARetn: doAddEventsToARetn,
@@ -66,7 +67,7 @@ function whataf(retn, responseInput="", responseInputType="text"){
                     }
                     retnrowDE.dataset.fiel = JSON.stringify(retnRowJSON);
                     // .retn mezők beállítása
-                    for(const mez of retnrowDE.querySelectorAll(".mez:not(.retn.our .mez)")){
+                    for(const mez of retnrowDE.querySelectorAll("[dtag]:not([dtag='']):not(.retn.our *)")){
                         const mezContent = mez.getAttribute("dtag");
                         mez.innerHTML = mezContent && !isNaN(mezContent) ? strA[Number(mezContent)]: "null";
                     }
@@ -97,7 +98,7 @@ function whataf(retn, responseInput="", responseInputType="text"){
                     //.retn láthatatlan értékek beállítása
                     const rDEntag = retnrowDE.getAttribute("ntag");
                     if(retnrowDE.getAttribute("ntag")) retnrowDE.value = rDEntag && !isNaN(rDEntag) ? strA[Number(rDEntag)] : "-1";
-                    for(const tagValue of retnrowDE.querySelectorAll("[ntag]:not([ntag=''])")){
+                    for(const tagValue of retnrowDE.querySelectorAll("[ntag]:not([ntag='']):not(.retn.our *)")){
                         const tagValueContent = tagValue.getAttribute("ntag");
                         //console\.log("EEEEEE: " + !isNaN(tagValueContent));
                         const tagVal = tagValueContent && !isNaN(tagValueContent) ? 
@@ -136,43 +137,48 @@ function whataf(retn, responseInput="", responseInputType="text"){
     }
 }
 
-function doAddEventsToARetn(retn){
+function doAddEventsToARetn(retn, prot){
     const retnHeaders = retn.querySelectorAll(":scope > .retnmain > .retnheader");
     const retnRows = retn.querySelectorAll(":scope > .retnmain > .retnrow");
     const retnCA = retn.getAttribute("data-azon")?.split(";");
     const retnCE = retn.getAttribute("data-edit");
+    
+   /* */
+    
     if(retnHeaders && retnHeaders[0]){
         exportedMethods.doMindenhezHozzaad(
-            retnHeaders[0].getElementsByClassName("deleteall"), 
+            retnHeaders[0].querySelectorAll(".deleteall"+prot), 
             [doRetnKijelolteketTorol], 
-            "indexRetnAllDelete", []
+            "indexRetnAllDelete", [[]]
         );
     }
     for(const retnRow of retnRows){
         exportedMethods.doMindenhezHozzaad(
-            retnRow.getElementsByClassName("delete"),
+            retnRow.querySelectorAll(".delete"+prot),
             [doRetnRowTorol],
             "indexRetnRowDelete",
-            [retnRow, ["korte"]]
+            [[retnRow, ["korte"]]]
         );
         exportedMethods.doMindenhezHozzaad(
-            retnRow.getElementsByClassName("edit"),
+            retnRow.querySelectorAll(".edit"+prot),
             [doRetnRowSzerkeszt],
             "indexRetnRowEdit",
-            [retnRow, retnCA, retnCE]
+            [[retnRow, retnCA, retnCE]]
         );
-        /*  exportedMethods.doMindenhezHozzaad(
-            retnRow.getElementsByClassName("editsend"),
-            [doRetnRowKuldSzerkesztes],
-            "indexRetnRowEditSend",
-            []
+        /*  
+            exportedMethods.doMindenhezHozzaad(
+                retnRow.querySelectorAll(".editsend"+prot),
+                [doRetnRowKuldSzerkesztes],
+                "indexRetnRowEditSend",
+                [[]]
             );
             exportedMethods.doMindenhezHozzaad(
-                retnRow.getElementsByClassName("canceledit"),
+                retnRow.querySelectorAll(".canceledit"+prot),
                 [doRetnRowMegseSzerkeszt],
                 "indexRetnRowCancelEdit",
-                []
-        );*/
+                [[]]
+            );
+        */
     } 
 }
 

@@ -68,6 +68,7 @@
                     data-adatsorrend="id, datum"
                     innerjoin="ottlaka-holID;"
                 >
+                    <button class="refreshall">Újratölt</button>
                     <div class="immler">
                         <option 
                             class="retnrow" 

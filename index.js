@@ -151,7 +151,7 @@ export function addEvents(environment=document){
         if(NNretn) retnK = NNretn.getAttribute("id");
         retn.id = retnK + "retn_" + retnIDn;
         retn.style.setProperty("--data-retnID", retnK + "retn_" + retnIDn)
-        exportedRetnMethods.doAddEventsToARetn(retn);
+        exportedRetnMethods.doAddEventsToARetn(retn, prot);
         retnIDn++;
     }
     // Urlap
@@ -205,6 +205,11 @@ export function addEvents(environment=document){
         [exportedMethods.actionableAutoJumpJelenet], "filmAutoJump"
     );
 
+    exportedMethods.doMindenhezHozzaad(
+        environment.querySelectorAll(".refreshall"+prot), 
+        [actionableDoFrissit], 
+        "indexRefresh", []
+    );
 }
 
 //Kuld
@@ -259,6 +264,10 @@ async function doKuld(e, urlap, MyEvent){
     }
 }
 
-function doFrissit(retns=document.querySelectorAll("[value].retn:not([name])")){
+function actionableDoFrissit(e, retns){
+    doFrissit(retns);
+}
+
+function doFrissit(retns=document.querySelectorAll("[value].retn:not([name]:not(.retn.bigboose))")){
     exportedRetnMethods.doFrissit(retns);
 }
