@@ -52,7 +52,7 @@ function doMindenhezHozzaad(mikhez, methods=[], eventID="", parameters=[], event
             const eventcharchain = (elem.getAttribute(eventID+"Event") ?? eventtipus) || "";
             const eventtypeslist = eventcharchain.split(';') ?? [];
             for(let i = 0; i<eventtypeslist.length; i++){
-                console.log(eventtypeslist[i])
+                //console.log(eventtypeslist[i])
                 elem.addEventListener(eventtypeslist[i], async function(e){
                     let both = true;
                     for(let i = 0; i < methods.length && both; i++){
@@ -60,7 +60,7 @@ function doMindenhezHozzaad(mikhez, methods=[], eventID="", parameters=[], event
                         const parame = await methods[i](e, ...pr);
                         both = typeof parame === "boolean" ? parame : true;
                     }
-                    console.log(eventtypeslist[i])
+                   // console.log(eventtypeslist[i])
                 });
             }
             if(!elem.dataset.events) elem.dataset.events = "";

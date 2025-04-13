@@ -26,12 +26,24 @@
 <div class="film" cim="nemonyomaban">
     <div 
         class="urlap scene sceneI diszlet diszlet0" 
-        name="ujvacsora" 
-        value="ujvacsora"
-        nextToIfSuccess="scen:0;diszlet:1"
-        action="hozzaadasutan" 
+        value="callquery"
         method="get"
+        nextToIfSuccess="scen:0;diszlet:1"
+        name="ujvacsora"
+        action="hozzaadasutan"
         disp="enekhang"
+        
+        db-tablenames="geratan;alakte"
+        db-columnames="elekta;avi;com;gera"
+        db-usedMethods="public.helloworld"
+        db-groupby="elekta;avi"
+        db-columnMethods="sum;avg"
+        db-columnMethodsParametersWithNumber="&2 - 55:&3 - 66;&2 + 67:&3 - 78";
+        db-innerjoin="alaktese-aleID-id;annekt-anneID-id"
+        db-where=""
+        db-having=""
+
+        urlap-db-ca-mezoviszony="datum&&valamimas"
     >
         <div class="scene sceneI scen scen0">
             <button id="kirakat" class="aktuel kirakat" nextTo="scen:1">Étkezés hozzáadása</button>
