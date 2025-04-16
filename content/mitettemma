@@ -22,18 +22,21 @@
 </ul>
 
 
-
+<div class="urlap" value="login" method="get" useRespInEvent action="logined">
+    <button class="kuld">Login</button>
+</div>
 <div class="film" cim="nemonyomaban">
     <div 
         class="urlap scene sceneI diszlet diszlet0" 
-        value="callquery"
-        method="get"
+        value="pelda/13"
+        method="post"
         nextToIfSuccess="scen:0;diszlet:1"
         name="ujvacsora"
         action="hozzaadasutan"
         disp="enekhang"
         
-        db-tablenames="geratan;alakte"
+        db-updatesets=""
+        db-tablenames="geratan;alakte" 
         db-columnames="elekta;avi;com;gera"
         db-usedMethods="public.helloworld"
         db-groupby="elekta;avi"

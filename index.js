@@ -45,7 +45,11 @@ const str = 'revenue895erwhgh9reji#íKDSFKI9ÜW'
 async function exampleREST(honnan="", method="GET", others={}, cAzon={}, cEdit={}){
     const fetchJSON = {
         method: method.toUpperCase(),
+        //wittCredentials: true,
+        //credentials: "include",
         headers: {
+            //'Cache-Control': 'no-cache',
+            cache: 'no-store',
             ContentType: 'application/text',
             Accept: '',
             Others: others
@@ -224,14 +228,14 @@ async function doKuld(e, urlap, MyEvent){
         tr += strE.startsWith("$") ?
             ((jsonValue[strEs1] && jsonValue[strEs1][strEs[0].replace("$", "")]) ||
              "null") +"/" : strE + "/";
-        tr = tr.substring(0, tr.length-1);
     }
+    tr = tr.substring(0, tr.length-1);
     let sikeresKeres = false;
     for(const btn of urlap.querySelectorAll("*:not(.urlap):not(.retn) .kuld, .kuldG")){
         btn.setAttribute("disabled", "");
     }
     exportedMethods.doUrlapAllapotFrissites(allapotKijelzok, "Küldés folyamatban...");
-    const response = "";// await exampleREST(tr, urlap.getAttribute("method"), jsonValue["oth"], jsonValue["ca"], jsonValue["ce"])
+    const response = await exampleREST(tr, urlap.getAttribute("method") || "get", jsonValue["oth"], jsonValue["ca"], jsonValue["ce"])
     exportedMethods.doUrlapAllapotFrissites(allapotKijelzok, "Küldés sikeres!");
     console.log(jsonValue)
     for(const btn of urlap.querySelectorAll("*:not(.urlap):not(.retn) .kuld, .kuldG")){
@@ -242,8 +246,17 @@ async function doKuld(e, urlap, MyEvent){
         for(const retn of document.querySelectorAll(`[name=${urlap.getAttribute('name')}].retn`)){
             exportedRetnMethods.doUjratolt(retn, tres);
         }
-        doFrissit();
-        eventTarget.dispatchEvent(MyEvent);
+        //doFrissit();
+        exportedMethods.doEnvAutoJumpJelenet(urlap, "NextToIfSuccess");
+        eventTarget.dispatchEvent(urlap.hasAttribute("useRespInEvent") ? 
+                new CustomEvent("urlapS"+urlapActName, 
+                    {detail: 
+                        {
+                            urlapID: fullID,
+                            response: response
+                        }
+                    }
+                ) : MyEvent);
     }
     else{
         const presentationLayer = "alma;korte;szilva|||1:::Érd:::P:::N:::;;;2:::V:::6:::666:::"
@@ -271,3 +284,7 @@ function actionableDoFrissit(e, retns){
 function doFrissit(retns=document.querySelectorAll("[value].retn:not([name]:not(.retn.bigboose))")){
     exportedRetnMethods.doFrissit(retns);
 }
+
+eventTarget.addEventListener("urlapSlogined", function(e){
+    localStorage("token", e.detail.response);
+});
