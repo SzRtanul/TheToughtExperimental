@@ -25,28 +25,27 @@
 <div class="urlap" value="login" method="get" useRespInEvent action="logined">
     <button class="kuld">Login</button>
 </div>
+<div class="urlap" value="pelda/13" method="post">
+    <button class="kuld">Példa</button>
+</div>
 <div class="film" cim="nemonyomaban">
     <div 
         class="urlap scene sceneI diszlet diszlet0" 
-        value="pelda/13"
+        value="callquery"
         method="post"
-        nextToIfSuccess="scen:0;diszlet:1"
+        nextToIfSuccescs="scen:0;diszlet:1"
         name="ujvacsora"
         action="hozzaadasutan"
-        disp="enekhang"
+        discp="enekhang"
         
-        db-updatesets=""
+        db-updatesets="$-1=$mandarin,$-2="
+        
+        db-schemanames="admin;szotar;sysadmin"
         db-tablenames="geratan;alakte" 
-        db-columnames="elekta;avi;com;gera"
-        db-usedMethods="public.helloworld"
-        db-groupby="elekta;avi"
-        db-columnMethods="sum;avg"
-        db-columnMethodsParametersWithNumber="&2 - 55:&3 - 66;&2 + 67:&3 - 78";
-        db-innerjoin="alaktese-aleID-id;annekt-anneID-id"
-        db-where=""
-        db-having=""
+        db-columnnames="elekta;avi;com;gera"
+        db-methodnames="helloworld"
 
-        urlap-db-ca-mezoviszony="datum&&valamimas"
+        db-query="SELECT * FROM #$1#%1 #%1 .#%1 WHERE #-datum"
     >
         <div class="scene sceneI scen scen0">
             <button id="kirakat" class="aktuel kirakat" nextTo="scen:1">Étkezés hozzáadása</button>

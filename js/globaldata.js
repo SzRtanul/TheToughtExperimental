@@ -192,7 +192,7 @@ async function getUrlapJSONs(urlap){
     const myUrlap = urlap.querySelectorAll("* [name]:not([name=''])");
     const jsonValue = {};
     for(const mezo of myUrlap){
-        const mezofieldType = mezo.getAttribute("data-fieldtype") || "ce";
+        const mezofieldType = mezo.getAttribute("data-fieldtype") || "ca";
         if(!jsonValue[mezofieldType]) jsonValue[mezofieldType] = {};
         if (typeof mezo.name !== "string" || mezo.name.trim() === "") mezo.name="";
         if(jsonValue[mezofieldType] && mezo.name.length > 0) 
@@ -212,7 +212,7 @@ function getValueFromAll(Cname="", jsonValue={}, localAktuels={}){
     if(mezoTagG.length > 1 && !isNaN(mezoTagG[0])){
         switch(Number(mezoTagG[0])){
             case 0:
-                oText = jsonValue[mezoTagG[2] ? mezoTagG[2] : "ce"][mezoTagG[1]] || "";
+                oText = jsonValue[mezoTagG[2] ? mezoTagG[2] : "ca"][mezoTagG[1]] || "";
                 break;
             case 1:
                 oText = getValueFromLocalStorage(mezoTagG[1]) || "";

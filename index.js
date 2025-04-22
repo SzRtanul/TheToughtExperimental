@@ -42,7 +42,17 @@ const str = 'revenue895erwhgh9reji#íKDSFKI9ÜW'
 //console\.log(str, str.hashCode());*/
 ;
 
-async function exampleREST(honnan="", method="GET", others={}, cAzon={}, cEdit={}){
+async function exampleREST(honnan="", 
+    method="GET", 
+    db={
+        schemanames: "",
+        tablenames: "",
+        columnnames: "",
+        methodnames: "",
+        query: ""
+    }, 
+    cAzon={}, cEdit={}
+){
     const fetchJSON = {
         method: method.toUpperCase(),
         //wittCredentials: true,
@@ -52,7 +62,7 @@ async function exampleREST(honnan="", method="GET", others={}, cAzon={}, cEdit={
             cache: 'no-store',
             ContentType: 'application/text',
             Accept: '',
-            Others: others
+           // Others: others
         }
     };
     switch(method.toUpperCase()){
@@ -60,10 +70,11 @@ async function exampleREST(honnan="", method="GET", others={}, cAzon={}, cEdit={
         case "HEAD":
             break;
         default:
-            fetchJSON["body"] = {
-                CAzon: cAzon,
-                CEdit: cEdit
-            };
+                fetchJSON["body"] = JSON.stringify({
+                    CAzon: cAzon,
+                    db: db
+                 //   ,CEdit: cEdit
+                })
             break;
     }
     const response = await fetch(serverhost + honnan, fetchJSON).catch(error => { return null; });
@@ -219,6 +230,13 @@ export function addEvents(environment=document){
 //Kuld
 async function doKuld(e, urlap, MyEvent){
     const jsonValue = await exportedMethods.getUrlapJSONs(urlap);
+    jsonValue["db"] = {
+        schemanames: urlap.getAttribute("db-schemanames") || "",
+        tablenames: urlap.getAttribute("db-tablenames") || "",
+        columnnames: urlap.getAttribute("db-columnnames") || "",
+        methodnames: urlap.getAttribute("db-methodnames") || "",
+        query: urlap.getAttribute("db-query") || "",
+    };
     const allapotKijelzok = urlap.getElementsByClassName("allapot");
     const routG = urlap.getAttribute('value').split("/");
     let tr = "";
@@ -235,7 +253,8 @@ async function doKuld(e, urlap, MyEvent){
         btn.setAttribute("disabled", "");
     }
     exportedMethods.doUrlapAllapotFrissites(allapotKijelzok, "Küldés folyamatban...");
-    const response = await exampleREST(tr, urlap.getAttribute("method") || "get", jsonValue["oth"], jsonValue["ca"], jsonValue["ce"])
+        const response = await exampleREST(tr, urlap.getAttribute("method") || "get", jsonValue["db"], jsonValue["ca"], jsonValue["ce"]
+    );
     exportedMethods.doUrlapAllapotFrissites(allapotKijelzok, "Küldés sikeres!");
     console.log(jsonValue)
     for(const btn of urlap.querySelectorAll("*:not(.urlap):not(.retn) .kuld, .kuldG")){
