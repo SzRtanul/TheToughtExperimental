@@ -253,8 +253,15 @@ async function doKuld(e, urlap, MyEvent){
         btn.setAttribute("disabled", "");
     }
     exportedMethods.doUrlapAllapotFrissites(allapotKijelzok, "Küldés folyamatban...");
-        const response = await exampleREST(tr, urlap.getAttribute("method") || "get", jsonValue["db"], jsonValue["ca"], jsonValue["ce"]
+    //jsonValue["ca"].datum = 2;
+    //
+    // ExampleRest;;
+    //
+    const response = await exampleREST(
+        tr, urlap.getAttribute("method") || "get",
+        jsonValue["db"], jsonValue["ca"], jsonValue["ce"]
     );
+    
     exportedMethods.doUrlapAllapotFrissites(allapotKijelzok, "Küldés sikeres!");
     console.log(jsonValue)
     for(const btn of urlap.querySelectorAll("*:not(.urlap):not(.retn) .kuld, .kuldG")){
@@ -268,14 +275,15 @@ async function doKuld(e, urlap, MyEvent){
         //doFrissit();
         exportedMethods.doEnvAutoJumpJelenet(urlap, "NextToIfSuccess");
         eventTarget.dispatchEvent(urlap.hasAttribute("useRespInEvent") ? 
-                new CustomEvent("urlapS"+urlapActName, 
-                    {detail: 
-                        {
-                            urlapID: fullID,
-                            response: response
-                        }
+            new CustomEvent("urlapS"+urlapActName, 
+                {detail: 
+                    {
+                        urlapID: fullID,
+                        response: response
                     }
-                ) : MyEvent);
+                }
+            ) : MyEvent
+        );
     }
     else{
         const presentationLayer = "alma;korte;szilva|||1:::Érd:::P:::N:::;;;2:::V:::6:::666:::"

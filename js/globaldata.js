@@ -194,15 +194,27 @@ async function getUrlapJSONs(urlap){
     for(const mezo of myUrlap){
         const mezofieldType = mezo.getAttribute("data-fieldtype") || "ca";
         if(!jsonValue[mezofieldType]) jsonValue[mezofieldType] = {};
-        if (typeof mezo.name !== "string" || mezo.name.trim() === "") mezo.name="";
-        if(jsonValue[mezofieldType] && mezo.name.length > 0) 
-            jsonValue[mezofieldType][mezo.name] = 
-                mezo.type !== "checkbox" ? 
-                    (mezo.classList.contains("chr") ? 
-                        await getCryptoHash(mezo.value) : 
-                            mezo.value) : mezo.checked
-            ;
-
+       // if (typeof mezo.name !== "string" || mezo.name.trim() === "") mezo.name="";
+        if(jsonValue[mezofieldType] && mezo.name.length > 0){
+            if(!mezo.classList.contains("woap")){
+                jsonValue[mezofieldType][mezo.name] = 
+                    mezo.type !== "checkbox" ? 
+                        (mezo.classList.contains("chr") ? 
+                            await getCryptoHash(mezo.value) : 
+                            mezo.value) : 
+                        mezo.checked
+                ;
+            }
+            else{
+                let jsonMezoField = JSON.stringify(jsonValue[mezofieldType]);
+                jsonMezoField = jsonMezoField.substring(0, jsonMezoField.length - 1) +
+                    `${Object.keys(jsonValue[mezofieldType]).length > 0 ? "," : ""}`+
+                    `"${mezo.name}":${mezo.type !== "checkbox" ?
+                            mezo.value || null : mezo.checked}}`;
+                console.log(jsonMezoField);
+                jsonValue[mezofieldType] = JSON.parse(jsonMezoField);
+            }
+        }
     }
     return await jsonValue;
 }
