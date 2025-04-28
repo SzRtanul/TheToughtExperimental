@@ -60,8 +60,8 @@ async function exampleREST(honnan="",
         headers: {
             //'Cache-Control': 'no-cache',
             cache: 'no-store',
-            ContentType: 'application/text',
-            Accept: '',
+          //  ContentType: 'application/text',
+          //  Accept: '',
            // Others: others
         }
     };
@@ -71,8 +71,9 @@ async function exampleREST(honnan="",
             break;
         default:
                 fetchJSON["body"] = JSON.stringify({
+                    token: localStorage.getItem("token") || 0,
                     CAzon: cAzon,
-                    db: db
+                    db: db,
                  //   ,CEdit: cEdit
                 })
             break;
@@ -261,7 +262,7 @@ async function doKuld(e, urlap, MyEvent){
         tr, urlap.getAttribute("method") || "get",
         jsonValue["db"], jsonValue["ca"], jsonValue["ce"]
     );
-    
+    console.log(response);
     exportedMethods.doUrlapAllapotFrissites(allapotKijelzok, "Küldés sikeres!");
     console.log(jsonValue)
     for(const btn of urlap.querySelectorAll("*:not(.urlap):not(.retn) .kuld, .kuldG")){
@@ -313,5 +314,5 @@ function doFrissit(retns=document.querySelectorAll("[value].retn:not([name]:not(
 }
 
 eventTarget.addEventListener("urlapSlogined", function(e){
-    localStorage("token", e.detail.response);
+    localStorage.setItem("token", e.detail.response);
 });

@@ -40,12 +40,12 @@
         
         db-updatesets="$-1=$mandarin,$-2="
         
-        db-schemanames="public;admin;szotar;sysadmin"
+        db-schemanames="public"
         db-tablenames="tt;geratan;alakte" 
-        db-columnnames="id;elekta;avi;com;gera"
+        db-columnnames="id;ane;elekta;avi;com;gera"
         db-methodnames="helloworld"
 
-        db-query="SELECT * FROM #$0.#%0 WHERE #-datum"
+        db-query="SELECT * FROM #$0.#%0 WHERE #$0.#%0.#&1 like #-datum"
     >
         <div class="scene sceneI scen scen0">
             <button id="kirakat" class="aktuel kirakat" nextTo="scen:1">Étkezés hozzáadása</button>
@@ -62,7 +62,7 @@
         <div class="scene scen scen2">
             <div class="input-container">
                 <label for="m1-1235235"></label>
-                <input id="m1-1235235" type="number" class="woap" name="datum" tag="2-nowDate-0">
+                <input id="m1-1235235" type="text" class="" name="datum" tag="2-nowDate-0">
                 <button class="aktuel" id="">Aktuális dátum</button>
                 <button class="kuld">Étkezés hozzáadása</button>
             </div>
