@@ -1,14 +1,11 @@
-import { eventTarget, exportedMethods } from "./js/globaldata.js";
+import { serverhost, eventTarget, exportedMethods } from "./js/globaldata.js";
 import { exportedRetnMethods } from "./js/global/events.js";
-const serverhost = "http://experimental.local:18080/";
 const content = document.getElementsByTagName("main")[0];
-const fieldDataTypes = {
-    datum: "date",
-    korte: "date"
-}
+ 
 let currentRequest = null;
-console.log(localStorage.getItem("oldal") )
+console.log("baz: "+ sessionStorage.getItem("oldal"));
 sessionStorage.setItem("oldal", sessionStorage.getItem("oldal") ?? "mitettemma")
+console.log(sessionStorage.getItem("oldal"));
 callSite(sessionStorage.getItem("oldal"));
 //Kísérletek
 //console\.log("MyRegex 2975hfuiHtE".match(/^\w+/)?.[0] || "");
@@ -42,45 +39,6 @@ const str = 'revenue895erwhgh9reji#íKDSFKI9ÜW'
 //console\.log(str, str.hashCode());*/
 ;
 
-async function exampleREST(honnan="", 
-    method="GET", 
-    db={
-        schemanames: "",
-        tablenames: "",
-        columnnames: "",
-        methodnames: "",
-        query: ""
-    }, 
-    cAzon={}, cEdit={}
-){
-    const fetchJSON = {
-        method: method.toUpperCase(),
-        //wittCredentials: true,
-        //credentials: "include",
-        headers: {
-            //'Cache-Control': 'no-cache',
-            cache: 'no-store',
-          //  ContentType: 'application/text',
-          //  Accept: '',
-           // Others: others
-        }
-    };
-    switch(method.toUpperCase()){
-        case "GET":
-        case "HEAD":
-            break;
-        default:
-                fetchJSON["body"] = JSON.stringify({
-                    token: localStorage.getItem("token") || 0,
-                    CAzon: cAzon,
-                    db: db,
-                 //   ,CEdit: cEdit
-                })
-            break;
-    }
-    const response = await fetch(serverhost + honnan, fetchJSON).catch(error => { return null; });
-    return await response ? "res:" + await response.text() : "HIBA: A szerver elérhetetlen.";
-}
 let hanyszor = 0;
 function callSite(melyik){
     //console.clear()
@@ -139,6 +97,13 @@ function getEventName(text){
     return text ? text.toLowerCase()
                         /*.replace(/^\w/, (match) => match.toUpperCase())*/ : "";
 }
+
+function avmi(e){
+    let url = new URL(window.location.href);
+    sessionStorage.setItem("oldal", url.searchParams.get("site"));
+    console.log("KURVAAAAA")
+}
+
 function vmi(e){
     callSite(e.target.name);
 }
@@ -155,9 +120,14 @@ export function addEvents(environment=document){
     const txA = "alma;korte;szilva|||A:::A:::B:::;;;B:::B:::A";
     const contentLinks = environment.getElementsByClassName("contentlink");
     const urlapok = environment.querySelectorAll("[value].urlap"+prot);
+    
     exportedMethods.doMindenhezHozzaad(
-        environment.querySelectorAll(".contentlink"+prot),
-        [vmi], "indexContentLink"
+        environment.querySelectorAll("a.contentlink"+prot),
+        [avmi], "indexAContentLink"
+    );
+    exportedMethods.doMindenhezHozzaad(
+        environment.querySelectorAll("button.contentlink"+prot),
+        [vmi], "indexButtonContentLink"
     );
     let retnIDn = 0;
     // Retn
@@ -182,7 +152,7 @@ export function addEvents(environment=document){
         const urlapVariation = urlap.getAttribute("data-variation") || "";
         const whenSendEvent = urlapActName ? new CustomEvent("urlapS"+urlapActName, {detail: {urlapID: fullID}}) : null;
         const whenAktuelEvent = urlapActName ? new CustomEvent("urlapA"+urlapActName, {detail: {urlapID: fullID}}) : null;
-
+        
         exportedMethods.doMindenhezHozzaad(
             urlap.querySelectorAll(".aktuel"+prot),
             [exportedMethods.doAktuel], "indexAktuel",
@@ -190,7 +160,7 @@ export function addEvents(environment=document){
         );
         exportedMethods.doMindenhezHozzaad(
             urlap.querySelectorAll(".kuld"+prot),
-            [doKuld], "indexKuld",
+            [ron], "indexKuld",
             [[urlap, whenSendEvent]]
         );
         exportedMethods.doMindenhezHozzaad(
@@ -228,6 +198,12 @@ export function addEvents(environment=document){
     );
 }
 
+function ron(e, urlap, MyEvent){
+  /*  for(let i = 0; i<1000; i++){
+        doKuld(e, urlap, MyEvent);
+    }*/
+}
+
 //Kuld
 async function doKuld(e, urlap, MyEvent){
     const jsonValue = await exportedMethods.getUrlapJSONs(urlap);
@@ -258,8 +234,8 @@ async function doKuld(e, urlap, MyEvent){
     //
     // ExampleRest;;
     //
-    const response = await exampleREST(
-        tr, urlap.getAttribute("method") || "get",
+    const response = await exportedMethods.exampleREST(
+        tr, urlap.getAttribute("method") || "post",
         jsonValue["db"], jsonValue["ca"], jsonValue["ce"]
     );
     console.log(response);
@@ -268,13 +244,24 @@ async function doKuld(e, urlap, MyEvent){
     for(const btn of urlap.querySelectorAll("*:not(.urlap):not(.retn) .kuld, .kuldG")){
         btn.removeAttribute("disabled");
     }
-    if(MyEvent && response.startsWith("res:") && !sikeresKeres){
+    if(!sikeresKeres){
         const tres = response.replace("res:", "");
         for(const retn of document.querySelectorAll(`[name=${urlap.getAttribute('name')}].retn`)){
             exportedRetnMethods.doUjratolt(retn, tres);
         }
         //doFrissit();
         exportedMethods.doEnvAutoJumpJelenet(urlap, "NextToIfSuccess");
+       
+    }
+    else{
+        const presentationLayer = "alma;korte;szilva|||1:::Érd:::P:::N:::;;;2:::V:::6:::666:::"
+        for(const retn of document.querySelectorAll(`[name=${urlap.getAttribute('name')}].retn`)){
+            await exportedRetnMethods.doUjratolt(retn, presentationLayer, "text", "Ürlap");
+        }
+        //doFrissit();
+        exportedMethods.doEnvAutoJumpJelenet(urlap, "NextToIfSuccess");
+    }
+    if(MyEvent) {    
         eventTarget.dispatchEvent(urlap.hasAttribute("useRespInEvent") ? 
             new CustomEvent("urlapS"+urlapActName, 
                 {detail: 
@@ -286,17 +273,6 @@ async function doKuld(e, urlap, MyEvent){
             ) : MyEvent
         );
     }
-    else{
-        const presentationLayer = "alma;korte;szilva|||1:::Érd:::P:::N:::;;;2:::V:::6:::666:::"
-        for(const retn of document.querySelectorAll(`[name=${urlap.getAttribute('name')}].retn`)){
-            exportedRetnMethods.doUjratolt(retn, presentationLayer, "text", "Ürlap");
-        }
-        //doFrissit();
-        exportedMethods.doEnvAutoJumpJelenet(urlap, "NextToIfSuccess");
-    }
-    if(MyEvent) {    
-        eventTarget.dispatchEvent(MyEvent);
-    }
     const dipes = urlap.getAttribute("disp") ?? "";
     for(const dipe of dipes.split(';')) {
         for(const vutton of document.querySelectorAll(".remt:not(.immler *)")){
@@ -305,12 +281,12 @@ async function doKuld(e, urlap, MyEvent){
     }
 }
 
-function actionableDoFrissit(e, retns){
-    doFrissit(retns);
+async function actionableDoFrissit(e, retns){
+    await doFrissit(retns);
 }
 
-function doFrissit(retns=document.querySelectorAll("[value].retn:not([name]:not(.retn.bigboose))")){
-    exportedRetnMethods.doFrissit(retns);
+async function doFrissit(retns=document.querySelectorAll("[value].retn:not([name]:not(.retn.bigboose))")){
+    await exportedRetnMethods.doFrissit(retns);
 }
 
 eventTarget.addEventListener("urlapSlogined", function(e){

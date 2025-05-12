@@ -1,6 +1,7 @@
 import { addEvents } from "../../index.js";
 import { exportedMethods } from "../globaldata.js";
 
+
 export const exportedRetnMethods = {
     doAddEventsToARetn: doAddEventsToARetn,
     doFrissit: doFrissit,
@@ -8,17 +9,23 @@ export const exportedRetnMethods = {
     whataf: whataf
 }
 
-function doFrissit(retns){
+async function doFrissit(retns){
     /**/
-    for(let i = retns.length-1; i > -1 ; i--){
-        const adatsorrend = retns[i].getAttribute("data-adatsorrend") || "*";
-        const jsonResponse = "al;ko;szil|||1:::ajkarepo:::ala:::;;;1:::uqherguear:::ame;;;2:::argergoekq:::NN:::;;;1:::aareerear:::RR"//await exampleREST(retn.getAttribute("value"), "get", {/*visszakért oszlopnevek*/});
+    
+    for(let i = retns.length-1; i > -1 ; i--){// "al;ko;szil|||1:::ajkarepo:::ala:::;;;1:::uqherguear:::ame;;;2:::argergoekq:::NN:::;;;1:::aareerear:::RR"
+        let dbDat = {
+            schemanames: retns[i].getAttribute("db-schemanames") || "",
+            tablenames: retns[i].getAttribute("db-tablenames") || "",
+            columnnames: retns[i].getAttribute("db-columnnames") || "",
+            methodnames: retns[i].getAttribute("db-methodnames") || "",
+            query: retns[i].getAttribute("db-query") || "",
+        };
+        const jsonResponse = await exportedMethods.exampleREST(retns[i].getAttribute("value"), "post", dbDat, retns[i].getAttribute("db-fieldjson"));
         whataf(retns[i], jsonResponse, retns[i].getAttribute("data-responsetype") || "text", "Frissit");
     }
 }
 
-function doUjratolt(retn, responseInput="", responseInputType="text"){
-    doFrissit(retn.querySelectorAll(":scope>.immler>.retnrow .retn"), "LER");
+async function doUjratolt(retn, responseInput="", responseInputType="text"){
     whataf(retn, responseInput, responseInputType);
     for(const retnmain of retn.querySelectorAll(":scope>.immler .retnmain")){
         retnmain.innerHTML = '';
@@ -26,26 +33,24 @@ function doUjratolt(retn, responseInput="", responseInputType="text"){
     addEvents(retn);
 }
 
+function replaceLast(str, search, replace) {
+    const pos = str.lastIndexOf(search);
+    if (pos === -1) return str;
+    return str.slice(0, pos) + replace + str.slice(pos + search.length);
+}
+
+
 function whataf(retn, responseInput="", responseInputType="text"){
     let fullText = "";
     const retnID = retn.getAttribute("retnID");
     // const mezNames = retn.getAttribute("data-adatsorrend");
     const retnheaderD = retn.querySelector(":scope>.immler>.retnheader")?.cloneNode(true);
-    const resPlit = responseInput.split(";;;");
-    const r2 = resPlit[0].split("|||");
-    const adatsorrend = r2 && r2.length > 1 ? r2[0].split(";") : [];
-    if(r2 && r2.length>1) resPlit[0] = r2[1]; 
+    const resPlit = replaceLast(responseInput, ":::;;;\n", "").split(":::;;;\n");
+    const adatsorrend = retn.getAttribute("adatsorrend")?.split(";");
 
     const retnrowD = retn.querySelector(":scope>.immler>.retnrow")?.cloneNode(true);
     if(retnheaderD){
-        if(adatsorrend){
-            retnheaderD.value="-1";
-            for(const mez of retnheaderD.querySelectorAll(".mez")){
-                const mezContent = mez.getAttribute("dtag");    
-                mez.innerHTML = mezContent && !isNaN(mezContent) ? adatsorrend[mezContent] : "null";
-            }
-            fullText += retnheaderD.outerHTML;
-        }
+        fullText += retnheaderD.outerHTML;
     }
     
     if(retnrowD){
@@ -62,8 +67,16 @@ function whataf(retn, responseInput="", responseInputType="text"){
                     const strA = textRow.split(":::"); // mezőkre bontás
                     // Eltárolt JSON létrehozása .retn funkciókhoz
                     const retnRowJSON = {};
-                    for(let i = 0; i < adatsorrend.length; i++){
-                        retnRowJSON[adatsorrend[i]] = strA[i];
+                    const adn = typeof adatsorrend === "object";
+                    if(adn){
+                        for(let i = 0; i < strA.length; i++){
+                            retnRowJSON[adatsorrend[i] ? adatsorrend[i] : "mez_" + i] = strA[i];
+                        }
+                    }
+                    else{
+                        for(let i = 0; i < strA.length; i++){
+                            retnRowJSON["mez_" + i] = strA[i];
+                        }
                     }
                     retnrowDE.dataset.fiel = JSON.stringify(retnRowJSON);
                     // .retn mezők beállítása

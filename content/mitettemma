@@ -22,7 +22,7 @@
 </ul>
 
 
-<div class="urlap" value="login" method="get" useRespInEvent action="logined">
+<div class="urlap" value="login" useRespInEvent action="logined">
     <button class="kuld">Login</button>
 </div>
 <div class="urlap" value="pelda/13" method="post">
@@ -33,19 +33,18 @@
         class="urlap scene sceneI diszlet diszlet0" 
         value="callquery"
         method="post"
-        nextToIfSuccescs="scen:0;diszlet:1"
+        nextToIfSuccess="scen:0;diszlet:1"
         name="ujvacsora"
         action="hozzaadasutan"
-        discp="enekhang"
+        disp="enekhang"
         
         db-updatesets="$-1=$mandarin,$-2="
         
-        db-schemanames="public"
-        db-tablenames="tt;geratan;alakte" 
-        db-columnnames="id;ane;elekta;avi;com;gera"
-        db-methodnames="helloworld"
-
-        db-query="SELECT * FROM #$0.#%0 WHERE #$0.#%0.#&1 like #-datum"
+        db-schemanames="pg_catalog"
+        db-tablenames="pg_namespace" 
+        db-columnnames="oid;nspname"
+        db-methodnames=""
+        db-query="SELECT * FROM #$0.#%0"
     >
         <div class="scene sceneI scen scen0">
             <button id="kirakat" class="aktuel kirakat" nextTo="scen:1">Étkezés hozzáadása</button>
@@ -73,14 +72,18 @@
         <div class="">
             <div 
                 class="urlap"
-                value="query"
+                value="callquery"
                 name="etkezesek"
+
+                db-schemanames="pg_catalog"
+                db-tablenames="pg_namespace" 
+                db-columnnames="oid;nspname"
+                db-methodnames=""
+                db-query="SELECT * FROM #$0.#%0"
             > <!--Etkezesvalaszto-->
                 <div 
                     class="retn"
-                    value="etkezes"
-                    data-adatsorrend="id, datum"
-                    innerjoin="ottlaka-holID;"
+                    name="ujvacsora"
                 >
                     <button class="refreshall">Újratölt</button>
                     <div class="immler">
@@ -89,15 +92,21 @@
                             ntag="0"
                             value=""
                         >
-                            <span class="mez" dtag="2" >ERAN</span>
+                            <span class="mez" dtag="1" >ERAN</span>
                         </option>
                     </div>
-                    <select class="retnmain kuld remt" name="id" indexKuldEvent="change;enekhang"></select>
+                    <select class="retnmain kuld remt" indexKuldEvent="change;enekhang"></select>
                 </div>
             </div>
             <div 
                 class="retn" 
-                name="etkezesek"
+                value="callquery"
+
+                db-schemanames="pg_catalog"
+                db-tablenames="pg_namespace" 
+                db-columnnames="oid;nspname"
+                db-methodnames=""
+                db-query="SELECT * FROM #$0.#%0"
             >
                 <div class="immler">
                     <p class="retnheader"><span class="mez" dtag="0"></span><span class="mez"dtag="1">1</span></p>
@@ -151,6 +160,10 @@
         <div class="retnrow">
             <p><strong class="mez film">0</strong>:<strong class="mez">1</strong>:<strong class="mez">0</strong></p>
         </div>
+        
+        <div class="retnerror">
+
+        </div>
     </div>
     <div class="retnmain">
 
@@ -170,7 +183,15 @@
 </div>
 
 <h1>Mikor ettem?</h1>
-<div class="retn" value="ujvacsora">
+<div 
+    class="retn" 
+    value="callquery"
+    db-schemanames="pg_catalog"
+    db-tablenames="pg_namespace" 
+    db-columnnames="oid;nspname"
+    db-methodnames=""
+    db-query="SELECT * FROM #$0.#%0"
+>
     <div class="immler">
         <thead class="retnheader">
             <tr>
@@ -316,6 +337,106 @@ ENA
                  <p class="mez" dtag="0">0</p>
             </legend>
      </div>
+    </div>
+    <div class="retnmain">
+
+    </div>
+</div>
+
+<div 
+    name="testRetn" 
+    class="urlap"
+    value="callquery"
+
+    db-schemanames="pg_catalog"
+    db-tablenames="pg_namespace" 
+    db-columnnames="oid;nspname"
+    db-methodnames=""
+    db-query="SELECT * FROM #$0.#%0"
+>
+    <button class="kuld">KK</button>
+</div>
+
+<div name="testRetn" class="retn">
+    <div class="immler">
+        <div class="retnheader">ALAHAMA</div>
+        <div class="retnrow">
+            <p class="mez" dtag="0">0</p>
+            <p class="mez" dtag="1">1</p>
+            <p class="mez" dtag="2">2</p>
+           
+            <div 
+                class="retn" 
+                data-clwhere="mez_0=mez_0" 
+                value="callquery"
+                db-schemanames="pg_catalog"
+                db-tablenames="pg_namespace" 
+                db-columnnames="oid;nspname"
+                db-methodnames=""
+                db-query="SELECT * FROM #$0.#%0"
+            >
+                 <div class="immler">
+                     <div class="retnheader">ALAHAMA</div>
+                     <div class="retnrow">
+                         <p class="mez" dtag="0">0</p>
+                         <p>
+                            <div 
+                                class="retn" 
+                                ata-clwhere="mez_0=mez_0" 
+                                value="callquery"
+                                db-schemanames="pg_catalog"
+                                db-tablenames="pg_namespace" 
+                                db-columnnames="oid;nspname"
+                                db-methodnames=""
+                                db-query="SELECT * FROM #$0.#%0"
+                            >
+                                <div class="immler">
+                                    <div class="retnheader">ALAHAMA</div>
+                                    <div class="retnrow">
+                                        <div class="mez" dtag="0">
+                                            0
+                                        </div>
+                                        <div class="retn" ata-clwhere="fsdfawF=al" value="4">
+                                            <div class="immler">
+                                                <div class="retnheader">ALAHAMA</div>
+                                                <div class="retnrow">
+                                                    <div class="mez" dtag="0">
+                                                        0
+                                                    </div>
+                                                    EE
+                                                </div>
+                                            </div>
+                                            <div class="retnmain">
+                
+                                            </div>
+                                        </div>
+                                        <div class="retn" ata-clwhere="fsdfawF=al" value="4">
+                                            <div class="immler">
+                                                <div class="retnheader">ALAHAMA</div>
+                                                <div class="retnrow">
+                                                    <div class="mez" dtag="0">
+                                                        0
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="retnmain">
+                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="retnmain">
+       
+                                </div>
+                            </div>
+                         </p>
+                     </div>
+                 </div>
+                 <div class="retnmain">
+     
+                 </div>
+             </div>
+        </div>
     </div>
     <div class="retnmain">
 

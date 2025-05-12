@@ -1,4 +1,7 @@
 export let eventTarget = new EventTarget();
+export const serverhost = "http://experimental.local:18080/";
+
+
 let urlapButtons = [];
 let hanyszor = /*Number(localStorage.getItem("ala")) ||*/ 0;
 const aktuels = {
@@ -192,10 +195,10 @@ async function getUrlapJSONs(urlap){
     const myUrlap = urlap.querySelectorAll("* [name]:not([name=''])");
     const jsonValue = {};
     for(const mezo of myUrlap){
-        const mezofieldType = mezo.getAttribute("data-fieldtype") || "ca";
+        const mezofieldType = mezo.dataset.fieldtype || "ca";
         if(!jsonValue[mezofieldType]) jsonValue[mezofieldType] = {};
        // if (typeof mezo.name !== "string" || mezo.name.trim() === "") mezo.name="";
-        if(jsonValue[mezofieldType] && mezo.name.length > 0){
+        if(jsonValue[mezofieldType] && mezo.name && mezo.name.length > 0){
             if(!mezo.classList.contains("woap")){
                 jsonValue[mezofieldType][mezo.name] = 
                     mezo.type !== "checkbox" ? 
@@ -267,6 +270,46 @@ async function doAktuel(e, urlap, MyEvent){
     if(MyEvent) eventTarget.dispatchEvent(MyEvent);
 }
 
+async function exampleREST(honnan="", 
+    method="POST", 
+    db={
+        schemanames: "",
+        tablenames: "",
+        columnnames: "",
+        methodnames: "",
+        query: ""
+    }, 
+    cAzon={}, cEdit={}
+){
+    const fetchJSON = {
+        method: method.toUpperCase(),
+        //wittCredentials: true,
+        //credentials: "include",
+        headers: {
+            //'Cache-Control': 'no-cache',
+            cache: 'no-store',
+          //  ContentType: 'application/text',
+          //  Accept: '',
+           // Others: others
+        }
+    };
+    switch(method.toUpperCase()){
+        case "GET":
+        case "HEAD":
+            break;
+        default:
+                fetchJSON["body"] = JSON.stringify({
+                    token: localStorage.getItem("token") || 5,
+                    CAzon: cAzon,
+                    db: db,
+                 //   ,CEdit: cEdit
+                })
+            break;
+    }
+    const response = await fetch(serverhost + honnan, fetchJSON).catch(error => { return null; });
+    return await response ? "res:" + await response.text() : "HIBA: A szerver elérhetetlen.";
+}
+
 export const exportedMethods = {
     doMindenhezHozzaad: doMindenhezHozzaad,
     doNovelHanyszor: doNovelHanyszor,
@@ -291,4 +334,5 @@ export const exportedMethods = {
     setAnythingOnElement: setAnythingOnElement,
     isBenneVan: bennevan,
     isBenneHol: bennehol,
+    exampleREST: exampleREST
 };
