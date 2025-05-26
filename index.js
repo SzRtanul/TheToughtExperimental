@@ -200,8 +200,8 @@ export function addEvents(environment=document){
 
 function ron(e, urlap, MyEvent){
   /*  for(let i = 0; i<1000; i++){
-        doKuld(e, urlap, MyEvent);
     }*/
+   doKuld(e, urlap, MyEvent);
 }
 
 //Kuld
@@ -219,11 +219,29 @@ async function doKuld(e, urlap, MyEvent){
     let tr = "";
     for(const strE of routG){
         const strEs = strE.split("-");
-        const strEs1 = strEs[1] ? strEs[1] : "ca";
+        const strEs1 = /*strEs[1] ? strEs[1] :*/ "ca";
         tr += strE.startsWith("$") ?
-            ((jsonValue[strEs1] && jsonValue[strEs1][strEs[0].replace("$", "")]) ||
-             "null") +"/" : strE + "/";
+        ((jsonValue[strEs1] && jsonValue[strEs1][strEs[0].replace("$", "")]) ||
+        "null") +"/" : strE + "/";
     }
+    
+    for(const strE in jsonValue.db ){
+        let dbFro = "";
+        const fr = jsonValue.db[strE].split('\\-');
+        for(let i = 0; i < fr.length; i++){
+            if(fr[i].startsWith('$')){
+                console.log(fr[i]);
+                fr[i] = jsonValue["ca"][fr[i].replace("$", "")];
+                console.log(fr[i]);
+            }
+            dbFro += fr[i];
+        }
+        jsonValue.db[strE] = dbFro;
+        console.log(jsonValue.db[strE]);
+    }
+
+
+
     tr = tr.substring(0, tr.length-1);
     let sikeresKeres = false;
     for(const btn of urlap.querySelectorAll("*:not(.urlap):not(.retn) .kuld, .kuldG")){

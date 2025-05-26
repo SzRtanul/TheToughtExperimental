@@ -1,1 +1,45 @@
 <h1>Alterego</h1>
+
+<div 
+    name="testRetn" 
+    class="urlap"
+    value="callquery"
+
+    db-schemanames="pg_catalog"
+    db-tablenames="pg_namespace" 
+    db-columnnames="oid;nspname"
+    db-methodnames=""
+    db-query="select * \-$garta\- FROM #$0.#%0"
+>
+    <input type="text" name="garta" id="">
+    <button class="kuld">KK</button>
+</div>
+
+<table 
+    name="testRetn"
+    class="retn"
+    value="callquery"
+
+    db-schemanames="pg_catalog"
+    db-tablenames="pg_namespace" 
+    db-columnnames="oid;nspname"
+    db-methodnames=""
+    db-query="select * FROM #$0.#%0"
+>
+    <tbody class="immler">
+        <tr class="retnrow">         
+            <td dtag="0">0</td>
+            <td class="mez" dtag="1">1</td>
+        </tr>
+    </tbody>
+    
+    <thead>
+        <tr class="retnheader">
+            <th>oid</th>
+            <th>nspname</th>
+        </tr>
+    </thead>
+    <tbody class="retnmain">
+
+    </tbody>
+</table>

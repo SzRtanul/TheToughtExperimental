@@ -21,7 +21,6 @@
     </li>
 </ul>
 
-
 <div class="urlap" value="login" useRespInEvent action="logined">
     <button class="kuld">Login</button>
 </div>
@@ -106,7 +105,7 @@
                 db-tablenames="pg_namespace" 
                 db-columnnames="oid;nspname"
                 db-methodnames=""
-                db-query="SELECT * FROM #$0.#%0"
+                db-query="AS * FROM #$0.#%0"
             >
                 <div class="immler">
                     <p class="retnheader"><span class="mez" dtag="0"></span><span class="mez"dtag="1">1</span></p>
@@ -190,7 +189,7 @@
     db-tablenames="pg_namespace" 
     db-columnnames="oid;nspname"
     db-methodnames=""
-    db-query="SELECT * FROM #$0.#%0"
+    db-query="AS * FROM #$0.#%0"
 >
     <div class="immler">
         <thead class="retnheader">
@@ -337,106 +336,6 @@ ENA
                  <p class="mez" dtag="0">0</p>
             </legend>
      </div>
-    </div>
-    <div class="retnmain">
-
-    </div>
-</div>
-
-<div 
-    name="testRetn" 
-    class="urlap"
-    value="callquery"
-
-    db-schemanames="pg_catalog"
-    db-tablenames="pg_namespace" 
-    db-columnnames="oid;nspname"
-    db-methodnames=""
-    db-query="SELECT * FROM #$0.#%0"
->
-    <button class="kuld">KK</button>
-</div>
-
-<div name="testRetn" class="retn">
-    <div class="immler">
-        <div class="retnheader">ALAHAMA</div>
-        <div class="retnrow">
-            <p class="mez" dtag="0">0</p>
-            <p class="mez" dtag="1">1</p>
-            <p class="mez" dtag="2">2</p>
-           
-            <div 
-                class="retn" 
-                data-clwhere="mez_0=mez_0" 
-                value="callquery"
-                db-schemanames="pg_catalog"
-                db-tablenames="pg_namespace" 
-                db-columnnames="oid;nspname"
-                db-methodnames=""
-                db-query="SELECT * FROM #$0.#%0"
-            >
-                 <div class="immler">
-                     <div class="retnheader">ALAHAMA</div>
-                     <div class="retnrow">
-                         <p class="mez" dtag="0">0</p>
-                         <p>
-                            <div 
-                                class="retn" 
-                                ata-clwhere="mez_0=mez_0" 
-                                value="callquery"
-                                db-schemanames="pg_catalog"
-                                db-tablenames="pg_namespace" 
-                                db-columnnames="oid;nspname"
-                                db-methodnames=""
-                                db-query="SELECT * FROM #$0.#%0"
-                            >
-                                <div class="immler">
-                                    <div class="retnheader">ALAHAMA</div>
-                                    <div class="retnrow">
-                                        <div class="mez" dtag="0">
-                                            0
-                                        </div>
-                                        <div class="retn" ata-clwhere="fsdfawF=al" value="4">
-                                            <div class="immler">
-                                                <div class="retnheader">ALAHAMA</div>
-                                                <div class="retnrow">
-                                                    <div class="mez" dtag="0">
-                                                        0
-                                                    </div>
-                                                    EE
-                                                </div>
-                                            </div>
-                                            <div class="retnmain">
-                
-                                            </div>
-                                        </div>
-                                        <div class="retn" ata-clwhere="fsdfawF=al" value="4">
-                                            <div class="immler">
-                                                <div class="retnheader">ALAHAMA</div>
-                                                <div class="retnrow">
-                                                    <div class="mez" dtag="0">
-                                                        0
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="retnmain">
-                
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="retnmain">
-       
-                                </div>
-                            </div>
-                         </p>
-                     </div>
-                 </div>
-                 <div class="retnmain">
-     
-                 </div>
-             </div>
-        </div>
     </div>
     <div class="retnmain">
 
