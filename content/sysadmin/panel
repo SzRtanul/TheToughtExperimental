@@ -43,3 +43,76 @@
 
     </tbody>
 </table>
+
+<table 
+    ame="pg_procs"
+    class="retn"
+    value="callquery"
+
+    db-schemanames="pg_catalog"
+    db-tablenames="pg_namespace;pg_proc" 
+    db-columnnames="oid;nspname"
+    db-methodnames=""
+    db-query="select * FROM #$0.#%1"
+>
+    <tbody class="immler">
+        <tr class="retnrow">         
+            <td class="mez" dtag="0">0</td>
+            <td class="mez" dtag="1">0</td>
+            <td class="mez" dtag="25">0</td>
+        </tr>
+    </tbody>
+    
+    <thead>
+        <tr class="retnheader">
+            <th>oid</th>
+            <th>nspname</th>
+        </tr>
+    </thead>
+    <tbody class="retnmain">
+
+    </tbody>
+</table>
+
+
+
+<table 
+    ame="pg_procs"
+    class="retn"
+    value="callquery"
+
+    db-schemanames="pg_catalog"
+    db-tablenames="pg_proc;pg_namespace;pg_type" 
+    db-columnnames="oid;nspname;proname"
+    db-methodnames=""
+    db-query="SELECT #$0.#%0,
+                n.nspname AS schema,
+                p.proname AS function_name,
+                unnest(p.proargnames) AS arg_name,
+                unnest(p.proargtypes) AS arg_type_oid,
+                t.typname AS arg_type_name
+                FROM
+                pg_proc p
+                JOIN
+                pg_namespace n ON n.oid = p.pronamespace
+                JOIN
+                pg_type t ON t.oid = unnest(p.proargtypes)"
+>
+    <tbody class="immler">
+        <tr class="retnrow">         
+            <td class="mez" dtag="0">0</td>
+            <td class="mez" dtag="1">0</td>
+            <td class="mez" dtag="25">0</td>
+        </tr>
+    </tbody>
+    
+    <thead>
+        <tr class="retnheader">
+            <th>oid</th>
+            <th>nspname</th>
+        </tr>
+    </thead>
+    <tbody class="retnmain">
+
+    </tbody>
+</table>

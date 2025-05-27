@@ -62,9 +62,24 @@ function whataf(retn, responseInput="", responseInputType="text"){
       
         switch(responseInputType){
             case "text":
+                // dtag='*'
+                const dtagstar = retnrowD.querySelectorAll("[dtag='*']:not(.retn.our *)");
+                let dshtext = "";
+                let dshtlen = 0;
+                if(dtagstar.length > 0){
+                    dshtlen = resPlit[0].split(":::").length;
+                }
+                for(const dtas of dtagstar){
+                    for(let i = 0; i < dshtlen; i++){
+                        dtas.setAttribute("dtag", i+"");
+                        dshtext += dtas.outerHTML;
+                    }
+                    dtas.outerHTML = dshtext;
+                    console.log(dtagstar[0].outerHTML);
+                }
                 for(const textRow of resPlit/*responseInput.split(";;;")*/){ // rekordokra bontás
-                    const retnrowDE = retnrowD.cloneNode(true); // Sablon sor clone-ozása
                     const strA = textRow.split(":::"); // mezőkre bontás
+                    const retnrowDE = retnrowD.cloneNode(true); // Sablon sor clone-ozása
                     // Eltárolt JSON létrehozása .retn funkciókhoz
                     const retnRowJSON = {};
                     const adn = typeof adatsorrend === "object";
@@ -80,9 +95,9 @@ function whataf(retn, responseInput="", responseInputType="text"){
                     }
                     retnrowDE.dataset.fiel = JSON.stringify(retnRowJSON);
                     // .retn mezők beállítása
-                    for(const mez of retnrowDE.querySelectorAll("[dtag]:not([dtag='']):not(.retn.our *)")){
+                    for(const mez of retnrowDE.querySelectorAll("[dtag]:not([dtag='']):not([dtag='*']):not(.retn.our *)")){
                         const mezContent = mez.getAttribute("dtag");
-                        mez.innerHTML = mezContent && !isNaN(mezContent) ? strA[Number(mezContent)]: "null";
+                        mez.innerHTML = mezContent && !isNaN(mezContent) ? strA[Number(mezContent)]: "nnull";
                     }
                     // No Comment...
                     for(const retnaa of retnrowDE.querySelectorAll(".retn:not(.our)")){
@@ -127,20 +142,6 @@ function whataf(retn, responseInput="", responseInputType="text"){
                 // retn jelölések törlése a 
                 
                 break;
-        // ELAVULT:
-        /*   case "json":
-                for(const jsonItem of responseInput){
-                    const retnrowDE = retnrowD.cloneNode(true);
-                    for(const mez of retnrowDE.getElementsByClassName("mez")){
-                        mez.innerHTML = jsonItem[mez.textContent];
-                    }
-                    for(const tagValue of retnrowDE.querySelectorAll("[value]:not([value=''])")){
-                        const tagValueContent = tagValue.getAttribute("value");
-                        tagValue.value = jsonItem[tagValueContent];
-                    }
-                    fullText += retnrowDE.outerHTML;
-                }
-                break;*/
        }
       // //console\.log(retnrowD.outerHTML)
     }
