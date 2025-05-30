@@ -18,6 +18,7 @@ async function doFrissit(retns){
             tablenames: retns[i].getAttribute("db-tablenames") || "",
             columnnames: retns[i].getAttribute("db-columnnames") || "",
             methodnames: retns[i].getAttribute("db-methodnames") || "",
+            aliases: retns[i].getAttribute("db-aliases") || "",
             query: retns[i].getAttribute("db-query") || "",
         };
         const jsonResponse = await exportedMethods.exampleREST(retns[i].getAttribute("value"), "post", dbDat, retns[i].getAttribute("db-fieldjson"));

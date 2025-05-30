@@ -277,6 +277,7 @@ async function exampleREST(honnan="",
         tablenames: "",
         columnnames: "",
         methodnames: "",
+        aliases: "",
         query: ""
     }, 
     cAzon={}, cEdit={}

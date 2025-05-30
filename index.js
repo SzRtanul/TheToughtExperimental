@@ -212,6 +212,7 @@ async function doKuld(e, urlap, MyEvent){
         tablenames: urlap.getAttribute("db-tablenames") || "",
         columnnames: urlap.getAttribute("db-columnnames") || "",
         methodnames: urlap.getAttribute("db-methodnames") || "",
+        aliases: urlap.getAttribute("db-aliases") || "",
         query: urlap.getAttribute("db-query") || "",
     };
     const allapotKijelzok = urlap.getElementsByClassName("allapot");
