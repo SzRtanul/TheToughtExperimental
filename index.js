@@ -268,7 +268,7 @@ async function doKuld(e, urlap, MyEvent){
         for(const retn of document.querySelectorAll(`[name=${urlap.getAttribute('name')}].retn`)){
             exportedRetnMethods.doUjratolt(retn, tres);
         }
-        //doFrissit();
+      //  doFrissit();
         exportedMethods.doEnvAutoJumpJelenet(urlap, "NextToIfSuccess");
        
     }

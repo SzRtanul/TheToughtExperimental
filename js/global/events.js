@@ -50,20 +50,35 @@ function whataf(retn, responseInput="", responseInputType="text"){
     const adatsorrend = retn.getAttribute("adatsorrend")?.split(";");
     let retnRIndex = resPlit[0].startsWith("-;") ? 1 : 0;
     let lastRetnRIndex = retnRIndex;
+    if(retnRIndex) resPlit[0] = resPlit[0].replace("-;", "");
+    
+    const retnrowD = [
+        retn.querySelector(":scope>.immler .retnrow:not(.retn.our *)")?.cloneNode(true),
+        retn.querySelector(":scope>.immler>.retnheader")?.cloneNode(true),
+        retn.querySelector(":scope>.immler>.retnerror")?.cloneNode(true),
+        retn.querySelector(":scope>.immler>.retnfooter")?.cloneNode(true),
+    ];
 
-    if(retnRIndex) resPlit[0] = resPlit[0].replace("-;", "")
-        const retnrowD = [
-    retn.querySelector(":scope>.immler .retnrow:not(.retn.our *)")?.cloneNode(true),
-    retn.querySelector(":scope>.immler>.retnheader")?.cloneNode(true),
-    retn.querySelector(":scope>.immler>.retnerror")?.cloneNode(true),
-    retn.querySelector(":scope>.immler>.retnfooter")?.cloneNode(true),
-];
+    // dtag='*'
+    for(const dtagstar of retnrowD){
+        if (!dtagstar) continue; 
+        let dshtext = "";
+        let dshtlen = 0;
+        dshtlen = resPlit[0].split(":::").length;
+        
+        for(const dtas of dtagstar.querySelectorAll("[dtag='*']:not(.retn.our *)")){
+            for(let i = 0; i < dshtlen; i++){
+                dtas.setAttribute("dtag", i+"");
+                dshtext += dtas.outerHTML;
+            }
+            dtas.outerHTML = dshtext;
+        }
+    }
 
-retnRIndex = 0;
-if(!retnRIndex && retnrowD[1]){
-    fullText += retnrowD[1].outerHTML + (retnrowD[1].getAttribute("safter") || "");
-    console.log("Ehn: " + retnrowD[1].outerHTML)
-}
+    if(!retnRIndex && retnrowD[1]){
+        fullText += retnrowD[1].outerHTML + (retnrowD[1].getAttribute("safter") || "");
+        console.log("Ehn: " + retnrowD[1].outerHTML)
+    }
 
     if(retnrowD[0]){
         for(const retnaa of retnrowD[0].querySelectorAll(".retn")){
@@ -71,103 +86,87 @@ if(!retnRIndex && retnrowD[1]){
                 immler.remove();
             }
         }
-      
-        switch(responseInputType){
-            case "text":
-                // dtag='*'
-                for(const dtagstar of retnrowD){
-                    if (!dtagstar) continue; 
-                    let dshtext = "";
-                    let dshtlen = 0;
-                    dshtlen = resPlit[0].split(":::").length;
-                    
-                    for(const dtas of dtagstar.querySelectorAll("[dtag='*']:not(.retn.our *)")){
-                        for(let i = 0; i < dshtlen; i++){
-                            dtas.setAttribute("dtag", i+"");
-                            dshtext += dtas.outerHTML;
-                        }
-                        dtas.outerHTML = dshtext;
+            
+        for(const textRow of resPlit){ // rekordokra bontás
+            const retnrowDE = retnrowD[retnRIndex]?.cloneNode(true); // Sablon sor clone-ozása        
+            // repont
+            if(!retnRIndex || (retnRIndex && retnrowDE)){
+                const strA = textRow.split(":::"); // mezőkre bontás
+                // Eltárolt JSON létrehozása .retn funkciókhoz
+                const retnRowJSON = {};
+                const adn = typeof adatsorrend === "object";
+                if(adn){
+                    for(let i = 0; i < strA.length; i++){
+                        retnRowJSON[adatsorrend[i] ? adatsorrend[i] : "mez_" + i] = strA[i];
                     }
                 }
-                for(const textRow of resPlit){ // rekordokra bontás
-                    const retnrowDE = retnrowD[retnRIndex]?.cloneNode(true); // Sablon sor clone-ozása        
-                    // repont
-                    if(!retnRIndex || (retnRIndex && retnrowDE)){
-                        const strA = textRow.split(":::"); // mezőkre bontás
-                        // Eltárolt JSON létrehozása .retn funkciókhoz
-                        const retnRowJSON = {};
-                        const adn = typeof adatsorrend === "object";
-                        if(adn){
-                            for(let i = 0; i < strA.length; i++){
-                                retnRowJSON[adatsorrend[i] ? adatsorrend[i] : "mez_" + i] = strA[i];
-                            }
-                        }
-                        else{
-                            for(let i = 0; i < strA.length; i++){
-                                retnRowJSON["mez_" + i] = strA[i];
-                            }
-                        }
-                        retnrowDE.dataset.fiel = JSON.stringify(retnRowJSON);
-                        // .retn mezők beállítása
-                        for(const mez of retnrowDE.querySelectorAll("[dtag]:not([dtag='']):not([dtag='*']):not(.retn.our *)")){
-                            const mezContent = mez.getAttribute("dtag");
-                            mez.innerHTML = mezContent && !isNaN(mezContent) ? strA[Number(mezContent)]: "nnull";
-                        }
-                        // No Comment...
-                        for(const retnaa of retnrowDE.querySelectorAll(".retn:not(.our)")){
-                            const sorszures = retnaa.getAttribute("data-clwhere")?.split(";") || ""; //client side
-                            // cl check
-                            for(let i = 0; i<sorszures.length; i++){
-                                const r2 = sorszures[i].split("=");
-                                if(!(sorszures.length > 0 && r2.length > 1 && retnRowJSON[r2[1]])){
-                                    sorszures.splice(i,1);
-                                    i--;
-                                }
-                            }
-                            for(const retnrowAA of retnaa.querySelectorAll(":scope > .retnmain > .retnrow:not(.retn.our .retnrow)")){
-                                const childData = JSON.parse(retnrowAA.dataset.fiel);
-                                let both = true;
-                                for(let i = 0; i < sorszures.length && both; i++){
-                                    const ye = sorszures[i].split("=");
-                                    both = childData[ye[0]] === retnRowJSON[ye[1]];
-                                }
-                                if(!both){ 
-                                    //   retnrowAA.style.setProperty("background-color", "red");
-                                    retnrowAA.remove();
-                                }
-                            }
-                        }
-                        //.retn láthatatlan értékek beállítása
-                        const rDEntag = retnrowDE.getAttribute("ntag");
-                        if(retnrowDE.getAttribute("ntag")) retnrowDE.value = rDEntag && !isNaN(rDEntag) ? strA[Number(rDEntag)] : "-1";
-                        for(const tagValue of retnrowDE.querySelectorAll("[ntag]:not([ntag='']):not(.retn.our *)")){
-                            const tagValueContent = tagValue.getAttribute("ntag");
-                            //console\.log("EEEEEE: " + !isNaN(tagValueContent));
-                            const tagVal = tagValueContent && !isNaN(tagValueContent) ? 
-                                    strA[Number(tagValueContent)] : "null";
-                            tagValue.value = tagVal;
-                            tagValue.setAttribute("value", tagVal);
-                        }
-                        for(const retnaa of retnrowDE.querySelectorAll(".retn")){
-                            retnaa.classList.add("our");
-                        }
-                        fullText += retnrowDE.outerHTML;
+                else{
+                    for(let i = 0; i < strA.length; i++){
+                        retnRowJSON["mez_" + i] = strA[i];
                     }
-                    retnRIndex = 0;
-                    // retn jelölések törlése a 
                 }
-                if(retnrowD[3]){
-                    fullText += (retnrowD[3].getAttribute("sbefore") || "") +
-                            retnrowD[3].outerHTML + (retnrowD[3].getAttribute("safter") || "");
+                retnrowDE.dataset.fiel = JSON.stringify(retnRowJSON);
+                // .retn mezők beállítása
+                const rDEdtag = retnrowDE.getAttribute("dtag");
+                if(retnrowDE.getAttribute("dtag")) 
+                    retnrowDE.innerHTML = rDEdtag && !isNaN(rDEdtag) ? strA[Number(rDEdtag)] : "nnull";
+                for(const mez of retnrowDE.querySelectorAll("[dtag]:not([dtag='']):not([dtag='*']):not(.retn.our *)")){
+                    const mezContent = mez.getAttribute("dtag");
+                    mez.innerHTML = mezContent && !isNaN(mezContent) ? strA[Number(mezContent)]: "nnull";
                 }
-                
-                break;
-       }
-      // //console\.log(retnrowD.outerHTML)
+                // No Comment...
+                for(const retnaa of retnrowDE.querySelectorAll(".retn:not(.our)")){
+                    const sorszures = retnaa.getAttribute("data-clwhere")?.split(";") || ""; //client side
+                    // cl check
+                    for(let i = 0; i<sorszures.length; i++){
+                        const r2 = sorszures[i].split("=");
+                        if(!(sorszures.length > 0 && r2.length > 1 && retnRowJSON[r2[1]])){
+                            sorszures.splice(i,1);
+                            i--;
+                        }
+                    }
+                    for(const retnrowAA of retnaa.querySelectorAll(":scope > .retnmain > .retnrow:not(.retn.our .retnrow)")){
+                        const childData = JSON.parse(retnrowAA.dataset.fiel);
+                        let both = true;
+                        for(let i = 0; i < sorszures.length && both; i++){
+                            const ye = sorszures[i].split("=");
+                            both = childData[ye[0]] === retnRowJSON[ye[1]];
+                        }
+                        if(!both){ 
+                            //   retnrowAA.style.setProperty("background-color", "red");
+                            retnrowAA.remove();
+                        }
+                    }
+                }
+                //.retn láthatatlan értékek beállítása
+                const rDEntag = retnrowDE.getAttribute("ntag");
+                if(retnrowDE.getAttribute("ntag")) retnrowDE.value = rDEntag && !isNaN(rDEntag) ? strA[Number(rDEntag)] : "-1";
+                for(const tagValue of retnrowDE.querySelectorAll("[ntag]:not([ntag='']):not(.retn.our *)")){
+                    const tagValueContent = tagValue.getAttribute("ntag");
+                    //console\.log("EEEEEE: " + !isNaN(tagValueContent));
+                    const tagVal = tagValueContent && !isNaN(tagValueContent) ? 
+                            strA[Number(tagValueContent)] : "null";
+                    tagValue.value = tagVal;
+                    tagValue.setAttribute("value", tagVal);
+                }
+                for(const retnaa of retnrowDE.querySelectorAll(".retn")){
+                    retnaa.classList.add("our");
+                }
+                fullText += retnrowDE.outerHTML;
+            }
+            retnRIndex = 0;
+            // retn jelölések törlése a 
+        }
+        if(retnrowD[3]){
+            fullText += (retnrowD[3].getAttribute("sbefore") || "") +
+                    retnrowD[3].outerHTML + (retnrowD[3].getAttribute("safter") || "");
+        }
+       //console\.log(retnrowD.outerHTML)
     }
     
     for(const retnmain of retn.querySelectorAll(":scope > .retnmain")){
         retnmain.innerHTML = fullText;
+        console.log("FAAA: " + fullText)
     }
 }
 

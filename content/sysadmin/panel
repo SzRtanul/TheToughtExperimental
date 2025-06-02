@@ -1,198 +1,25 @@
 <h1>Alterego</h1>
 
-<div 
-    name="testRetn" 
-    class="urlap"
-    value="callquery"
+<!-- Jogosultság -->
 
-    db-schemanames="pg_catalog"
-    db-tablenames="pg_namespace" 
-    db-columnnames="oid;nspname"
-    db-methodnames=""
-    db-query="select * \-$garta\- FROM #$0.#%0"
->
-    <input type="text" name="garta" id="">
-    <button class="kuld">KK</button>
-</div>
-
-<table 
-    name="testRetn"
-    class="retn"
-    value="callquery"
-
-    db-schemanames="pg_catalog"
-    db-tablenames="pg_namespace" 
-    db-columnnames="oid;nspname"
-    db-methodnames=""
-    db-query="select * FROM #$0.#%0"
->
-    <tbody class="immler">
-        <tr class="retnrow">         
-            <td dtag="0">0</td>
-            <td class="mez" dtag="1">1</td>
-        </tr>
-    </tbody>
-    
-    <thead>
-        <tr class="retnheader">
-            <th>oid</th>
-            <th>nspname</th>
-        </tr>
-    </thead>
-    <tbody class="retnmain">
-
-    </tbody>
-</table>
-
-<table 
-    ame="pg_procs"
-    class="retn"
-    value="callquery"
-
-    db-schemanames="pg_catalog"
-    db-tablenames="pg_namespace;pg_proc" 
-    db-columnnames="oid;nspname"
-    db-methodnames=""
-    db-query="-"
-    b-query="select * FROM #$0.#%1"
->
-    <tbody class="immler">
-        <tr class="retnrow">         
-            <td class="mez" dtag="0">0</td>
-            <td class="mez" dtag="1">0</td>
-            <td class="mez" dtag="25">0</td>
-        </tr>
-    </tbody>
-    
-    <thead>
-        <tr class="retnheader">
-            <th>oid</th>
-            <th>nspname</th>
-        </tr>
-    </thead>
-    <tbody class="retnmain">
-
-    </tbody>
-</table>
-
-
-<div 
-    name="pg_procs" 
-    class="urlap"
-    value="callquery"
-
-    db-schemanames="pg_catalog"
-    db-tablenames="pg_proc;pg_namespace;pg_type" 
-    db-columnnames="oid;nspname;proname;
-                    typname;pronamespace;proargnames;proargtypes;
-                    ;"
-    db-methodnames="unnest"
-    db-aliases="argnames;typenames;ord;
-                argname;type_oid;typenameSS;
-                argtypes"
-    db-query="
-            SELECT #$0.#%0.#&0, #$0.#%0.#&2,
-                #(0.#(3, #(1.#&3
-            FROM
-                #$0.#%0
-            LEFT JOIN LATERAL #$0.#'0(#$0.#%0.#&5)
-            WITH ORDINALITY AS #(0(#(3, #(2)
-                ON true
-            LEFT JOIN LATERAL #$0.#'0(#$0.#%0.#&6)
-            WITH ORDINALITY AS #(6(#(4, #(2)
-                ON #(0.#(2 = #(6.#(2
-            LEFT JOIN #$0.#%2 #(1 ON 
-                #(1.#&0 = #(6.#(4
-            ORDER BY #$0.#%0.#&0 ASC
-            OFFSET (\-$oldal\- * 50)
-            LIMIT 50;"
->
-    <input type="number" name="oldal">
-   <br> <button class="kuld">Küggyed neki!</button>
-</div>
-
-<!-- #$0.#%1.#&1,
-<table 
-    name="pg_procs"
-    class="retn"
-    value="callquery"
-
-    db-schemanames="pg_catalog"
-    db-tablenames="pg_proc;pg_namespace;pg_type" 
-    db-columnnames="oid;nspname;proname;
-                    typname;pronamespace;proargnames;proargtypes;
-                    ;"
-    db-methodnames="unnest"
-    db-aliases="argnames;typenames;ord;
-                argname;type_oid;typenameSS;
-                argtypes"
-    db-query="
-            SELECT #$0.#%0.#&0, #$0.#%0.#&2,
-                #(0.#(3, #(1.#&3
-            FROM
-                #$0.#%0
-            LEFT JOIN LATERAL #$0.#'0(#$0.#%0.#&5)
-            WITH ORDINALITY AS #(0(#(3, #(2)
-                ON true
-            LEFT JOIN LATERAL #$0.#'0(#$0.#%0.#&6)
-            WITH ORDINALITY AS #(6(#(4, #(2)
-                ON #(0.#(2 = #(6.#(2
-            LEFT JOIN #$0.#%2 #(1 ON 
-                #(1.#&0 = #(6.#(4
-            ORDER BY  #$0.#%0.#&2 ASC
-            /*OFFSET 3
-            LIMIT 10*/;"
->
-    <tbody class="immler">
-        <tr>
-
-        </tr>
-        <tr class="retnrow" sbefore="" safter="">
-            <td class="mez" dtag="*">0</td>        
-        </tr>
-    </tbody>
-    
-    <thead>
-        <tr class="retnheader">
-            <th>oid</th>
-            <th>nspname</th>
-        </tr>
-    </thead>
-    <tbody class="retnmain">
-
-    </tbody>
-</table>
--->
 <div
-    name="pg_procs"
-    class="retn"
+    class="urlap"
     value="callquery"
+    name="tes"
 
     db-schemanames="pg_catalog"
-    db-tablenames="pg_proc;pg_namespace;pg_type" 
-    db-columnnames="oid;nspname;proname;
-                    typname;pronamespace;proargnames;proargtypes;
-                    ;"
-    db-methodnames="unnest"
-    db-aliases="argnames;typenames;ord;
-                argname;type_oid;typenameSS;
-                argtypes"
-    db-query="
-            SELECT #$0.#%0.#&0, #$0.#%0.#&2,
-                #(0.#(3, #(1.#&3
-            FROM
-                #$0.#%0
-            LEFT JOIN LATERAL #$0.#'0(#$0.#%0.#&5)
-            WITH ORDINALITY AS #(0(#(3, #(2)
-                ON true
-            LEFT JOIN LATERAL #$0.#'0(#$0.#%0.#&6)
-            WITH ORDINALITY AS #(6(#(4, #(2)
-                ON #(0.#(2 = #(6.#(2
-            LEFT JOIN #$0.#%2 #(1 ON 
-                #(1.#&0 = #(6.#(4
-            ORDER BY  #$0.#%0.#&2 ASC
-            /*OFFSET 3
-            LIMIT 10*/;"
+    db-tablenames="jogcsoport;pg_namespace"
+    db-columnnames="oid;nspname"
+    db-methodnames=""
+    db-aliases=""
+    db-query="select #$0.#%1.#&0, #$0.#%1.#&1 from #$0.#%1;"
+>
+    <button class="kuld">Küggyed papa!</button>
+</div>
+
+<div
+    class="retn"
+    name="tes"
 >
     <table class="immler">
         <thead class="retnheader" safter="<tbody>">
@@ -201,68 +28,98 @@
             </tr>
         </thead>
         <tbody>
-            <tr class="retnrow" sbefore="" safter="">
-                <td class="mez" dtag="*">0</td>       
+            <tr class="retnrow" >
+                <td class="mez" dtag="*"></td>
             </tr>
         </tbody>
-        <tfoot class="retnfooter" sbefore="&lt;/tbody>">
-            <tr>
-                <td>
-                    <div
-                        ame="pg_procs"
-                        class="retn"
-                        value="callquery"
-
-                        db-schemanames="pg_catalog"
-                        db-tablenames="pg_proc;pg_namespace;pg_type" 
-                        db-columnnames="oid;nspname;proname;
-                                        typname;pronamespace;proargnames;proargtypes;
-                                        ;"
-                        db-methodnames="unnest"
-                        db-aliases="argnames;typenames;ord;
-                                    argname;type_oid;typenameSS;
-                                    argtypes"
-                        db-query="
-                                SELECT #$0.#%0.#&0, #$0.#%0.#&2,
-                                    #(0.#(3
-                                FROM
-                                    #$0.#%0
-                                LEFT JOIN LATERAL #$0.#'0(#$0.#%0.#&5)
-                                WITH ORDINALITY AS #(0(#(3, #(2)
-                                    ON true
-                                LEFT JOIN LATERAL #$0.#'0(#$0.#%0.#&6)
-                                WITH ORDINALITY AS #(6(#(4, #(2)
-                                    ON #(0.#(2 = #(6.#(2
-                                LEFT JOIN #$0.#%2 #(1 ON 
-                                    #(1.#&0 = #(6.#(4
-                                ORDER BY  #$0.#%0.#&2 ASC
-                                /*OFFSET 3
-                                LIMIT 10*/;"
-                    >
-                        <table class="immler">
-                            <thead class="retnheader" safter="<tbody>">
-                                <tr>
-                                    <th dtag="*"></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="retnrow" sbefore="" safter="">
-                                    <td class="mez" dtag="*">0</td>       
-                                </tr>
-                            </tbody>
-                            <tfoot class="retnfooter" sbefore="&lt;/tbody>">
-                                <tr><td>:not(.retn.our *</td></tr>
-                            </tfoot>
-                        </table>
-                        <table class="retnmain">
-
-                        </table>
-                    </div>
-                </td>
-            </tr>
-        </tfoot>
+        <tfoot class="retnfooter" sbefore="</body>"></tfoot>
     </table>
     <table class="retnmain">
 
     </table>
 </div>
+
+<div
+    class="urlap"
+    value="callquery"
+    name="tesa"
+
+    db-schemanames="pg_catalog;sysadmin"
+    db-tablenames="jogcsoport"
+    db-columnnames=""
+    db-methodnames=""
+    db-aliases=""
+    db-query="select * from #$1.#%0;"
+>
+    <button class="kuld">Küggyed!</button>
+</div>
+
+<div
+    class="retn"
+    name="tesa"
+>
+    <table class="immler">
+        <thead class="retnheader" safter="<tbody>">
+            <tr>
+                <th dtag="*"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="retnrow" >
+                <td class="mez" dtag="*"></td>
+            </tr>
+        </tbody>
+        <tfoot class="retnfooter" sbefore="</body>"></tfoot>
+    </table>
+    <table class="retnmain">
+
+    </table>
+</div>
+
+<div
+    class="urlap"
+    value="callquery"
+    name="tea"
+
+    db-schemanames="sysadmin"
+    db-tablenames="engedelyezettsema"
+    db-columnnames=""
+    db-methodnames=""
+    db-aliases=""
+    db-query="insert into #$0.#%0 values (\-$oszl\-, \-$oszl2\-);"
+>
+    <div 
+        class="retn"
+        value="callquery"
+
+        db-schemanames="pg_catalog;sysadmin"
+        db-tablenames="jogcsoport"
+        db-columnnames=""
+        db-methodnames=""
+        db-aliases=""
+        db-query="select * from #$1.#%0;"
+    >
+        <select class="immler" id="">
+            <option class="retnrow" ntag="0" dtag="1"><span ></span></option>
+        </select>
+        <select name="oszl" class="retnmain"></select>
+    </div>
+    <div 
+        class="retn"
+        value="callquery"
+
+        db-schemanames="pg_catalog"
+        db-tablenames="jogcsoport;pg_namespace"
+        db-columnnames="oid;nspname"
+        db-methodnames=""
+        db-aliases=""
+        db-query="select #$0.#%1.#&0, #$0.#%1.#&1 from #$0.#%1;"
+    >
+        <select class="immler" id="">
+            <option class="retnrow" ntag="0" dtag="1"><span ></span></option>
+        </select>
+        <select name="oszl2" class="retnmain"></select>
+    </div>
+    <button class="kuld">Kűűűűűűggyed!</button>
+</div>
+
