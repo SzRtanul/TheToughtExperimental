@@ -1,10 +1,19 @@
 import { serverhost, eventTarget, exportedMethods } from "./js/globaldata.js";
 import { exportedRetnMethods } from "./js/global/events.js";
+import { noRefreshQs, formQs } from "./js/global/queries.js";
+import { addOrEditFormQ, exportedQMethods, queryDatas } from "./js/global/queriessetup.js";
+const ls = "valami123í\x00EE";
+console.log(Number("0x00"));
+
 const content = document.getElementsByTagName("main")[0];
+const templates = document.getElementsByTagName("template")[0];
+
+const j = templates.content.querySelector("[name].immler");
+console.log("BOBEEEEERR: " + j?.outerHTML);
  
 let currentRequest = null;
-console.log("baz: "+ sessionStorage.getItem("oldal"));
-sessionStorage.setItem("oldal", sessionStorage.getItem("oldal") ?? "mitettemma")
+console.log("bah: "+ sessionStorage.getItem("oldal"));
+sessionStorage.setItem("oldal", sessionStorage.getItem("oldal") ?? "kiserletdokumentacio")
 console.log(sessionStorage.getItem("oldal"));
 callSite(sessionStorage.getItem("oldal"));
 //Kísérletek
@@ -53,15 +62,17 @@ function callSite(melyik){
     currentRequest.setRequestHeader("Cache-Control", "no-store");
     currentRequest.setRequestHeader("Pragma", "no-cache");
     
-    currentRequest.onload = function () {
+    currentRequest.onload = async function () {
         if (currentRequest.status >= 200 && currentRequest.status < 300) {
             document.querySelectorAll(".guest").forEach(g => g.remove());
             let iHTML = currentRequest.responseText;
             content.innerHTML = iHTML;
+            //await doTAddingToSite();
             doCSSAddingToSite();
             doJSAddingToSite();
+            await exportedQMethods.doQueryUpdates();
+            exportedRetnMethods.doFrissit(document.querySelectorAll("[cjust].retn:not([cjust=''])"));
             addEvents();
-            doFrissit();
             sessionStorage.setItem("oldal", melyik);
         } else {
             console.error("Request failed with status:", currentRequest.status);
@@ -72,6 +83,9 @@ function callSite(melyik){
     };
     currentRequest.send();
 }
+
+
+
 function doCSSAddingToSite(){
     for(const lCSS of content.getElementsByClassName("lCSS")){
         for(const jll of lCSS.getElementsByTagName("li")){
@@ -101,15 +115,13 @@ function getEventName(text){
 function avmi(e){
     let url = new URL(window.location.href);
     sessionStorage.setItem("oldal", url.searchParams.get("site"));
-    console.log("KURVAAAAA")
 }
 
 function vmi(e){
     callSite(e.target.name);
 }
 
-export function addEvents(environment=document){ 
-    doFrissit(environment);
+export function addEvents(environment=document){
     const prot = ":not(.immler *)";
     exportedMethods.doResetEventTarget();
     const jsA = [
@@ -119,7 +131,7 @@ export function addEvents(environment=document){
     // 
     const txA = "alma;korte;szilva|||A:::A:::B:::;;;B:::B:::A";
     const contentLinks = environment.getElementsByClassName("contentlink");
-    const urlapok = environment.querySelectorAll("[value].urlap"+prot);
+    const urlapok = environment.querySelectorAll("[value].urlap"+prot+", [usQ]:not([usQ='']).urlap"+prot);
     
     exportedMethods.doMindenhezHozzaad(
         environment.querySelectorAll("a.contentlink"+prot),
@@ -137,7 +149,7 @@ export function addEvents(environment=document){
         if(NNretn) retnK = NNretn.getAttribute("id");
         retn.id = retnK + "retn_" + retnIDn;
         retn.style.setProperty("--data-retnID", retnK + "retn_" + retnIDn)
-        exportedRetnMethods.doAddEventsToARetn(retn, prot);
+        //exportedRetnMethods.doAddEventsToARetn(retn, prot);
         retnIDn++;
     }
     // Urlap
@@ -153,6 +165,12 @@ export function addEvents(environment=document){
         const whenSendEvent = urlapActName ? new CustomEvent("urlapS"+urlapActName, {detail: {urlapID: fullID}}) : null;
         const whenAktuelEvent = urlapActName ? new CustomEvent("urlapA"+urlapActName, {detail: {urlapID: fullID}}) : null;
         
+        // Auto send form on site load
+        if(urlap.hasAttribute("onload")){
+            exportedMethods.doAktuel(null, urlap, whenSendEvent);
+            doKuld(null, urlap, whenSendEvent);
+        }
+
         exportedMethods.doMindenhezHozzaad(
             urlap.querySelectorAll(".aktuel"+prot),
             [exportedMethods.doAktuel], "indexAktuel",
@@ -168,33 +186,29 @@ export function addEvents(environment=document){
             [exportedMethods.doAktuel, doKuld], "indexKuldG",
             [[urlap, whenSendEvent]]
         );
-
-        const hasID = urlap.hasAttribute("urlapided");
-        const ids = urlap.querySelectorAll("[id]:not([id=''])" + prot);
-        urlap.id = fullID;
-        urlap.setAttribute("urlapided", "");
-        urlap.style.setProperty("--data-urlapid", fullID+"");
-        for(let i = 0;i < ids.length; i++){        
-            if(hasID) ids[i].id = ids[i].id.replace(/^[^_]+_/, "");
-            ids[i].id = fullID + "_" + urlapVariation + ids[i].getAttribute("id");
-        }
-        const fors = urlap.querySelectorAll("[for]:not([for=''])" + prot);
-        for(let i = 0;i < fors.length; i++){        
-            if(hasID) fors[i].for = fors[i].getAttribute("for").replace(/^[^_]+_/, "");
-            fors[i].setAttribute("for", fullID + "_" + urlapVariation + fors[i].getAttribute("for"));
+        //id variation
+        {   
+            const hasID = urlap.hasAttribute("urlapided");
+            const ids = urlap.querySelectorAll("[id]:not([id=''])" + prot);
+            urlap.id = fullID;
+            urlap.setAttribute("urlapided", "");
+            urlap.style.setProperty("--data-urlapid", fullID+"");
+            for(let i = 0;i < ids.length; i++){        
+                if(hasID) ids[i].id = ids[i].id.replace(/^[^_]+_/, "");
+                ids[i].id = fullID + "_" + urlapVariation + ids[i].getAttribute("id");
+            }
+            const fors = urlap.querySelectorAll("[for]:not([for=''])" + prot);
+            for(let i = 0;i < fors.length; i++){      
+                if(hasID) fors[i].for = fors[i].getAttribute("for").replace(/^[^_]+_/, "");
+                fors[i].setAttribute("for", fullID + "_" + urlapVariation + fors[i].getAttribute("for"));
+            }
         }
         urlapIDn++;
     }
     //exportedMethods.doaddIDTo(document, "film", "def");
-   exportedMethods.doMindenhezHozzaad(
-    environment.querySelectorAll(".film [nextTo]:not([nextTo=''])" + prot),
-        [exportedMethods.actionableAutoJumpJelenet], "filmAutoJump"
-    );
-
     exportedMethods.doMindenhezHozzaad(
-        environment.querySelectorAll(".refreshall"+prot), 
-        [actionableDoFrissit], 
-        "indexRefresh", []
+        environment.querySelectorAll(".film [nextTo]:not([nextTo=''])" + prot),
+            [exportedMethods.actionableAutoJumpJelenet], "filmAutoJump"
     );
 }
 
@@ -204,81 +218,73 @@ function ron(e, urlap, MyEvent){
    doKuld(e, urlap, MyEvent);
 }
 
+function dbLink(qNum, zz){
+
+}
+
 //Kuld
 async function doKuld(e, urlap, MyEvent){
     const jsonValue = await exportedMethods.getUrlapJSONs(urlap);
-    jsonValue["db"] = {
-        schemanames: urlap.getAttribute("db-schemanames") || "",
-        tablenames: urlap.getAttribute("db-tablenames") || "",
-        columnnames: urlap.getAttribute("db-columnnames") || "",
-        methodnames: urlap.getAttribute("db-methodnames") || "",
-        aliases: urlap.getAttribute("db-aliases") || "",
-        query: urlap.getAttribute("db-query") || "",
-    };
     const allapotKijelzok = urlap.getElementsByClassName("allapot");
-    const routG = urlap.getAttribute('value').split("/");
-    let tr = "";
-    for(const strE of routG){
-        const strEs = strE.split("-");
-        const strEs1 = /*strEs[1] ? strEs[1] :*/ "ca";
-        tr += strE.startsWith("$") ?
-        ((jsonValue[strEs1] && jsonValue[strEs1][strEs[0].replace("$", "")]) ||
-        "null") +"/" : strE + "/";
-    }
-    
-    for(const strE in jsonValue.db ){
-        let dbFro = "";
-        const fr = jsonValue.db[strE].split('\\-');
-        for(let i = 0; i < fr.length; i++){
-            if(fr[i].startsWith('$')){
-                console.log(fr[i]);
-                fr[i] = jsonValue["ca"][fr[i].replace("$", "")];
-                console.log(fr[i]);
-            }
-            dbFro += fr[i];
-        }
-        jsonValue.db[strE] = dbFro;
-        console.log(jsonValue.db[strE]);
-    }
-
-
-
-    tr = tr.substring(0, tr.length-1);
+    const fvalue = urlap.getAttribute("value") || "callquery";
+    const fname = urlap.getAttribute("name") || false;
+    //const haveName = fname ? true : false;
     let sikeresKeres = false;
     for(const btn of urlap.querySelectorAll("*:not(.urlap):not(.retn) .kuld, .kuldG")){
         btn.setAttribute("disabled", "");
     }
+    // urlap.classList.add("disable");
     exportedMethods.doUrlapAllapotFrissites(allapotKijelzok, "Küldés folyamatban...");
-    //jsonValue["ca"].datum = 2;
-    //
-    // ExampleRest;;
-    //
-    const response = await exportedMethods.exampleREST(
-        tr, urlap.getAttribute("method") || "post",
-        jsonValue["db"], jsonValue["ca"], jsonValue["ce"]
-    );
-    console.log(response);
-    exportedMethods.doUrlapAllapotFrissites(allapotKijelzok, "Küldés sikeres!");
-    console.log(jsonValue)
-    for(const btn of urlap.querySelectorAll("*:not(.urlap):not(.retn) .kuld, .kuldG")){
-        btn.removeAttribute("disabled");
-    }
-    if(!sikeresKeres){
-        const tres = response.replace("res:", "");
-        for(const retn of document.querySelectorAll(`[name=${urlap.getAttribute('name')}].retn`)){
-            exportedRetnMethods.doUjratolt(retn, tres);
+    
+    // Adatfeldolgozás
+    {
+        const usesDB = urlap.getAttribute("usq").split("[^0-9]");
+        console.log("F: " + usesDB.length)
+        const fbol = usesDB.length == 1;
+        const ddtxt = exportedQMethods.qTextReform(
+            (fbol || (usesDB.length>1 && usesDB[0] == 0)) ?
+            formQs[Number(usesDB[0])] : noRefreshQs[Number(usesDB[1])], jsonValue)
+        ;
+        const tr = exportedQMethods.qTextReform(fvalue, jsonValue);
+        console.log(ddtxt);
+        //jsonValue["ca"].datum = 2;
+        //
+        // ExampleRest;;
+        //
+        const response = await exportedMethods.exampleREST(
+            tr, urlap.getAttribute("method") || "post",
+            ddtxt, jsonValue["ca"]
+        );
+        if(fbol) addOrEditFormQ(Number(usesDB[0]), jsonValue, fname, response, fvalue);
+        console.log("Response:\n" + response);
+        console.log("JSONValue:")
+        console.log(jsonValue)
+        exportedMethods.doUrlapAllapotFrissites(allapotKijelzok, "Küldés sikeres!");
+        // urlap.classList.remove("disable");
+        for(const btn of urlap.querySelectorAll("*:not(.urlap):not(.retn) .kuld, .kuldG")){
+            btn.removeAttribute("disabled");
         }
-      //  doFrissit();
-        exportedMethods.doEnvAutoJumpJelenet(urlap, "NextToIfSuccess");
-       
-    }
-    else{
-        const presentationLayer = "alma;korte;szilva|||1:::Érd:::P:::N:::;;;2:::V:::6:::666:::"
-        for(const retn of document.querySelectorAll(`[name=${urlap.getAttribute('name')}].retn`)){
-            await exportedRetnMethods.doUjratolt(retn, presentationLayer, "text", "Ürlap");
+    
+        if(!sikeresKeres){
+            const tres = response.replace("res:", "");
+            for(const retn of document.querySelectorAll(`[name="${fname}"].retn`)){
+                exportedRetnMethods.doUjratolt(retn, tres);
+            }
+    
+            // Add to updateList
+    
+            //await doFrissit();
+            //addEvents();
+            exportedMethods.doEnvAutoJumpJelenet(urlap, "NextToIfSuccess");  
         }
-        //doFrissit();
-        exportedMethods.doEnvAutoJumpJelenet(urlap, "NextToIfSuccess");
+        else{
+            const presentationLayer = "alma;korte;szilva|||1:::Érd:::P:::N:::;;;2:::V:::6:::666:::"
+            for(const retn of document.querySelectorAll(`[name=${urlap.getAttribute('name')}].retn`)){
+                await exportedRetnMethods.doUjratolt(retn, presentationLayer, "text", "Ürlap");
+            }
+            //doFrissit();
+            exportedMethods.doEnvAutoJumpJelenet(urlap, "NextToIfSuccess");
+        }
     }
     if(MyEvent) {    
         eventTarget.dispatchEvent(urlap.hasAttribute("useRespInEvent") ? 
@@ -286,7 +292,8 @@ async function doKuld(e, urlap, MyEvent){
                 {detail: 
                     {
                         urlapID: fullID,
-                        response: response
+                        response: 0, /*  */
+                        usQ: -1
                     }
                 }
             ) : MyEvent
@@ -298,14 +305,6 @@ async function doKuld(e, urlap, MyEvent){
             vutton.dispatchEvent(new Event(dipe));
         }
     }
-}
-
-async function actionableDoFrissit(e, retns){
-    await doFrissit(retns);
-}
-
-async function doFrissit(retns=document.querySelectorAll("[value].retn:not([name]:not(.retn.bigboose))")){
-    await exportedRetnMethods.doFrissit(retns);
 }
 
 eventTarget.addEventListener("urlapSlogined", function(e){

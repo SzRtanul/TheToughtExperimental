@@ -21,7 +21,7 @@
     </li>
 </ul>
 
-<div class="urlap" value="login" useRespInEvent action="logined">
+<div class="urlap" value="login" usedb="1/2" useRespInEvent action="logined">
     <button class="kuld">Login</button>
 </div>
 <div class="urlap" value="pelda/13" method="post">
@@ -73,6 +73,7 @@
                 class="urlap"
                 value="callquery"
                 name="etkezesek"
+                
 
                 db-schemanames="pg_catalog"
                 db-tablenames="pg_namespace" 
@@ -103,7 +104,7 @@
 
                 db-schemanames="pg_catalog"
                 db-tablenames="pg_namespace" 
-                db-columnnames="oid;nspname"
+                db-columnnames="oid?nspname"
                 db-methodnames=""
                 db-query="AS * FROM #$0.#%0"
             >
@@ -144,9 +145,9 @@
 
 <div 
     name="ujvarcoramaster" 
-    action="anevemzorro" 
-    method="get" class="urlap" 
-    value="ujvacsora"
+    action="anevemzorro"
+    class="urlap"
+    usq="0"
     >
     <button class="kuld">LEküld</button>
 </div>
@@ -157,7 +158,7 @@
     >
     <div class="immler">
         <div class="retnrow">
-            <p><strong class="mez film">0</strong>:<strong class="mez">1</strong>:<strong class="mez">0</strong></p>
+            <p><strong class="mez film" dtag="0"></strong>:<strong class="mez" dtag="1">1</strong>:<strong class="mez" dtag="2"></strong></p>
         </div>
         
         <div class="retnerror">
@@ -187,7 +188,7 @@
     value="callquery"
     db-schemanames="pg_catalog"
     db-tablenames="pg_namespace" 
-    db-columnnames="oid;nspname"
+    db-columnnames="oid?nspname"
     db-methodnames=""
     db-query="AS * FROM #$0.#%0"
 >

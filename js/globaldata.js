@@ -1,5 +1,5 @@
 export let eventTarget = new EventTarget();
-export const serverhost = "http://experimental.local:18080/";
+export const serverhost = "http://thetoughtexperimental.local:18080/";
 
 
 let urlapButtons = [];
@@ -195,7 +195,7 @@ async function getUrlapJSONs(urlap){
     const myUrlap = urlap.querySelectorAll("* [name]:not([name=''])");
     const jsonValue = {};
     for(const mezo of myUrlap){
-        const mezofieldType = mezo.dataset.fieldtype || "ca";
+        const mezofieldType = "ca";
         if(!jsonValue[mezofieldType]) jsonValue[mezofieldType] = {};
        // if (typeof mezo.name !== "string" || mezo.name.trim() === "") mezo.name="";
         if(jsonValue[mezofieldType] && mezo.name && mezo.name.length > 0){
@@ -271,16 +271,7 @@ async function doAktuel(e, urlap, MyEvent){
 }
 
 async function exampleREST(honnan="", 
-    method="POST", 
-    db={
-        schemanames: "",
-        tablenames: "",
-        columnnames: "",
-        methodnames: "",
-        aliases: "",
-        query: ""
-    }, 
-    cAzon={}, cEdit={}
+    method="POST", db="", cAzon={}
 ){
     const fetchJSON = {
         method: method.toUpperCase(),
@@ -308,7 +299,19 @@ async function exampleREST(honnan="",
             break;
     }
     const response = await fetch(serverhost + honnan, fetchJSON).catch(error => { return null; });
-    return await response ? "res:" + await response.text() : "HIBA: A szerver elérhetetlen.";
+    return await response ? await response.text() : "err:HIBA: A szerver elérhetetlen.";
+}
+
+async function simpleREST(honnan=""
+){
+    const fetchJSON = {
+        method: 'GET',
+        headers: {
+            cache: 'no-store'
+        }
+    };
+    const response = await fetch(honnan, fetchJSON).catch(error => { return null; });
+    return await response ? "res:" + await response.text() : "";
 }
 
 export const exportedMethods = {
@@ -335,5 +338,6 @@ export const exportedMethods = {
     setAnythingOnElement: setAnythingOnElement,
     isBenneVan: bennevan,
     isBenneHol: bennehol,
-    exampleREST: exampleREST
+    exampleREST: exampleREST,
+    simpleREST: simpleREST
 };

@@ -1,125 +1,67 @@
 <h1>Alterego</h1>
 
-<!-- Jogosultság -->
-
-<div
-    class="urlap"
-    value="callquery"
-    name="tes"
-
-    db-schemanames="pg_catalog"
-    db-tablenames="jogcsoport;pg_namespace"
-    db-columnnames="oid;nspname"
-    db-methodnames=""
-    db-aliases=""
-    db-query="select #$0.#%1.#&0, #$0.#%1.#&1 from #$0.#%1;"
->
-    <button class="kuld">Küggyed papa!</button>
-</div>
-
-<div
+<div 
     class="retn"
-    name="tes"
+    value="callquery"
 >
     <table class="immler">
-        <thead class="retnheader" safter="<tbody>">
+        <thead class="retnheader">
             <tr>
-                <th dtag="*"></th>
+                <th dtag="0"></th>
+                <th dtag="1"></th>
             </tr>
         </thead>
         <tbody>
-            <tr class="retnrow" >
-                <td class="mez" dtag="*"></td>
+            <tr class="retnrow">
+                <td class="mez" dtag="0"></td>
+                <td class="mez" dtag="1"></td>
+                <td class="urlap" usQ="1-3">
+                    <input type="number" name="jj" class="inv" ntag="2">
+                    <input type="number" name="jj2" class="inv" ntag="3">
+                    <button class="kuld">Kuka</button>
+                </td>
             </tr>
         </tbody>
-        <tfoot class="retnfooter" sbefore="</body>"></tfoot>
+        <tfoot class="retnfooter">
+            <tr
+                class="urlap"
+                value="callquery"
+                db-schemanames="sysadmin"
+                db-tablenames="engedelyezettsema"
+                db-query="insert into #$0.#%0 values (\-$oszl\-, \-$oszl2\-);"
+            >
+                <td
+                    class="retn"
+                    value="callquery"
+
+                    db-schemanames="pg_catalog?sysadmin"
+                    db-tablenames="jogcsoport"
+                    db-query="select * from #$1.#%0;"        
+                >
+                    <select class="immler" id="">
+                        <option class="retnrow" ntag="0" dtag="1"></option>
+                    </select>
+                    <select name="oszl" class="retnmain"></select>        
+                </td>
+                <td
+                    class="retn"
+                    value="callquery"
+
+                    db-schemanames="pg_catalog"
+                    db-tablenames="jogcsoport?pg_namespace"
+                    db-columnnames="oid?nspname"
+                    db-query="select #$0.#%1.#&0, #$0.#%1.#&1 from #$0.#%1;"        
+                >
+                    <select class="immler" id="">
+                        <option class="retnrow" ntag="0" dtag="1"></option>
+                    </select>
+                    <select name="oszl2" class="retnmain"></select>
+                </td>
+                <td><button class="kuld">Kűűűűűűggyed!</button></td>
+            </tr>
+        </tfoot>
     </table>
     <table class="retnmain">
 
     </table>
 </div>
-
-<div
-    class="urlap"
-    value="callquery"
-    name="tesa"
-
-    db-schemanames="pg_catalog;sysadmin"
-    db-tablenames="jogcsoport"
-    db-columnnames=""
-    db-methodnames=""
-    db-aliases=""
-    db-query="select * from #$1.#%0;"
->
-    <button class="kuld">Küggyed!</button>
-</div>
-
-<div
-    class="retn"
-    name="tesa"
->
-    <table class="immler">
-        <thead class="retnheader" safter="<tbody>">
-            <tr>
-                <th dtag="*"></th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr class="retnrow" >
-                <td class="mez" dtag="*"></td>
-            </tr>
-        </tbody>
-        <tfoot class="retnfooter" sbefore="</body>"></tfoot>
-    </table>
-    <table class="retnmain">
-
-    </table>
-</div>
-
-<div
-    class="urlap"
-    value="callquery"
-    name="tea"
-
-    db-schemanames="sysadmin"
-    db-tablenames="engedelyezettsema"
-    db-columnnames=""
-    db-methodnames=""
-    db-aliases=""
-    db-query="insert into #$0.#%0 values (\-$oszl\-, \-$oszl2\-);"
->
-    <div 
-        class="retn"
-        value="callquery"
-
-        db-schemanames="pg_catalog;sysadmin"
-        db-tablenames="jogcsoport"
-        db-columnnames=""
-        db-methodnames=""
-        db-aliases=""
-        db-query="select * from #$1.#%0;"
-    >
-        <select class="immler" id="">
-            <option class="retnrow" ntag="0" dtag="1"><span ></span></option>
-        </select>
-        <select name="oszl" class="retnmain"></select>
-    </div>
-    <div 
-        class="retn"
-        value="callquery"
-
-        db-schemanames="pg_catalog"
-        db-tablenames="jogcsoport;pg_namespace"
-        db-columnnames="oid;nspname"
-        db-methodnames=""
-        db-aliases=""
-        db-query="select #$0.#%1.#&0, #$0.#%1.#&1 from #$0.#%1;"
-    >
-        <select class="immler" id="">
-            <option class="retnrow" ntag="0" dtag="1"><span ></span></option>
-        </select>
-        <select name="oszl2" class="retnmain"></select>
-    </div>
-    <button class="kuld">Kűűűűűűggyed!</button>
-</div>
-

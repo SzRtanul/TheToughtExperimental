@@ -1,18 +1,16 @@
 <div 
     name="testRetn" 
     class="urlap"
-    value="callquery"
-
-    db-schemanames="pg_catalog"
-    db-tablenames="pg_namespace" 
-    db-columnnames="oid;nspname"
-    db-methodnames=""
-    db-query="select * FROM #$0.#%0"
+    usq="2-2"
 >
     <button class="kuld">KK</button>
 </div>
 
-<div name="testRetn" class="retn">
+<template>
+
+</template>
+
+<div name="testRetn" class="retn" immler="jancsi">
     <div class="immler">
         <div class="retnheader">ALAHAMA</div>
         <div class="retnrow">
@@ -22,13 +20,8 @@
            
             <div 
                 class="retn" 
-                data-clwhere="mez_0=mez_0" 
-                value="callquery"
-                db-schemanames="pg_catalog"
-                db-tablenames="pg_namespace" 
-                db-columnnames="oid;nspname"
-                db-methodnames=""
-                db-query="SELECT * FROM #$0.#%0"
+                data-clwhere="mez_0=mez_0"
+                usq=""
             >
                  <div class="immler">
                      <div class="retnheader">ALAHAMA</div>
@@ -38,9 +31,7 @@
                             <div 
                                 class="retn" 
                                 ata-clwhere="mez_0=mez_0" 
-                                value="callquery"
-                                db-schemanames=""
-                                db-query=""
+                                usq=""
                             >
                                 <div class="immler">
                                     <div class="retnheader">ALAHAMA</div>
@@ -335,8 +326,12 @@
     class="retn"
     value="callquery"
 
-    db-schemanames=""
-    b-query=""
+    db-schemanames="pg_catalog"
+    db-tablenames="pg_namespace;pg_proc" 
+    db-columnnames="oid;nspname"
+    db-methodnames=""
+    db-query="-"
+    b-query="select * FROM #$0.#%1"
 >
     <tbody class="immler">
         <tr class="retnrow">         
