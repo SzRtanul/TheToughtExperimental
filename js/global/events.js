@@ -30,7 +30,7 @@ function doFrissit(retns){
         let elozo = window.performance.now();
         retns[i].innerHTML = '';
         result = doUjratolt(retns[i].getAttribute("cjust"));
-        console.log(result);
+  //      console.log(result);
         retns[i].innerHTML = result;
     }
 }
@@ -57,7 +57,7 @@ function doUjratolt(cjust="", responseInput=0){
                 const metnum = Number("0x"+cja.substring(i,i+2));
                 methods.push(!isNaN(metnum) && metnum != 255 ? templates[metnames[metnum]] : 0);
             }
-            console.log(cja.substring(9, 10) + ":" + cja.substring(10, 12));
+         //   console.log(cja.substring(9, 10) + ":" + cja.substring(10, 12));
             const reqType = Number("0x"+ cja.substring(9, 10));
             const reqNum = Number("0x"+ cja.substring(10, 12));
             console.log(reqType + ":" + reqNum)
@@ -72,43 +72,59 @@ function doUjratolt(cjust="", responseInput=0){
                 console.log("Oh")
                 break;
             }
-            console.log("Igen")
+            console.log("Igen: " + cja.length)
             if(cja.length>13){
-                const materia = cja.substring(12, cja.length).split(":-");
+                const materia = cja.substring(12, cja.length).split(":-"); // retnrowType selecter(választó)
                 let mal = "";
                 const resultBef = [];
                 const resultQ = [];
                 const befIlter = [];
-                const whereBef = [];
+                let anex = 0;
                 const resrownums = [];
                 const resultsBefRowsNums = [];
-
+                const whereBef = [];
                 let befsNum = 0;
                 let mata = 0;
                 for(const len of materia){
-                    for(const lk of len.split(":")){
-                        const matre = lk.split("-|,|=")
+                    console.log("len: " + len)
+                    const lklen = len.split(":");
+                    let lastResBefIndex = whereBef.push((resultBef.length + lklen.length)) -1;
+                    console.log("WhereBef: ")
+                    console.log(whereBef)
+                    for(const lk of lklen){ // To retnrow
+                        console.log("LK: " + lk);
+                        const matre = lk.split(/[-,=]+/).filter(Boolean); // filter parameters with retnrow
+                        console.log(matre)
                         let hirF = Number(matre[0]);
-                        if(!isNaN(hirF) && hirF < mata){
-                            resultBef.push(templates[hirF])
+                        if(!isNaN(hirF) && hirF < yeP){
+                            resultBef.push(templeBefs[hirF]);
                             resultQ.push(templeUsq[hirF]);
-                            resultsBefRowsNums.push(befRowsNum[hirF])
+                            console.log("FEEEEELTOOOOOLT!!!\n");
+                            //console.log(resultBef)
+                            resultsBefRowsNums.push(befRowsNum[hirF]);
                         }
+                        else{
+                            lastResBefIndex--;
+                        }
+                        console.log("MATAAAA:"+ mata);
                         if(mata < 1){
-                            befIlter.push(matre.length-1)
+                            befIlter.push(matre.length);
+                            console.log("FELTÖLTÉÉÉÉÉÉÉS!")
                             for(let mat = 1; mat < matre.length; mat++){
+                                console.log("BRUHHHHH")
                                 befIlter.push(isNaN(matre[mat]) ? matre[mat] : Number(matre[mat]));
                             }
                         }
                         befsNum++;
                     }
-                    whereBef.push(befsNum)
                     mata++;
                 }
+                console.log("Halál:W")
+                console.log(whereBef)
                 templeBefs.push(whataf(
                     templeUsq[templeLast], methods, 
-                    resultBef, befRowsNum, resultQ, 
-                    befIlter, whereBef, resrownums
+                    resrownums, resultBef, befRowsNum, resultQ, 
+                    befIlter, whereBef
                 ));
                 befRowsNum.push(resrownums);
             }
@@ -147,8 +163,17 @@ function whataf(
     befrownums=[],
     befusqs = [],
     befFilters=[],
-    whereBef = [], // row, thead, tfoot, error
+    wherebef=[]
 ){
+    console.log("Rese: ");
+  //  console.log(befretns);
+    console.log("Rese.");
+    console.log("WHATF befIlter: ")
+    console.log(befFilters)
+    console.log("WHATF WhereBef: ")
+    console.log(wherebef)
+    console.log("WHATF BefRowsNums: ")
+    console.log(befrownums)
     const resHaveThead = responseInput.startsWith("T") ? 1 : 0;
     let fullText = "F";
     const resPlit = replaceLast(responseInput, ":::;;;\n", "").split(":::");
@@ -156,61 +181,85 @@ function whataf(
     console.log("Lépték: " + leptek);
     //const adatsorrend = retn.getAttribute("adatsorrend")?.split(";");
     const error = responseInput.startsWith("err:") ? 1 : 0;
-
+    outResBefNums.push(2);
     // Fejléckiírás
-    const eleje = befretns[0];
+    const eleje = wherebef[0];
+    console.log("Eleje: " + eleje)
     if(resHaveThead && retnrows[1] != 0){
-        fullText = "T"+retnrows[1](...befretns.slice(eleje, befretns[eleje]), ...resPlit.slice(0, leptek));
+        fullText = "T"+retnrows[1](...befretns.slice(eleje, wherebef[1]), ...resPlit.slice(0, leptek));
+        outResBefNums.push(fullText.length); // ALAMÉAEA
     }
     
     if(error == 0 && retnrows[0] != 0){
         console.log("KAKAÓÓÓÓ!");
-        let memoryRef = false;
         for(let i = resHaveThead * leptek; i < resPlit.length; i+=leptek){
-            console.log("KAKAÓÓÓÓ!");
+            //  console.log("KAKAÓÓÓÓ!");
             const resultsBef = [];
             let qruak=1;
+            console.log("Eeeee: "+qruak+":"+eleje)
             for(let usqT = 0; usqT < eleje; usqT++){ // befs
-                console.log("KAKAÓÓÓÓ!");
-                if(befFilters[qruak-1]-qruak != 1){
-                    const actualBef = befretns[i];
+                console.log("OTL");
+                //console.log(befFilters)
+                console.log("OCL");
+                //  console.log(befFilters.length+":"+befFilters[qruak-1]+":"+qruak)
+                const qruakLiminal = befFilters[qruak-1];
+                const memqruak = qruak;
+                if(befFilters.length > qruak-1 && befFilters[qruak-1] > 1){
+                    const actualBef = befretns[usqT];
                     const resLast = resultsBef.push(
-                        actualBef.startsWith("T") ? actualBef.substring(1, befrownums[i]) : ""
-                    );
-                    const usLeptek = befusqs[i].charCodeAt(1);
-                    const fra = befusqs[i].split(":::");
+                        actualBef.startsWith("T") ? actualBef.substring(1, befrownums[usqT]) : ""
+                    )-1;
+                    //     console.log("BefUqs: "+befusqs[usqT])
+                    //    console.log(usqT)
+                    const usLeptek = befusqs[usqT].charCodeAt(1);
+                    const fra = befusqs[usqT].split(columnSep);
                     const qruakArray = [];
-                    for(let usqTrow = befusqs[usqT].startsWith("T") ? usLeptek : 0; fra.length; usqTrow+=usLeptek){
+                    console.log(usLeptek+":"+fra.length+":"+befusqs[usqT].charCodeAt(1));
+                    // console.log(befusqs[usqT])
+                    let memoryRef = false;
+                    for(
+                       let usqTrow = befusqs[usqT].startsWith("T") ? usLeptek : 0;
+                       usqTrow < fra.length;
+                       usqTrow+=usLeptek
+                    ){
                         let ortami = true;
-                        memoryRef = false;
-                        const qruakLiminal = befFilters[qruak-1];
-                        for(; ortami && qruak < qruakLiminal; qruak += 2){ // befFilters
+                        //memoryRef = false;
+                        for(qruak = memqruak; ortami && qruak < qruakLiminal; qruak += 2){ // befFilters
                             ortami = resPlit[i+befFilters[qruak]] === 
-                                befusqs[usqTrow + befFilters[qruak+1]];
+                                fra[usqTrow + befFilters[qruak+1]];
+                            console.log("usqTrow: " + resPlit[i+befFilters[qruak]] +":"+fra[usqTrow + befFilters[qruak+1]])
                         }
                         if(ortami != memoryRef){
-                            qruakArray.push(befrownums[usqT][usqTrow]);
+                            console.log("OO: " +usqT+":"+usqTrow)
+                            qruakArray.push(befrownums[usqT][usqTrow-1]);
+                            //Szétválasztás, csoportosítás
                             memoryRef = ortami;
                         }
-                        qruak = qruakLiminal+1;
                     }
                     console.log("KAKAÓÓÓÓ!");
                     // betáplálás
-                    for(let qruakResult = 0; qruakResult < qruakArray.length; i+=2){
-                        console.log("KAKAÓÓÓÓ!");
+                    for(let qruakResult = 0; qruakResult < qruakArray.length; qruakResult+=2){
+                       // console.log(qruakArray[qruakResult]+":"+qruakArray[qruakResult + 1]);
+                       console.log("ResLast: "+resLast)
                         resultsBef[resLast] += actualBef.slice(
                             qruakArray[qruakResult], qruakArray[qruakResult + 1]
                         );
                     }
                 }
                 else{
-                    console.log("KAKAÓÓÓÓ!");
-                    resultsBef.push(befretns[i]);
+                    console.log("KAKAÓÓÓÓ!--");
+                    resultsBef.push(befretns[usqT]);
+                    qruak++;
+                    console.log("OHEEEEEE: " + usqT);
+                  //  console.log(resultsBef);
                 }
             }
-            fullText += retnrows[0](...resultsBef, ...resPlit.slice(i, i + leptek))
+           // console.log("rYEEEEEY");
+          //  console.log(resultsBef)
+            fullText += retnrows[0](...resultsBef, ...resPlit.slice(i, i + leptek));
+            outResBefNums.push(fullText.length)
            // console.log("FliTex: " + fullText)
-            console.log("KAKAÓÓÓÓ!: " + i);
+         //   console.log("KAKAÓÓÓÓ!: " + i);
         }
         // tfoot
         if(retnrows[2]!=0) fullText += retnrows[2]();
@@ -218,6 +267,7 @@ function whataf(
     else if(retnrows[3] != 0){
         for(const textrow of resPlit){
             fullText += retnrows[3](...resPlit.split(columnSep));
+            outResBefNums.push(fullText.length)
         }
     }
     // console.log("FullText: " + fullText)
