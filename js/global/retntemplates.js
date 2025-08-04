@@ -60,7 +60,7 @@ export const retnCombinations = {
         "theade:tablerow:tbodyend|||010002FF;002",
     etlecta2: 
         "theade:tablerow:tbodyend:withselect:seloption|||" +
-        "04FFFFFF;001---04FFFFFF;002---030002FF;001-0:0=0=0",
+        "04FFFFFF;001---04FFFFFF;002---030002FF;001-0:0-0-0",
     kolost: 
         "omla:ini:enela:kala;|||FFFFFFFF;3FF;"+
         "2-1=12,3-1=12:2-1=12,3-1=12:---"
