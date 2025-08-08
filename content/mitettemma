@@ -36,14 +36,7 @@
         name="ujvacsora"
         action="hozzaadasutan"
         disp="enekhang"
-        
-        db-updatesets="$-1=$mandarin,$-2="
-        
-        db-schemanames="pg_catalog"
-        db-tablenames="pg_namespace" 
-        db-columnnames="oid;nspname"
-        db-methodnames=""
-        db-query="SELECT * FROM #$0.#%0"
+        usq="1-0"
     >
         <div class="scene sceneI scen scen0">
             <button id="kirakat" class="aktuel kirakat" nextTo="scen:1">Étkezés hozzáadása</button>
@@ -73,100 +66,34 @@
                 class="urlap"
                 value="callquery"
                 name="etkezesek"
-                
-
-                db-schemanames="pg_catalog"
-                db-tablenames="pg_namespace" 
-                db-columnnames="oid;nspname"
-                db-methodnames=""
-                db-query="SELECT * FROM #$0.#%0"
+                usq="1-0"
             > <!--Etkezesvalaszto-->
-                <div 
-                    class="retn"
+                <select 
+                    class="retn kuld remt" 
+                    indexKuldEvent="change;enekhang"
                     name="ujvacsora"
-                >
-                    <button class="refreshall">Újratölt</button>
-                    <div class="immler">
-                        <option 
-                            class="retnrow" 
-                            ntag="0"
-                            value=""
-                        >
-                            <span class="mez" dtag="1" >ERAN</span>
-                        </option>
-                    </div>
-                    <select class="retnmain kuld remt" indexKuldEvent="change;enekhang"></select>
-                </div>
+                    cjust="ujvacsora"
+                ></select>
+                <div class="retn" cjust="nemtudni"></div>
             </div>
-            <div 
-                class="retn" 
-                value="callquery"
-
-                db-schemanames="pg_catalog"
-                db-tablenames="pg_namespace" 
-                db-columnnames="oid?nspname"
-                db-methodnames=""
-                db-query="AS * FROM #$0.#%0"
-            >
-                <div class="immler">
-                    <p class="retnheader"><span class="mez" dtag="0"></span><span class="mez"dtag="1">1</span></p>
-                    <div class="retnrow">
-                        <div class="mez" dtag="0">null</div>
-                        <div class="film">
-                            <button
-                                class="scene sceneI scen scen0 mez" 
-                                nextTo="scen:1"
-                                dtag="1"
-                            >1
-                            </button>
-                            <div 
-                                class="scene scen scen1 urlap"
-                                value="val"
-                                nextToIfSuccess="scen:0"
-                            >
-                                <input 
-                                    name="id" ntag="0" 
-                                    data-fieldtype="ca"
-                                    type="text" class="inv" 
-                                >
-                                <input name="datum" type="text" ntag="1">
-                                <button class="kuld">Küld</button>    
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="retnmain">
-
-                </div>
-            </div>
-        </div>
     </div>
-</div>
-
-<div 
+<div
+    class="urlap"
     name="ujvarcoramaster" 
     action="anevemzorro"
-    class="urlap"
     usq="0"
-    >
+>
     <button class="kuld">LEküld</button>
 </div>
 
 <div 
     name="ujvarcoramaster" 
     class="retn"
-    >
+>
     <div class="immler">
         <div class="retnrow">
             <p><strong class="mez film" dtag="0"></strong>:<strong class="mez" dtag="1">1</strong>:<strong class="mez" dtag="2"></strong></p>
         </div>
-        
-        <div class="retnerror">
-
-        </div>
-    </div>
-    <div class="retnmain">
-
     </div>
 </div>
 
@@ -186,11 +113,7 @@
 <div 
     class="retn" 
     value="callquery"
-    db-schemanames="pg_catalog"
-    db-tablenames="pg_namespace" 
-    db-columnnames="oid?nspname"
-    db-methodnames=""
-    db-query="AS * FROM #$0.#%0"
+    cjust=""
 >
     <div class="immler">
         <thead class="retnheader">
@@ -321,7 +244,7 @@ ENA
                  <p class="mez" dtag="2">alany</p>
                  <p class="mez" dtag="0">let</p>
             </legend>
-     </div>
+        </div>
     </div>
     <div class="retnmain">
 

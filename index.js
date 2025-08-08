@@ -267,23 +267,23 @@ async function doKuld(e, urlap, MyEvent){
     
         if(!sikeresKeres){
             const tres = response.replace("res:", "");
-            for(const retn of document.querySelectorAll(`[name="${fname}"].retn`)){
+            console.log("FESZ")
+            for(const retn of document.querySelectorAll(`[name="${fname}"].retn[cjust]:not([cjust=''])`)){
                 exportedRetnMethods.doUjratolt(retn, tres);
             }
+            addEvents();
     
             // Add to updateList
-    
             //await doFrissit();
-            //addEvents();
             exportedMethods.doEnvAutoJumpJelenet(urlap, "NextToIfSuccess");  
         }
         else{
-            const presentationLayer = "alma;korte;szilva|||1:::Érd:::P:::N:::;;;2:::V:::6:::666:::"
+         /*   const presentationLayer = "alma;korte;szilva|||1:::Érd:::P:::N:::;;;2:::V:::6:::666:::"
             for(const retn of document.querySelectorAll(`[name=${urlap.getAttribute('name')}].retn`)){
                 await exportedRetnMethods.doUjratolt(retn, presentationLayer, "text", "Ürlap");
             }
             //doFrissit();
-            exportedMethods.doEnvAutoJumpJelenet(urlap, "NextToIfSuccess");
+            exportedMethods.doEnvAutoJumpJelenet(urlap, "NextToIfSuccess");*/
         }
     }
     if(MyEvent) {    

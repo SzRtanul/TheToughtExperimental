@@ -78,8 +78,8 @@ async function doQueryUpdates(){
             await exportedMethods.exampleREST("callquery", "POST", qs[i])
         );
     }
-    console.log("Szeretem én ezt?: ")
-    console.log(queryResults)
+    console.log("Szeretem én ezt?: ");
+    console.log(queryResults);
 }
 
 export const exportedQMethods = {

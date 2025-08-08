@@ -36,8 +36,11 @@ function doFrissit(retns){
 
 function doUjratolt(cjust="", responseInput=0){
     let res = [];
-    const two = retnCombinations[cjust].split("|||")
-    const metnames = two[0]?.split(":");
+    const two = retnCombinations[cjust]?.split("|||");
+    if(!two || two.length<2){
+        return;
+    }
+    const metnames = two[0].split(":");
     const templeBefs = [];
     const templeUsq = [];
     const befRowsNum = [];
@@ -73,7 +76,7 @@ function doUjratolt(cjust="", responseInput=0){
             }
 ////console.log("Igen: " + cja.length)
             if(cja.length>13){
-                const materia = cja.substring(12, cja.length).split(":-"); // retnrowType selecter(választó)
+                const materia = cja.substring(12, cja.length).split(":_"); // retnrowType selecter(választó)
                 let mal = "";
                 const resultBef = [];
                 const resultQ = [];
@@ -95,15 +98,18 @@ function doUjratolt(cjust="", responseInput=0){
                         const matre = lk.split(/[-,=]+/).filter(Boolean); // filter parameters with retnrow
 ////console.log(matre)
                         let hirF = Number(matre[0]);
-                        if(!isNaN(hirF) && hirF < yeP){
+                        console.log("AMRE: " + matre.length +": " + matre[0])
+                        if(matre && matre.length > 0 && !isNaN(hirF) && hirF < yeP){
                             resultBef.push(templeBefs[hirF]);
                             resultQ.push(templeUsq[hirF]);
+//console.log("Cloth");
 ////console.log("FEEEEELTOOOOOLT!!!\n");
 //console.log(resultBef)
                             resultsBefRowsNums.push(befRowsNum[hirF]);
                         }
                         else{
-                            lastResBefIndex--;
+//console.log("Ahn!")
+                            whereBef[lastResBefIndex]--; // Utolsó hiba: --2025. 08. 08. 15:46--
                         }
 ////console.log("MATAAAA:"+ mata);
                         if(mata < 1){
@@ -140,7 +146,7 @@ function doUjratolt(cjust="", responseInput=0){
     }
     console.log("BefReCreat: ");
     let szen = "";
-    for(let i = 1; i<befRowsNum[0].length; i+=2){
+    for(let i = 0; i<befRowsNum[0].length; i++){
         szen += "\n"+i+". "+ templeBefs[0].substring(befRowsNum[0][i], befRowsNum[0][i+1])
     }
     console.log(szen)
@@ -307,7 +313,12 @@ console.log(befFilters)
 //console.log("KAKAÓÓÓÓ!: " + i);
         }
         // tfoot
-        if(retnrows[2]!=0) fullText += retnrows[2]();
+        if(retnrows[2]!=0) {
+            console.log("ARMA: " + wherebef[1] +":"+wherebef[2]);
+            fullText += wherebef.length > 2 ? retnrows[2](
+                ...befretns.slice(wherebef[1], wherebef[2])
+            ) : retnrows[2]();
+        }
     }
     else if(retnrows[3] != 0){
         for(const textrow of resPlit){
