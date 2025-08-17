@@ -5,33 +5,9 @@
     <li>etetesdokumentacio</li>
 </ul>
 
-<ul class="vizszintes-nav">
-    <li>
-        <button
-            class="contentlink"
-            name="mitettemma">
-                Étkezések
-        </button></li>
-    <li>
-        <button  
-            class="contentlink"
-            name="kiserletdokumentacio">
-                Vizsgálatok
-        </button>
-    </li>
-</ul>
-
-<div class="urlap" value="login" usedb="1/2" useRespInEvent action="logined">
-    <button class="kuld">Login</button>
-</div>
-<div class="urlap" value="pelda/13" method="post">
-    <button class="kuld">Példa</button>
-</div>
 <div class="film" cim="nemonyomaban">
     <div 
-        class="urlap scene sceneI diszlet diszlet0" 
-        value="callquery"
-        method="post"
+        class="urlap scene sceneI diszlet diszlet0"
         nextToIfSuccess="scen:0;diszlet:1"
         name="ujvacsora"
         action="hozzaadasutan"
@@ -76,62 +52,27 @@
                 ></select>
                 <div class="retn" cjust="nemtudni"></div>
             </div>
-    </div>
-<div
-    class="urlap"
-    name="ujvarcoramaster" 
-    action="anevemzorro"
-    usq="0"
->
-    <button class="kuld">LEküld</button>
-</div>
-
-<div 
-    name="ujvarcoramaster" 
-    class="retn"
->
-    <div class="immler">
-        <div class="retnrow">
-            <p><strong class="mez film" dtag="0"></strong>:<strong class="mez" dtag="1">1</strong>:<strong class="mez" dtag="2"></strong></p>
         </div>
     </div>
 </div>
 
 <h1>Miket ettem eddig?</h1>
-
-<button>+ Étkezés hozzáadása</button>
-<select name="alany" id="">
-    <option value="">-- Alany Profilok --</option>
-    <option value="">Becenév</option>
-</select>
+<!--Table-->
+<table
+    class="retn"
+    cjust="vacsoralist"
+></table>
 
 <div class="kimutatasok legordulo">
     Kimutatás
 </div>
 
 <h1>Mikor ettem?</h1>
-<div 
-    class="retn" 
-    value="callquery"
-    cjust=""
->
-    <div class="immler">
-        <thead class="retnheader">
-            <tr>
-                <th>OJE</th>
-            </tr>
-        </thead>
-        <tbody class="retnrow">
-            <tr>
-                <td class="mez">0</td>
-                <td class="mez">1</td>
-            </tr>
-        </tbody>
-    </div>
-    <table class="retnmain">
-
-    </table>
-</div>
+<!--Table-->
+<table
+    class="retn"
+    cjust="eatedlist"
+></table>
 
 <div name="ujetkezes" action="metafora" method="get" class="urlap" value="ujvacsora/$datum">
     <button class="aktuel">Aktüel</button>
@@ -191,6 +132,7 @@
     <button class="kuldG">Tovább</button>
 </div>
 
+
 <div class="urlap" value="kajahozzaadas">
     <select name="etkezes" id="">
         <option value="-1">-- Étkezés --</option>
@@ -200,68 +142,4 @@
     </select>
     <input name="mennyiseg" type="number" step="0.01">
     <button class="kuld">Kaják hozzáadása</button>
-</div>
-
-<div class="urlap" value="ujalany">
-
-</div>
-
-<!--Apróságok-->
-
-<div class="urlap" value="mertekegyseg">
-
-</div>
-
-<div class="urlap" value="anyag">
-
-</div>
-
-<div class="urlap">
-
-</div>
-
-<div class="retn" value="ujalany">
-    <div class="immler">
-        <div class="retnrow">
-            <legend>
-                 <p class="mez" dtag="1">datum</p>
-                 <p class="mez">alany</p>
-                 <p class="mez">let</p>
-            </legend>
-        </div>
-    </div>
-    EE
-    <div class="retnmain">
-
-    </div>
-</div>
-ENA
-<div name="ujetkezes" class="retn" data-responsetype="json">
-    <div class="immler">
-        <div class="retnrow">
-            <legend>
-                 <p class="mez" dtag="1">datum</p>
-                 <p class="mez" dtag="2">alany</p>
-                 <p class="mez" dtag="0">let</p>
-            </legend>
-        </div>
-    </div>
-    <div class="retnmain">
-
-    </div>
-</div>
-
-<div name="ujetkezes" class="retn">
-    <div class="immler">
-        <div class="retnrow">
-            <legend>
-                 <p class="mez" dtag="1">1</p>
-                 <p class="mez" dtag="2">2</p>
-                 <p class="mez" dtag="0">0</p>
-            </legend>
-     </div>
-    </div>
-    <div class="retnmain">
-
-    </div>
 </div>

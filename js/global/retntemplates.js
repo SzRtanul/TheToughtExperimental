@@ -1,4 +1,53 @@
+export const retnCombinationTemplates = {
+
+};
+
+const retEx = [
+    (data, theade="theade") => theade + ":tablerow:tbodyend|||010002FF;" + data,
+    (data)=>"theadevcslist:tablerow:tbodyend|||FFFFFFFF;F---FFFFFFFF;F---010002FF;"+data,
+]
+
+export const retnCombinations = {
+    etlecta: retEx[0]("002"),
+    vacsoralist: 
+        "theadevcslist:tablerow:tbodyend:vcstablerow|||" +
+        "01FFFFFF;005---FFFFFFFF;F---FFFFFFFF;F---030002FF;004;0-0=0",
+    eatedlist: retEx[0]("005"),
+    etlecta2: 
+        "theade:tablerow:tbodyend:withselect:seloption|||" +
+        "04FFFFFF;001---04FFFFFF;002---030002FF;001-0:0-3-3-0-0",
+    kolost: 
+        "omla:ini:enela:kala;|||FFFFFFFF;3FF;"+
+        "2-1=12,3-1=12:2-1=12,3-1=12:---",
+    ujvacsora:
+        "sela|||"+
+        "00FFFFFF;001",
+    nemtudni: 
+        "retndiv:retndivhead|||"+
+        "0001FFFF;001",
+    oklamaha:
+        "retrerown:retrehen:retrefoot:retreopt|||" +
+        "03FFFFFF;003---03FFFFFF;001---000102FF;200-:_-:_-0:1",
+    alanylist: retEx[0]("006"),
+    fajlist: retEx[0]("300")
+}
+
+export const retnCombinationResults = {
+
+};
+
 const boreSplit = '<p class="inv">elva</p>';
+
+const tempex = [
+    (args, koszbe="")=>{
+        let ret = "<thead><tr>"+ koszbe +"</tr><tr>";
+        for(let i = 0; i < args.length; i++){
+            ret+="<th>"+args[i]+"</th>";
+        }
+        ret+= "</tr></thead><tbody>";
+        return ret;
+    }
+];
 
 export const templates = {
     minden: (gal) => ""+gal+"",
@@ -11,14 +60,16 @@ export const templates = {
     <select name="" id="">${fallasz}</select>
 </div>`
         },
-        theade: (...args) => {
-            let ret = "<tr>";
-            for(let i = 0; i < args.length; i++){
-                ret+="<th>"+args[i]+"</th>";
-            }
-            ret+= "</tr><tbody>";
-            return ret;
-        },
+        theade: (...args) => tempex[0](args),
+        theadevcslist: (...args) => tempex[0](args, 
+            `<th><button>Étkezés hozzáadása</button></th>
+            <th>
+                <select name="alany" id="">
+                    <option value="">-- Alany Profilok --</option>
+                    <option value="">Becenév</option>
+                </select>
+            </th>`
+        ),
         tbodybef: () => "<tbody>",
         tablerow: (...args) => {
             let ret = "<tr>";
@@ -28,6 +79,9 @@ export const templates = {
             ret+= "</tr>";
             return ret;
         },
+        vcstablerow: (ohja, ...args) => 
+            templates.tablerow(args) +
+            "<tr><td>"+ ohja +"</td></tr>",
         withselect: (bef, bef2, ...arga) => {
             let ret = "<tr>";
             for(let i = 0; i < arga.length; i++){
@@ -90,7 +144,7 @@ export const templates = {
 `<tr class="retnrow">
         <td>${args[0]}</td>
         <td>${args[1]}</td>
-        <td class="urlap" usQ="1-3">
+        <td class="urlap" usQ="1-0">
             <input type="number" name="jj" class="inv" value="${args[2]}">
             <input type="number" name="jj2" class="inv" value="${args[3]}">
             <button class="kuld">Kuka</button>
@@ -101,9 +155,7 @@ export const templates = {
     <tr
         class="urlap"
         value="callquery"
-        db-schemanames="sysadmin"
-        db-tablenames="engedelyezettsema"
-        db-query="insert into #$0.#%0 values (\-$oszl\-, \-$oszl2\-);"
+        usq="1-1"
     >
         <td>
             <select name="oszl">${retnart}</select>        
@@ -115,32 +167,4 @@ export const templates = {
     </tr>
 </tfoot>`,
     retreopt: (...args)=> `<option class="retnrow" value="${args[0]}">${args[1]}</option>`
-};
-
-const retnCombinationTemplates = {
-
-};
-
-export const retnCombinations = {
-    etlecta: 
-        "theade:tablerow:tbodyend|||010002FF;002",
-    etlecta2: 
-        "theade:tablerow:tbodyend:withselect:seloption|||" +
-        "04FFFFFF;001---04FFFFFF;002---030002FF;001-0:0-3-3-0-0",
-    kolost: 
-        "omla:ini:enela:kala;|||FFFFFFFF;3FF;"+
-        "2-1=12,3-1=12:2-1=12,3-1=12:---",
-    ujvacsora:
-        "sela|||"+
-        "00FFFFFF;001",
-    nemtudni: 
-        "retndiv:retndivhead|||"+
-        "0001FFFF;001",
-    oklamaha:
-        "retrerown:retrehen:retrefoot:retreopt|||" +
-        "03FFFFFF;001---03FFFFFF;001---000102FF;001-0:3:_0:0-:_-0:1"
-}
-
-export const retnCombinationResults = {
-
 };

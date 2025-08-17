@@ -1,5 +1,6 @@
 import { formQs, qs } from "./queries.js";
 import { exportedMethods } from "../globaldata.js"
+import { endpoints, staticQueryWithJSONs, endpointswithdate } from "./endpoints.js";
 
 export const queryDatas = {
     
@@ -21,13 +22,16 @@ export const endpointResults = [
 
 ];
 
-export const staticQueryWithJSONResults = [
+export const staticQueryWithJSONResults = [ // formQ
+
+];
+
+export const endpointWithDateResults = [
 
 ];
 
 //FormQ selection
 let fQnum = 0;
-
 const numOfFormQ = [
 
 ];
@@ -64,22 +68,69 @@ function qTextReform(qtext="", jsonValue){
     const fr = qtext.split('\\-');
     for(let i = 0; i < fr.length; i++){
         if(fr[i].startsWith('$')){
-            fr[i] = jsonValue["ca"][fr[i].replace("$", "")];
+            fr[i] = jsonValue[fr[i].replace("$", "")];
         }
         dbFro += fr[i];
     }
     return dbFro;
 }
 
+async function QSBeWrite(i, number){
+    queryResults[number] = await exportedMethods.exampleREST("callquery", "POST", qs[i]);
+}
+
+async function QStaticBeWrite(i, quer, number){
+    staticQueryWithJSONResults[number] = 
+        await exportedMethods.exampleREST(
+            "callquery", "POST", 
+            qTextReform(formQs[quer], 
+            staticQueryWithJSONs[i+1]),
+            staticQueryWithJSONs[i+1]
+        );
+}
+
+async function QEnds(array, ltext, method, number){
+    array[number] = await exportedMethods.exampleREST(ltext, method, "") || "";
+}
+
 async function doQueryUpdates(){
     queryResults.length = 0;
+    endpointResults.length = 0;
+    staticQueryWithJSONResults.length = 0;
+    let promises = [];
+    
     for(let i = 0; i<qs.length; i++){
-        queryResults.push(
-            await exportedMethods.exampleREST("callquery", "POST", qs[i])
-        );
+        promises.push(QSBeWrite(i, queryResults.push("")-1));
     }
+
+   /* for(let i = 0; i < endpoints.length; i++){
+
+    }*/
+
+    for(let i = 0; i < staticQueryWithJSONs.length+1; i+=2){
+        const quer = Number(staticQueryWithJSONs[i]);
+//console.log(staticQueryWithJSONs[i+1])
+        if(!isNaN(quer) && quer > -1){
+            promises.push(QStaticBeWrite(i, quer, staticQueryWithJSONResults.push("")-1));
+        }
+        else{
+            staticQueryWithJSONResults.push("");
+        }
+    }
+    let promises2 = [];
+    let linmeth = "";
+    for(let i = 0; i < endpointswithdate.length; i++){
+        linmeth = endpointswithdate[i].split(":");
+        promises.push(QEnds(endpointWithDateResults, linmeth[0]+"/0", linmeth[1] || "GET", endpointWithDateResults.push("")-1))
+        // console.log(endpointswithdate[i]);
+        console.log("YESSSSD")
+        // 
+    }
+    
     console.log("Szeretem én ezt?: ");
-    console.log(queryResults);
+    console.log(staticQueryWithJSONResults);
+    await Promise.all(promises);
+    console.log(endpointWithDateResults[0]);
 }
 
 export const exportedQMethods = {

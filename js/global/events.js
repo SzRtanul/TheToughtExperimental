@@ -1,18 +1,17 @@
 import { exactTime } from "../time.js";
 import { addEvents } from "../../index.js";
 import { exportedMethods } from "../globaldata.js";
-import { queryResults, endpointResults, staticQueryWithJSONResults } from "./queriessetup.js";
+import { queryResults, endpointResults, staticQueryWithJSONResults, endpointWithDateResults } from "./queriessetup.js";
 import { templates, retnCombinations } from "./retntemplates.js";
 
 const whd = [
     queryResults, 
     endpointResults, 
-    staticQueryWithJSONResults
+    staticQueryWithJSONResults,
+    endpointWithDateResults
 ];
 
 const columnSep = ":::";
-
-
 
 export const exportedRetnMethods = {
     doFrissit: doFrissit,
@@ -30,7 +29,7 @@ function doFrissit(retns){
         retns[i].innerHTML = '';
         result = doUjratolt(retns[i].getAttribute("cjust"));
 //console.log(result);
-        retns[i].innerHTML = result;
+        retns[i].innerHTML = result.substring(1, result.length);
     }
 }
 
@@ -144,12 +143,12 @@ function doUjratolt(cjust="", responseInput=0){
         }
         yeP++;
     }
-    console.log("BefReCreat: ");
+  /*  console.log("BefReCreat: ");
     let szen = "";
     for(let i = 0; i<befRowsNum[0].length; i++){
-        szen += "\n"+i+". "+ templeBefs[0].substring(befRowsNum[0][i], befRowsNum[0][i+1])
+        szen += "\n"+i+". "+ templeBefs[0].substring(befRowsNum[0][i], befRowsNum[0][i+1]);
     }
-    console.log(szen)
+    console.log(szen);*/
 ////console.log("Ki is jön.")
     //whataf(retn, responseInput, responseInputType);
     // await doFrissit();
@@ -185,10 +184,10 @@ function whataf(
 //console.log(wherebef)
 console.log("WHATF BefRowsNums: ")
 console.log(befrownums)
+let fullText = "F";
     const resHaveThead = responseInput.startsWith("T") ? 1 : 0;
-    let fullText = "F";
-    const resPlit = replaceLast(responseInput, ":::\n", "").split(":::");
     const leptek = responseInput.charCodeAt(1);
+    const resPlit = replaceLast(responseInput.substring(2, responseInput.length), ":::\n", "").split(":::");
 //console.log("Lépték: " + leptek);
     //const adatsorrend = retn.getAttribute("adatsorrend")?.split(";");
     const error = responseInput.startsWith("err:") ? 1 : 0;
@@ -201,7 +200,6 @@ console.log(befrownums)
         outResBefNums.push(fullText.length); // ALAMÉAEA
     }
 console.log(befFilters)
-    
     if(error == 0 && retnrows[0] != 0){
 ////console.log("KAKAÓÓÓÓ!");
         for(let row = resHaveThead, i = resHaveThead * leptek; i < resPlit.length-1; row++, i+=leptek){

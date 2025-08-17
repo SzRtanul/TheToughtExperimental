@@ -13,7 +13,7 @@ console.log("BOBEEEEERR: " + j?.outerHTML);
  
 let currentRequest = null;
 console.log("bah: "+ sessionStorage.getItem("oldal"));
-sessionStorage.setItem("oldal", sessionStorage.getItem("oldal") ?? "kiserletdokumentacio")
+sessionStorage.setItem("oldal", sessionStorage.getItem("oldal") ?? "kiserletdokumentacio.html")
 console.log(sessionStorage.getItem("oldal"));
 callSite(sessionStorage.getItem("oldal"));
 //Kísérletek
@@ -48,6 +48,12 @@ const str = 'revenue895erwhgh9reji#íKDSFKI9ÜW'
 //console\.log(str, str.hashCode());*/
 ;
 
+async function UIUpdate(){
+    await exportedQMethods.doQueryUpdates();
+    exportedRetnMethods.doFrissit(document.querySelectorAll("[cjust].retn:not([cjust=''])"));
+    addEvents();
+}
+
 let hanyszor = 0;
 function callSite(melyik){
     //console.clear()
@@ -70,9 +76,7 @@ function callSite(melyik){
             //await doTAddingToSite();
             doCSSAddingToSite();
             doJSAddingToSite();
-            await exportedQMethods.doQueryUpdates();
-            exportedRetnMethods.doFrissit(document.querySelectorAll("[cjust].retn:not([cjust=''])"));
-            addEvents();
+            await UIUpdate();
             sessionStorage.setItem("oldal", melyik);
         } else {
             console.error("Request failed with status:", currentRequest.status);
@@ -83,8 +87,6 @@ function callSite(melyik){
     };
     currentRequest.send();
 }
-
-
 
 function doCSSAddingToSite(){
     for(const lCSS of content.getElementsByClassName("lCSS")){
@@ -118,11 +120,11 @@ function avmi(e){
 }
 
 function vmi(e){
-    callSite(e.target.name);
+    callSite(e.target.name+"."+(e.target.getAttribute("typo") || "html"));
 }
 
 export function addEvents(environment=document){
-    const prot = ":not(.immler *)";
+    const prot = "";//":not(.immler *)";
     exportedMethods.doResetEventTarget();
     const jsA = [
         {datum: "EEEEA"},
@@ -177,12 +179,12 @@ export function addEvents(environment=document){
             [[urlap, whenAktuelEvent]]
         );
         exportedMethods.doMindenhezHozzaad(
-            urlap.querySelectorAll(".kuld"+prot),
+            urlap.querySelectorAll("[usq].urlap:not([usq='']) .kuld"+prot),
             [ron], "indexKuld",
             [[urlap, whenSendEvent]]
         );
         exportedMethods.doMindenhezHozzaad(
-            urlap.querySelectorAll(".kuldG"+prot),
+            urlap.querySelectorAll("[usq].urlap:not([usq='']) .kuldG"+prot),
             [exportedMethods.doAktuel, doKuld], "indexKuldG",
             [[urlap, whenSendEvent]]
         );
@@ -215,6 +217,7 @@ export function addEvents(environment=document){
 function ron(e, urlap, MyEvent){
   /*  for(let i = 0; i<1000; i++){
     }*/
+   console.log("FDD")
    doKuld(e, urlap, MyEvent);
 }
 
@@ -235,22 +238,23 @@ async function doKuld(e, urlap, MyEvent){
     }
     // urlap.classList.add("disable");
     exportedMethods.doUrlapAllapotFrissites(allapotKijelzok, "Küldés folyamatban...");
-    
+console.log("ONYE")
     // Adatfeldolgozás
     {
-        const usesDB = urlap.getAttribute("usq").split("[^0-9]");
+        const usesDB = urlap.getAttribute("usq").split(/[^0-9]/);
         console.log("F: " + usesDB.length)
         const fbol = usesDB.length == 1;
+        console.log(usesDB);
         const ddtxt = exportedQMethods.qTextReform(
             (fbol || (usesDB.length>1 && usesDB[0] == 0)) ?
-            formQs[Number(usesDB[0])] : noRefreshQs[Number(usesDB[1])], jsonValue)
+            formQs[Number(usesDB[usesDB.length>1?1:0])] : noRefreshQs[Number(usesDB[1])], jsonValue["ca"])
         ;
-        const tr = exportedQMethods.qTextReform(fvalue, jsonValue);
-        console.log(ddtxt);
+        const tr = exportedQMethods.qTextReform(fvalue, jsonValue["ca"]);
         //jsonValue["ca"].datum = 2;
         //
         // ExampleRest;;
         //
+console.log("ddtx: " + ddtxt);
         const response = await exportedMethods.exampleREST(
             tr, urlap.getAttribute("method") || "post",
             ddtxt, jsonValue["ca"]
@@ -268,6 +272,7 @@ async function doKuld(e, urlap, MyEvent){
         if(!sikeresKeres){
             const tres = response.replace("res:", "");
             console.log("FESZ")
+            await UIUpdate();
             for(const retn of document.querySelectorAll(`[name="${fname}"].retn[cjust]:not([cjust=''])`)){
                 exportedRetnMethods.doUjratolt(retn, tres);
             }
@@ -301,7 +306,7 @@ async function doKuld(e, urlap, MyEvent){
     }
     const dipes = urlap.getAttribute("disp") ?? "";
     for(const dipe of dipes.split(';')) {
-        for(const vutton of document.querySelectorAll(".remt:not(.immler *)")){
+        for(const vutton of document.querySelectorAll(".remt")){
             vutton.dispatchEvent(new Event(dipe));
         }
     }
