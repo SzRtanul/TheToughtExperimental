@@ -2,7 +2,8 @@ import { exactTime } from "../time.js";
 import { addEvents } from "../../index.js";
 import { exportedMethods } from "../globaldata.js";
 import { queryResults, endpointResults, staticQueryWithJSONResults, endpointWithDateResults } from "./queriessetup.js";
-import { templates, retnCombinations } from "./retntemplates.js";
+import { retnCombinations } from "./retntemplates.js";
+import { templates } from "./rowtemplates.js";
 
 const whd = [
     queryResults, 

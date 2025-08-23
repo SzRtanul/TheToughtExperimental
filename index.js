@@ -2,6 +2,8 @@ import { serverhost, eventTarget, exportedMethods } from "./js/globaldata.js";
 import { exportedRetnMethods } from "./js/global/events.js";
 import { noRefreshQs, formQs } from "./js/global/queries.js";
 import { addOrEditFormQ, exportedQMethods, queryDatas } from "./js/global/queriessetup.js";
+import { formDRef } from "./js/global/retntemplates.js";
+
 const ls = "valami123í\x00EE";
 console.log(Number("0x00"));
 
@@ -120,7 +122,7 @@ function avmi(e){
 }
 
 function vmi(e){
-    callSite(e.target.name+"."+(e.target.getAttribute("typo") || "html"));
+    callSite(e.target.name+"." + (e.target.getAttribute("typo") || "html"));
 }
 
 export function addEvents(environment=document){
@@ -133,7 +135,7 @@ export function addEvents(environment=document){
     // 
     const txA = "alma;korte;szilva|||A:::A:::B:::;;;B:::B:::A";
     const contentLinks = environment.getElementsByClassName("contentlink");
-    const urlapok = environment.querySelectorAll("[value].urlap"+prot+", [usQ]:not([usQ='']).urlap"+prot);
+    const urlapok = environment.querySelectorAll("[value].urlap"+prot+", [usqF]:not([usqF='']).urlap"+prot);
     
     exportedMethods.doMindenhezHozzaad(
         environment.querySelectorAll("a.contentlink"+prot),
@@ -179,12 +181,12 @@ export function addEvents(environment=document){
             [[urlap, whenAktuelEvent]]
         );
         exportedMethods.doMindenhezHozzaad(
-            urlap.querySelectorAll("[usq].urlap:not([usq='']) .kuld"+prot),
+            urlap.querySelectorAll("[usqF].urlap:not([usqF='']) .kuld"+prot),
             [ron], "indexKuld",
             [[urlap, whenSendEvent]]
         );
         exportedMethods.doMindenhezHozzaad(
-            urlap.querySelectorAll("[usq].urlap:not([usq='']) .kuldG"+prot),
+            urlap.querySelectorAll("[usqF].urlap:not([usqF='']) .kuldG"+prot),
             [exportedMethods.doAktuel, doKuld], "indexKuldG",
             [[urlap, whenSendEvent]]
         );
@@ -241,10 +243,10 @@ async function doKuld(e, urlap, MyEvent){
 console.log("ONYE")
     // Adatfeldolgozás
     {
-        const usesDB = urlap.getAttribute("usq").split(/[^0-9]/);
-        console.log("F: " + usesDB.length)
+        const usesDB = formDRef[Number(urlap.getAttribute("usqF"))].split(/[^0-9]/);
+console.log("F: " + usesDB.length)
         const fbol = usesDB.length == 1;
-        console.log(usesDB);
+console.log(usesDB);
         const ddtxt = exportedQMethods.qTextReform(
             (fbol || (usesDB.length>1 && usesDB[0] == 0)) ?
             formQs[Number(usesDB[usesDB.length>1?1:0])] : noRefreshQs[Number(usesDB[1])], jsonValue["ca"])

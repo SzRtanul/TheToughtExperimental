@@ -79,6 +79,11 @@ body{
     background-color: aliceblue;
 }
 
+main{
+  /*  max-height: 200px;
+    overflow: auto;*/
+}
+
 .lCSS, .lJS{
     display: none;
 }
