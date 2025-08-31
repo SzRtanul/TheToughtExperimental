@@ -1,4 +1,5 @@
 export let eventTarget = new EventTarget();
+export const eventMethStores = [];
 export const serverhost = "http://thetoughtexperimental.local:18080/";
 
 
@@ -202,8 +203,8 @@ async function getUrlapJSONs(urlap){
             if(!mezo.classList.contains("woap")){
                 jsonValue[mezofieldType][mezo.name] = 
                     mezo.type !== "checkbox" ? 
-                        (mezo.classList.contains("chr") ? 
-                            await getCryptoHash(mezo.value) : 
+                        (mezo.classList.contains("xhr") ? 
+                           await getCryptoHash(mezo.value) : 
                             mezo.value) : 
                         mezo.checked
                 ;
@@ -244,8 +245,10 @@ function getValueFromLocalStorage(Cname){
     return localStorage.getItem(Cname) || "null";
 }
 async function getCryptoHash(text){
+    /*const buffer = await crypto.subtle.digest("SHA-512", new TextEncoder().encode(text));
+    return Array.from(new Uint8Array(buffer)).map(b => b.toString(16).padStart(2, "0")).join("")*/
     const buffer = await crypto.subtle.digest("SHA-512", new TextEncoder().encode(text));
-    return Array.from(new Uint8Array(buffer)).map(b => b.toString(16).padStart(2, "0")).join("")
+    return btoa(String.fromCharCode(...new Uint8Array(buffer)));
 }
 
 //Aktuel
@@ -275,8 +278,8 @@ async function exampleREST(honnan="",
 ){
     const fetchJSON = {
         method: method.toUpperCase(),
-        //wittCredentials: true,
-        //credentials: "include",
+       /* wittCredentials: true,
+        credentials: "include",*/
         headers: {
             //'Cache-Control': 'no-cache',
             cache: 'no-store',

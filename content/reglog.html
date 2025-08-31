@@ -2,6 +2,33 @@
     <li>reglog</li>
 </ul>
 
+<table class="urlap" action="registrated" usqf="2">
+    <thead>
+        <tr>
+            <th colspan="2"><h1>Regisztráció</h1></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Felhasználónév</td>
+            <td><input name="username" type="text"></td>
+        </tr>
+        <tr>
+            <td>Email</td>
+            <td><input name="emailaddress" type="email"></td>
+        </tr>
+        <tr>
+            <td>Jelszó</td>
+            <td><input class="xhr" name="userpassword" type="password"></td>
+        </tr>
+    </tbody>
+    <tfoot>
+        <tr>
+            <td colspan="2"><button class="kuld">Regisztráció</button></td>
+        </tr>
+    </tfoot>
+</table>
+
 <div class="urlap" action="logined" method="post" value="login">
     <label for="felh">Felhasználónév:</label><input type="text" name="felhasznaloNev" id="felh">
     <label for="jelsz">Jelszó:</label><input type="password" name="jelszoHash" id="jelsz" class="xhr">
@@ -9,3 +36,7 @@
     <button class="aktuel">Csak aktuel</button>
     <button class="kuld">Bejelentkezés</button>
 </div>
+
+<table class="retn" cjust="felh">
+
+</table>

@@ -12,8 +12,8 @@ export const qs = [
 	"SELECT * FROM #$0.#%0\n",
 	//
 	// 2. GQTproc
-	"pg_catalog@pg_namespace?pg_proc@oid?nspname\x01" +
-	"select * FROM #$0.#%1\n",
+	"pg_catalog@pg_proc@oid?pronamespace?proname?proargtypes@@\x01" +
+	"select #$0.#%0#&0, #$0.#%0#&1, #$0.#%0#&2, #$0.#%0#&3  FROM #$0.#%0\n",
 	//
 	// 3. GQTjogcsoport
 	"sysadmin@jogcsoport\x01" +
@@ -34,6 +34,15 @@ export const qs = [
 	// 7. GQTfaj
 	"admin@faj\x01" +
 	"select * FROM #$0.#%0\n",
+	//
+	// 8. GQTprocpro
+	"pg_catalog@pg_proc?pg_aggregate@oid?pronamespace?proname?proargtypes?proisagg?aggfnoid@pg_get_functiondef@funcsrc?p?a\x01" +
+	"\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\n" +
+	"select #(1.#&0, #(1.#&1, #(1.#&2, #(1.#&3, #$0.#'0(#(1.#&0) FROM #$0.#%0 #(1\n" +
+	"LEFT JOIN #$0.#%1 #(2 ON #(2.#&5 = #(1.#&0\n" +
+	"WHERE #(2.#&5 IS NULL\n" +
+	"ORDER BY #(1.#&1 DESC;\n" +
+	"\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\-\n",
 ];
 
 export const formQs = [
@@ -67,5 +76,13 @@ export const noRefreshQs = [
 	// 1. NQTsemahozzaadas
 	"sysadmin@engedelyezettsema\x01" +
 	"insert into #$0.#%0 values (\\-$oszl\\-, \\-$oszl2\\-);\n",
+	//
+	// 2. NQTregistration
+	"lobby@felhasznaloview@@@@felhasznalonev?email?jelszohash\x01" +
+	"insert into #$0.#%0 (#)0, #)1, #)2) values (#\-username, #\-emailaddress, #\-userpassword);\n",
+	//
+	// 3. NQTlogin
+	"sysadmin@engedelyezettsema\x01" +
+	"\-\n",
 ];
 

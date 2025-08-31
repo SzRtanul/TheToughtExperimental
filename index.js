@@ -50,7 +50,7 @@ const str = 'revenue895erwhgh9reji#íKDSFKI9ÜW'
 //console\.log(str, str.hashCode());*/
 ;
 
-async function UIUpdate(){
+export async function UIUpdate(){
     await exportedQMethods.doQueryUpdates();
     exportedRetnMethods.doFrissit(document.querySelectorAll("[cjust].retn:not([cjust=''])"));
     addEvents();
@@ -67,9 +67,10 @@ function callSite(melyik){
     currentRequest = new XMLHttpRequest();
     
     currentRequest.open("GET", "content/" + melyik + "?nocache=" + new Date().getTime(), true);
+    //currentRequest.withCredentials = true;
     currentRequest.setRequestHeader("Cache-Control", "no-store");
     currentRequest.setRequestHeader("Pragma", "no-cache");
-    
+
     currentRequest.onload = async function () {
         if (currentRequest.status >= 200 && currentRequest.status < 300) {
             document.querySelectorAll(".guest").forEach(g => g.remove());
@@ -274,10 +275,24 @@ console.log("ddtx: " + ddtxt);
         if(!sikeresKeres){
             const tres = response.replace("res:", "");
             console.log("FESZ")
-            await UIUpdate();
+            //await UIUpdate();
             for(const retn of document.querySelectorAll(`[name="${fname}"].retn[cjust]:not([cjust=''])`)){
                 exportedRetnMethods.doUjratolt(retn, tres);
             }
+
+             if(MyEvent) {    
+                eventTarget.dispatchEvent(urlap.hasAttribute("useRespInEvent") ? 
+                    new CustomEvent("urlapS"+urlapActName, 
+                        {detail: 
+                            {
+                                urlapID: fullID,
+                                response: tres,
+                            }
+                        }
+                    ) : MyEvent
+                );
+            }
+
             addEvents();
     
             // Add to updateList
@@ -292,19 +307,6 @@ console.log("ddtx: " + ddtxt);
             //doFrissit();
             exportedMethods.doEnvAutoJumpJelenet(urlap, "NextToIfSuccess");*/
         }
-    }
-    if(MyEvent) {    
-        eventTarget.dispatchEvent(urlap.hasAttribute("useRespInEvent") ? 
-            new CustomEvent("urlapS"+urlapActName, 
-                {detail: 
-                    {
-                        urlapID: fullID,
-                        response: 0, /*  */
-                        usQ: -1
-                    }
-                }
-            ) : MyEvent
-        );
     }
     const dipes = urlap.getAttribute("disp") ?? "";
     for(const dipe of dipes.split(';')) {
