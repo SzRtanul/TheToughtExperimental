@@ -91,22 +91,24 @@ async function QStaticBeWrite(i, quer, number){
 }
 
 async function QEnds(array, ltext, method, number){
-    array[number] = await exportedMethods.exampleREST(ltext, method, "") || "";
+    array[number] = await exportedMethods.exampleREST(ltext + "?alk=" + Number(Math.random() * 5000), method, "") || "";
 }
 
 async function doQueryUpdates(){
     queryResults.length = 0;
     endpointResults.length = 0;
     staticQueryWithJSONResults.length = 0;
+    endpointWithDateResults.length = 0;
+
     let promises = [];
+    
+       /* for(let i = 0; i < endpoints.length; i++){
+    
+        }*/
     
     for(let i = 0; i<qs.length; i++){
         promises.push(QSBeWrite(i, queryResults.push("")-1));
     }
-
-   /* for(let i = 0; i < endpoints.length; i++){
-
-    }*/
 
     for(let i = 0; i < staticQueryWithJSONs.length+1; i+=2){
         const quer = Number(staticQueryWithJSONs[i]);
@@ -119,10 +121,12 @@ async function doQueryUpdates(){
         }
     }
     let promises2 = [];
+    
     let linmeth = "";
     for(let i = 0; i < endpointswithdate.length; i++){
         linmeth = endpointswithdate[i].split(":");
-        promises.push(QEnds(endpointWithDateResults, linmeth[0]+"/0", linmeth[1] || "GET", endpointWithDateResults.push("")-1))
+        const foszlam = endpointWithDateResults.push("")-1;
+        promises.push(QEnds(endpointWithDateResults, linmeth[0]+"/0", /*linmeth[1] ||*/ "POST", foszlam))
         // console.log(endpointswithdate[i]);
         console.log("YESSSSD")
         // 

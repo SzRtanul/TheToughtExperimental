@@ -7,6 +7,21 @@ import { formDRef } from "./js/global/retntemplates.js";
 const ls = "valami123í\x00EE";
 console.log(Number("0x00"));
 
+console.log("FASZOM túlcsordulás: ")
+const fasztra = [5,4,3,2,1];
+let fsztext = "";
+for(let i = 0; i<fasztra.length; i++){
+    fsztext += fasztra[i] + ", ";
+}
+console.log(fsztext);
+
+fasztra.length = 10;
+fsztext = "";
+for(let i = 0; i<fasztra.length; i++){
+    fsztext += fasztra[i] + ", ";
+}
+console.log(fsztext);
+
 const content = document.getElementsByTagName("main")[0];
 const templates = document.getElementsByTagName("template")[0];
 
@@ -274,8 +289,9 @@ console.log("ddtx: " + ddtxt);
     
         if(!sikeresKeres){
             const tres = response.replace("res:", "");
-            console.log("FESZ")
-            //await UIUpdate();
+            console.log("FESZ");
+            await UIUpdate();
+            console.log("UFFESZ");
             for(const retn of document.querySelectorAll(`[name="${fname}"].retn[cjust]:not([cjust=''])`)){
                 exportedRetnMethods.doUjratolt(retn, tres);
             }

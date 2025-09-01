@@ -78,7 +78,7 @@ export const noRefreshQs = [
 	"insert into #$0.#%0 values (\\-$oszl\\-, \\-$oszl2\\-);\n",
 	//
 	// 2. NQTregistration
-	"lobby@felhasznaloview@@@@felhasznalonev?email?jelszohash\x01" +
+	"lobby@felhasznaloview@@@@felhasznalonev?email?jelszohash?sysadmin\x01" +
 	"insert into #$0.#%0 (#)0, #)1, #)2) values (#\-username, #\-emailaddress, #\-userpassword);\n",
 	//
 	// 3. NQTlogin

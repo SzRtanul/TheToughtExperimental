@@ -192,6 +192,14 @@ function getMethodStoreObjectWithReturns(jsonAktuels){
     }
     return localAktuels;
 }
+
+async function getCryptoHash(text){
+    /*const buffer = await crypto.subtle.digest("SHA-512", new TextEncoder().encode(text));
+    return Array.from(new Uint8Array(buffer)).map(b => b.toString(16).padStart(2, "0")).join("")*/
+    const buffer = await crypto.subtle.digest("SHA-512", new TextEncoder().encode(text));
+    return btoa(String.fromCharCode(...new Uint8Array(buffer)));
+}
+
 async function getUrlapJSONs(urlap){
     const myUrlap = urlap.querySelectorAll("* [name]:not([name=''])");
     const jsonValue = {};
@@ -204,7 +212,7 @@ async function getUrlapJSONs(urlap){
                 jsonValue[mezofieldType][mezo.name] = 
                     mezo.type !== "checkbox" ? 
                         (mezo.classList.contains("xhr") ? 
-                           await getCryptoHash(mezo.value) : 
+                            await getCryptoHash(mezo.value) : 
                             mezo.value) : 
                         mezo.checked
                 ;
@@ -243,12 +251,6 @@ function getValueFromAll(Cname="", jsonValue={}, localAktuels={}){
 }
 function getValueFromLocalStorage(Cname){
     return localStorage.getItem(Cname) || "null";
-}
-async function getCryptoHash(text){
-    /*const buffer = await crypto.subtle.digest("SHA-512", new TextEncoder().encode(text));
-    return Array.from(new Uint8Array(buffer)).map(b => b.toString(16).padStart(2, "0")).join("")*/
-    const buffer = await crypto.subtle.digest("SHA-512", new TextEncoder().encode(text));
-    return btoa(String.fromCharCode(...new Uint8Array(buffer)));
 }
 
 //Aktuel

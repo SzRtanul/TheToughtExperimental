@@ -28,8 +28,10 @@ function doFrissit(retns){
 ////console.log("Sört akarok!: " + i)
         let elozo = window.performance.now();
         retns[i].innerHTML = '';
-        result = doUjratolt(retns[i].getAttribute("cjust"));
-//console.log(result);
+        const cja=retns[i].getAttribute("cjust");
+console.log("cjust: " + cja);
+        result = doUjratolt(cja);
+console.log(result);
         retns[i].innerHTML = result.substring(1, result.length);
     }
 }
@@ -45,7 +47,6 @@ function doUjratolt(cjust="", responseInput=0){
     const templeUsq = [];
     const befRowsNum = [];
     let templeLast = -1;
-
     let yeP = 0;
     const ye = two[1]?.split("---");
     const yelen = ye.length-1;
@@ -136,6 +137,8 @@ function doUjratolt(cjust="", responseInput=0){
             else{
 ////console.log("doUjrtolt->els")
                 const resrownums = [];
+console.log("FKKKKKK:")
+console.log(templeUsq[templeLast])
                 templeBefs.push(whataf(
                     templeUsq[templeLast], methods, resrownums
                 ));
