@@ -12,4 +12,5 @@ export const endpointswithdate = [
     "gettable/pg_catalog/pg_views",
     "gettable/sysadmin/felhasznalo",
     "gettable/pg_catalog/pg_namespace",
+    "gettable/sysadmin/columnsview",
 ]

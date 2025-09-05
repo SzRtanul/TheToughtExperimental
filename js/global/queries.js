@@ -82,7 +82,7 @@ export const noRefreshQs = [
 	"insert into #$0.#%0 (#)0, #)1, #)2) values (#\-username, #\-emailaddress, #\-userpassword);\n",
 	//
 	// 3. NQTlogin
-	"sysadmin@engedelyezettsema\x01" +
-	"\-\n",
+	"lobby@@@login\x01" +
+	"select #$0.#'0(#\-username, #\-jelszoHash);\n",
 ];
 

@@ -29,9 +29,9 @@ function doFrissit(retns){
         let elozo = window.performance.now();
         retns[i].innerHTML = '';
         const cja=retns[i].getAttribute("cjust");
-console.log("cjust: " + cja);
+//console.log("cjust: " + cja);
         result = doUjratolt(cja);
-console.log(result);
+//console.log(result);
         retns[i].innerHTML = result.substring(1, result.length);
     }
 }
@@ -39,9 +39,13 @@ console.log(result);
 function doUjratolt(cjust="", responseInput=0){
     let res = [];
     const two = retnCombinations[cjust]?.split("|||");
+console.log("GEVI");
+console.log()
     if(!two || two.length<2){
+console.log("GEVIS");
         return;
     }
+console.log("GEVI");
     const metnames = two[0].split(":");
     const templeBefs = [];
     const templeUsq = [];
@@ -54,7 +58,8 @@ function doUjratolt(cjust="", responseInput=0){
     for(const cja of ye){
 ////console.log("Igen")
         if(cja.length > 10){
-////console.log("Igen")
+//console.log("Igen.")
+//console.log(cja)
             const methods = [];
             for(let i = 0; i < 8; i+=2){
                 const metnum = Number("0x"+cja.substring(i,i+2));
@@ -137,8 +142,8 @@ function doUjratolt(cjust="", responseInput=0){
             else{
 ////console.log("doUjrtolt->els")
                 const resrownums = [];
-console.log("FKKKKKK:")
-console.log(templeUsq[templeLast])
+//console.log("FKKKKKK:")
+//console.log(templeUsq[templeLast])
                 templeBefs.push(whataf(
                     templeUsq[templeLast], methods, resrownums
                 ));

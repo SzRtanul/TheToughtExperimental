@@ -3,36 +3,27 @@ import { exportedRetnMethods } from "./js/global/events.js";
 import { noRefreshQs, formQs } from "./js/global/queries.js";
 import { addOrEditFormQ, exportedQMethods, queryDatas } from "./js/global/queriessetup.js";
 import { formDRef } from "./js/global/retntemplates.js";
+import { outsideEventMethStores } from "./js/globaldata.js";
 
 const ls = "valami123í\x00EE";
 console.log(Number("0x00"));
-
-console.log("FASZOM túlcsordulás: ")
-const fasztra = [5,4,3,2,1];
-let fsztext = "";
-for(let i = 0; i<fasztra.length; i++){
-    fsztext += fasztra[i] + ", ";
-}
-console.log(fsztext);
-
-fasztra.length = 10;
-fsztext = "";
-for(let i = 0; i<fasztra.length; i++){
-    fsztext += fasztra[i] + ", ";
-}
-console.log(fsztext);
 
 const content = document.getElementsByTagName("main")[0];
 const templates = document.getElementsByTagName("template")[0];
 
 const j = templates.content.querySelector("[name].immler");
 console.log("BOBEEEEERR: " + j?.outerHTML);
- 
+
 let currentRequest = null;
-console.log("bah: "+ sessionStorage.getItem("oldal"));
-sessionStorage.setItem("oldal", sessionStorage.getItem("oldal") ?? "kiserletdokumentacio.html")
-console.log(sessionStorage.getItem("oldal"));
-callSite(sessionStorage.getItem("oldal"));
+
+{ // Oldalbetöltés
+    const url = new URL(window.location.href);
+    const utype = url.searchParams.get("stype");
+    const usite = sessionStorage.getItem("oldal") || url.searchParams.get("site") ? (url.searchParams.get("site")+"."+ (utype || "html")) : "base.html";
+    sessionStorage.setItem("oldal", usite);
+    callSite(usite);
+    console.log("bah: "+ usite);
+}
 //Kísérletek
 //console\.log("MyRegex 2975hfuiHtE".match(/^\w+/)?.[0] || "");
 /*
@@ -132,13 +123,15 @@ function getEventName(text){
                         /*.replace(/^\w/, (match) => match.toUpperCase())*/ : "";
 }
 
-function avmi(e){
-    let url = new URL(window.location.href);
-    sessionStorage.setItem("oldal", url.searchParams.get("site"));
-}
-
 function vmi(e){
-    callSite(e.target.name+"." + (e.target.getAttribute("typo") || "html"));
+    const usite = e.target.name+"." + (e.target.getAttribute("typo") || "html");
+    callSite(usite);
+    const url = new URL(window.location.href)
+    const gluck = usite.split("\.");
+    url.searchParams.set("site", gluck[0]);
+    url.searchParams.set("stype", gluck[1] || "html");
+    history.replaceState(null, '', url);
+    console.log("BOBEEEEEEEEER h!")
 }
 
 export function addEvents(environment=document){
@@ -153,10 +146,10 @@ export function addEvents(environment=document){
     const contentLinks = environment.getElementsByClassName("contentlink");
     const urlapok = environment.querySelectorAll("[value].urlap"+prot+", [usqF]:not([usqF='']).urlap"+prot);
     
-    exportedMethods.doMindenhezHozzaad(
+   /* exportedMethods.doMindenhezHozzaad(
         environment.querySelectorAll("a.contentlink"+prot),
         [avmi], "indexAContentLink"
-    );
+    );*/
     exportedMethods.doMindenhezHozzaad(
         environment.querySelectorAll("button.contentlink"+prot),
         [vmi], "indexButtonContentLink"
@@ -188,23 +181,23 @@ export function addEvents(environment=document){
         // Auto send form on site load
         if(urlap.hasAttribute("onload")){
             exportedMethods.doAktuel(null, urlap, whenSendEvent);
-            doKuld(null, urlap, whenSendEvent);
+            doKuld(null, urlap, whenSendEvent, urlapActName);
         }
 
         exportedMethods.doMindenhezHozzaad(
             urlap.querySelectorAll(".aktuel"+prot),
             [exportedMethods.doAktuel], "indexAktuel",
-            [[urlap, whenAktuelEvent]]
+            [[urlap, whenAktuelEvent, urlapActName]]
         );
         exportedMethods.doMindenhezHozzaad(
             urlap.querySelectorAll("[usqF].urlap:not([usqF='']) .kuld"+prot),
             [ron], "indexKuld",
-            [[urlap, whenSendEvent]]
+            [[urlap, whenSendEvent, urlapActName]]
         );
         exportedMethods.doMindenhezHozzaad(
             urlap.querySelectorAll("[usqF].urlap:not([usqF='']) .kuldG"+prot),
             [exportedMethods.doAktuel, doKuld], "indexKuldG",
-            [[urlap, whenSendEvent]]
+            [[urlap, whenSendEvent, urlapActName]]
         );
         //id variation
         {   
@@ -230,13 +223,17 @@ export function addEvents(environment=document){
         environment.querySelectorAll(".film [nextTo]:not([nextTo=''])" + prot),
             [exportedMethods.actionableAutoJumpJelenet], "filmAutoJump"
     );
+
+    for(let i = 0; i < outsideEventMethStores.length; i++){
+        outsideEventMethStores[i]();
+    }
 }
 
-function ron(e, urlap, MyEvent){
+function ron(e, urlap, MyEvent, urlapActName){
   /*  for(let i = 0; i<1000; i++){
     }*/
    console.log("FDD")
-   doKuld(e, urlap, MyEvent);
+   doKuld(e, urlap, MyEvent, urlapActName);
 }
 
 function dbLink(qNum, zz){
@@ -244,7 +241,7 @@ function dbLink(qNum, zz){
 }
 
 //Kuld
-async function doKuld(e, urlap, MyEvent){
+async function doKuld(e, urlap, MyEvent, urlapActName){
     const jsonValue = await exportedMethods.getUrlapJSONs(urlap);
     const allapotKijelzok = urlap.getElementsByClassName("allapot");
     const fvalue = urlap.getAttribute("value") || "callquery";
@@ -259,6 +256,7 @@ async function doKuld(e, urlap, MyEvent){
 console.log("ONYE")
     // Adatfeldolgozás
     {
+console.log(urlap.getAttribute("usqF"));
         const usesDB = formDRef[Number(urlap.getAttribute("usqF"))].split(/[^0-9]/);
 console.log("F: " + usesDB.length)
         const fbol = usesDB.length == 1;
@@ -290,25 +288,25 @@ console.log("ddtx: " + ddtxt);
         if(!sikeresKeres){
             const tres = response.replace("res:", "");
             console.log("FESZ");
-            await UIUpdate();
+           // await UIUpdate();
             console.log("UFFESZ");
             for(const retn of document.querySelectorAll(`[name="${fname}"].retn[cjust]:not([cjust=''])`)){
                 exportedRetnMethods.doUjratolt(retn, tres);
             }
 
-             if(MyEvent) {    
+             if(MyEvent) {
+                console.log("SLUCK!")
                 eventTarget.dispatchEvent(urlap.hasAttribute("useRespInEvent") ? 
                     new CustomEvent("urlapS"+urlapActName, 
                         {detail: 
                             {
-                                urlapID: fullID,
+                               // urlapID: fullID, // ??????????? NOT IN SCOPE
                                 response: tres,
                             }
                         }
                     ) : MyEvent
                 );
             }
-
             addEvents();
     
             // Add to updateList

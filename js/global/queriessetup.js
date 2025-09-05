@@ -126,7 +126,7 @@ async function doQueryUpdates(){
     for(let i = 0; i < endpointswithdate.length; i++){
         linmeth = endpointswithdate[i].split(":");
         const foszlam = endpointWithDateResults.push("")-1;
-        promises.push(QEnds(endpointWithDateResults, linmeth[0]+"/0", /*linmeth[1] ||*/ "POST", foszlam))
+        promises.push(QEnds(endpointWithDateResults, linmeth[0]+"/0", linmeth[1] || "POST", foszlam))
         // console.log(endpointswithdate[i]);
         console.log("YESSSSD")
         // 

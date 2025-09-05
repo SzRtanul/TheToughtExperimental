@@ -1,4 +1,6 @@
 import { UIUpdate } from "../index.js";
+import { outsideEventMethStores } from "./globaldata.js";
+import { endpointWithDateResults } from "./global/queriessetup.js";
 
 const s_sel = document.querySelector("select.tchange");
 const s_but = document.querySelector("button.tchange");
@@ -20,5 +22,10 @@ function doTChange(){
     UIUpdate();
 }
 
+function addEvents(){
+    console.log(endpointWithDateResults)
+}
 s_sel.addEventListener("change", doTChange);
 s_but.addEventListener("click", doTChange);
+
+outsideEventMethStores.push(addEvents)

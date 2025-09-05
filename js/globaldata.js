@@ -1,5 +1,5 @@
 export let eventTarget = new EventTarget();
-export const eventMethStores = [];
+export const outsideEventMethStores = [];
 export const serverhost = "http://thetoughtexperimental.local:18080/";
 
 
@@ -296,7 +296,7 @@ async function exampleREST(honnan="",
             break;
         default:
                 fetchJSON["body"] = JSON.stringify({
-                    token: localStorage.getItem("token") || 5,
+                    token: Number(localStorage.getItem("token")) || 5,
                     CAzon: cAzon,
                     db: db,
                  //   ,CEdit: cEdit

@@ -2,7 +2,7 @@
     <li>reglog</li>
 </ul>
 
-<table class="urlap" action="registrated" usqf="2">
+<table class="urlap" action="registrated" usqf="2" useRespInEvent>
     <thead>
         <tr>
             <th colspan="2"><h1>Regisztráció</h1></th>
@@ -29,12 +29,26 @@
     </tfoot>
 </table>
 
-<div class="urlap" action="logined" method="post" value="login">
-    <label for="felh">Felhasználónév:</label><input type="text" name="felhasznaloNev" id="felh">
-    <label for="jelsz">Jelszó:</label><input type="password" name="jelszoHash" id="jelsz" class="xhr">
-    <div class="allapot"></div>
-    <button class="aktuel">Csak aktuel</button>
-    <button class="kuld">Bejelentkezés</button>
-</div>
+<table class="urlap" action="logined" usqf="3" useRespInEvent>
+    <tbody>
+        <tr>
+            <td><label for="felh">Felhasználónév:</label></td>
+            <td><input type="text" name="username" id="felh"></td>
+        </tr>
+        <tr>
+            <td><label for="jelsz">Jelszó:</label></td>
+            <td><input type="password" name="jelszoHash" id="jelsz" class="xhr"></td>
+        </tr>
+        <tr>
+            <td colspan="2" class="allapot"></td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <button class="aktuel">Csak aktuel</button>
+                <button class="kuld">Bejelentkezés</button>
+            </td>
+        </tr>
+    </tbody>
+</table>
 
 <table class="retn" cjust="felh"></table>
