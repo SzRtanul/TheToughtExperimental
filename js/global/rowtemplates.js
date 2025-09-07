@@ -130,5 +130,6 @@ export const templates = {
         <td><button class="kuld">Kűűűűűűggyed!</button></td>
     </tr>
 </tfoot>`,
-    retreopt: (...args)=> `<option class="retnrow" value="${args[0]}">${args[1]}</option>`
+    retreopt: (...args)=> `<option class="retnrow" value="${args[0]}">${args[1]}</option>`,
+    getDataLength: () => "F",
 };

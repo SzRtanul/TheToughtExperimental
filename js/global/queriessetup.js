@@ -138,7 +138,12 @@ async function doQueryUpdates(){
     console.log(endpointWithDateResults[0]);
 }
 
+function hasRow(res=""){
+    return false;
+}
+
 export const exportedQMethods = {
     qTextReform: qTextReform,
     doQueryUpdates: doQueryUpdates,
+    hasRow : hasRow
 }

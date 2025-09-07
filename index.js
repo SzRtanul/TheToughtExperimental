@@ -123,15 +123,16 @@ function getEventName(text){
                         /*.replace(/^\w/, (match) => match.toUpperCase())*/ : "";
 }
 
-function vmi(e){
+function vmi(e, historyPush=false){
     const usite = e.target.name+"." + (e.target.getAttribute("typo") || "html");
     callSite(usite);
     const url = new URL(window.location.href)
     const gluck = usite.split("\.");
     url.searchParams.set("site", gluck[0]);
     url.searchParams.set("stype", gluck[1] || "html");
-    history.replaceState(null, '', url);
-    console.log("BOBEEEEEEEEER h!")
+    const pushorrepl = historyPush ? "pushState" : "replaceState";
+    history[pushorrepl](null, '', url);
+    console.log("BOBEEEEEEEEER h!");
 }
 
 export function addEvents(environment=document){

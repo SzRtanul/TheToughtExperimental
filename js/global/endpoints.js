@@ -13,4 +13,7 @@ export const endpointswithdate = [
     "gettable/sysadmin/felhasznalo",
     "gettable/pg_catalog/pg_namespace",
     "gettable/sysadmin/columnsview",
+    "gettable/users/profileview",
+    // 10.
+    "gettable/users/personview",
 ]

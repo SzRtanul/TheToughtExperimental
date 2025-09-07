@@ -5,6 +5,10 @@ export const formDRef = [
     "1-3"
 ];
 
+export const retnDRef = [
+    
+];
+
 export const retnCombinationTemplates = {
     
 };
@@ -46,6 +50,9 @@ export const retnCombinations = {
     pg_columns: retEx[0]("308"),
     pg_proc: retEx[0]("002"),
     pg_procpro: retEx[0]("008"),
+    profile: "getDataLength:theadevcslist:tablerow:tbodyend|||00FFFFFF;",
+    profilev: retEx[0]("309"),
+    personev: retEx[0]("30A")
 }
 
 export const retnCombinationResults = {
