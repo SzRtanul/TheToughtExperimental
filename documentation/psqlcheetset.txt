@@ -1,0 +1,65 @@
+sudo -u postgres pg_dump -U postgres -s testdb3 > thente.sql
+sudo -u postgres pg_dump -U postgres testdb3 > thetoughtexperimentwithdata.sql
+
+SELECT set_config('app.token', '5', false);
+SELECT current_setting('app.token');
+RESET myapp.current_user_id
+
+Hasznos lekérdezések:
+\pset format unaligned
+SELECT pg_get_functiondef('getuserfromtoken(bigint)'::regprocedure);
+
+// Sémák
+SELECT nspname AS schema_name
+FROM pg_catalog.pg_namespace
+ORDER BY schema_name;
+
+SELECT schemaname, tablename
+FROM pg_tables
+WHERE schemaname NOT IN ('pg_catalog', 'information_schema')
+ORDER BY schemaname, tablename;
+
+//Kulcsszavak
+SELECT *
+FROM pg_get_keywords()
+ORDER BY word;
+
+// Táblák kisbetűsre
+DO $$ 
+DECLARE
+    r RECORD;
+BEGIN
+    FOR r IN (SELECT table_schema, table_name
+              FROM information_schema.tables 
+              WHERE table_type = 'BASE TABLE' 
+                AND table_schema NOT IN ('pg_catalog', 'information_schema')) LOOP
+        EXECUTE format('ALTER TABLE %I.%I RENAME TO %I', r.table_schema, r.table_name, lower(r.table_name));
+    END LOOP;
+END $$;
+
+// Oszlopok kisbetűsre
+DO $$ 
+DECLARE
+    r RECORD;
+BEGIN
+    FOR r IN (SELECT table_schema, table_name, column_name
+              FROM information_schema.columns 
+              WHERE table_schema NOT IN ('information_schema', 'pg_catalog')) LOOP
+        -- Ellenőrizd, hogy az oszlop neve nem egyezik-e már a kisbetűs változattal
+        IF lower(r.column_name) <> r.column_name THEN
+            EXECUTE format('ALTER TABLE %I.%I RENAME COLUMN %I TO %I', 
+                           r.table_schema, r.table_name, r.column_name, lower(r.column_name));
+        END IF;
+    END LOOP;
+END $$;
+
+//ENA
+create function sysadmin.createuninjschema(name text) returns boolean
+as $$
+DECLARE
+lehet boolean
+BEGIN
+        lehet := ();
+        if (lehet) then
+                EXECUTE('create schema' + name);
+END;
