@@ -132,4 +132,10 @@ export const templates = {
 </tfoot>`,
     retreopt: (...args)=> `<option class="retnrow" value="${args[0]}">${args[1]}</option>`,
     getDataLength: () => "F",
+    personev: (len="", data="" ) => {
+        return len.length == 0 ? data : 
+`
+`
+;
+    }
 };

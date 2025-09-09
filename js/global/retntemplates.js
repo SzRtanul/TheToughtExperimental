@@ -50,7 +50,7 @@ export const retnCombinations = {
     pg_columns: retEx[0]("308"),
     pg_proc: retEx[0]("002"),
     pg_procpro: retEx[0]("008"),
-    profile: "getDataLength:theadevcslist:tablerow:tbodyend|||00FFFFFF;",
+    userperson: "getDataLength:theadevcslist:tablerow:tbodyend:personev|||00FFFFFF;30A---020103FF;309---FF04FFFF;30A;:0,1",
     profilev: retEx[0]("309"),
     personev: retEx[0]("30A")
 }
