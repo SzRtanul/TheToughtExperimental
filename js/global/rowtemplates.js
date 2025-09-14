@@ -10,11 +10,20 @@ const tempex = [
         ret+= "</tr></thead><tbody>";
         return ret;
     },
-
+    (args=[], after="", classtext="")=>{
+        let textout = "<ul class='"+ classtext +"'>";
+        for(let i = 0; i < args.length; i++){
+            textout += "<li>" + args[i] + after + "</li>";
+        }
+        textout += "</ul>"
+        return textout;
+    }
 ];
 
 export const templates = {
     minden: (gal) => ""+gal+"",
+    retheadlist: (...args) => tempex[1](args, ":"),
+    retlist: (...args) => tempex[1](args),
     min: (retnMinden, fallsz=[], usqresplit=[], gluk) => {
         let fallasz = "";
         for(let i = 0; i < 5; i++){
@@ -23,54 +32,54 @@ export const templates = {
         return `<div class="retnrow">
     <select name="" id="">${fallasz}</select>
 </div>`
-        },
-        theade: (...args) => tempex[0](args),
-        theadevcslist: (...args) => tempex[0](args, 
-            `<th><button>Étkezés hozzáadása</button></th>
-            <th>
-                <select name="alany" id="">
-                    <option value="">-- Alany Profilok --</option>
-                    <option value="">Becenév</option>
-                </select>
-            </th>`
-        ),
-        tbodybef: () => "<tbody>",
-        tablerow: (...args) => {
-            let ret = "<tr>";
-            for(let i = 0; i < args.length; i++){
-                ret+="<td>"+args[i]+"</td>";
-            }
-            ret+= "</tr>";
-            return ret;
-        },
-        vcstablerow: (ohja, ...args) => 
-            templates.tablerow(args) +
-            "<tr><td>"+ ohja +"</td></tr>",
-        withselect: (bef, bef2, ...arga) => {
-            let ret = "<tr>";
-            for(let i = 0; i < arga.length; i++){
-                ret+="<td>"+arga[i]+"</td>";
-            }
-            ret+="<td><select name='frak'>"+bef+"</select></td>"+
-                "<td><select name='frak'>"+bef2+"</select></td>";
-            ret+= "</tr>";
-            return ret;
-        },
-        seloption: (...args) => {
-            let ret = "<option value='"+args[0]+"'>"
-            for(let i = 0; i<args.length;i++){
-                ret+=args[i];
-            }
-            ret +="</option>"
-           // console.log("Rettenet: " + ret)
-            return ret;
-        },
-        sela: (meka)=>`
+    },
+    theade: (...args) => tempex[0](args),
+    theadevcslist: (...args) => tempex[0](args, 
+        `<th><button>Étkezés hozzáadása</button></th>
+        <th>
+            <select name="alany" id="">
+                <option value="">-- Alany Profilok --</option>
+                <option value="">Becenév</option>
+            </select>
+        </th>`
+    ),
+    tbodybef: () => "<tbody>",
+    tablerow: (...args) => {
+        let ret = "<tr>";
+        for(let i = 0; i < args.length; i++){
+            ret+="<td>"+args[i]+"</td>";
+        }
+        ret+= "</tr>";
+        return ret;
+    },
+    vcstablerow: (ohja, ...args) => 
+        templates.tablerow(args) +
+        "<tr><td>"+ ohja +"</td></tr>",
+    withselect: (bef, bef2, ...arga) => {
+        let ret = "<tr>";
+        for(let i = 0; i < arga.length; i++){
+            ret+="<td>"+arga[i]+"</td>";
+        }
+        ret+="<td><select name='frak'>"+bef+"</select></td>"+
+            "<td><select name='frak'>"+bef2+"</select></td>";
+        ret+= "</tr>";
+        return ret;
+    },
+    seloption: (...args) => {
+        let ret = "<option value='"+args[0]+"'>"
+        for(let i = 0; i<args.length;i++){
+            ret+=args[i];
+        }
+        ret +="</option>"
+        // console.log("Rettenet: " + ret)
+        return ret;
+    },
+    sela: (meka)=>`
 <option class="retnrow" value="${meka}">
     <span>${meka}</span>
 </option>`,
-        tbodyend: () => "</tbody>",
-        retndiv: (...args) => `
+    tbodyend: () => "</tbody>",
+    retndiv: (...args) => `
 <div class="retnrow">
     <div>${args[0]}</div>
         <div class="film">
@@ -133,8 +142,8 @@ export const templates = {
     retreopt: (...args)=> `<option class="retnrow" value="${args[0]}">${args[1]}</option>`,
     getDataLength: () => "F",
     personev: (len="", data="" ) => {
-        console.log("RetnREt1: "+len)
-        console.log("RetnREt: "+data)
+console.log("LEN: " + len);
+console.log("DATA: " + data);
         return len.length != 0 ? data : 
 `
 <h1>München</h1>
