@@ -133,8 +133,11 @@ export const templates = {
     retreopt: (...args)=> `<option class="retnrow" value="${args[0]}">${args[1]}</option>`,
     getDataLength: () => "F",
     personev: (len="", data="" ) => {
-        return len.length == 0 ? data : 
+        console.log("RetnREt1: "+len)
+        console.log("RetnREt: "+data)
+        return len.length != 0 ? data : 
 `
+<h1>München</h1>
 `
 ;
     }

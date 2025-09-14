@@ -32,7 +32,7 @@ function doFrissit(retns){
 //console.log("cjust: " + cja);
         result = doUjratolt(cja);
 //console.log(result);
-        retns[i].innerHTML = result.substring(1, result.length);
+        retns[i].innerHTML = result;
     }
 }
 
@@ -82,7 +82,7 @@ console.log("GEVI");
             }
 ////console.log("Igen: " + cja.length)
             if(cja.length>13){
-                const materia = cja.substring(12, cja.length).split(":_"); // retnrowType selecter(választó)
+                const materia = cja.substring(13, cja.length).split(":_"); // retnrowType selecter(választó)
                 let mal = "";
                 const resultBef = [];
                 const resultQ = [];
@@ -94,18 +94,19 @@ console.log("GEVI");
                 let befsNum = 0;
                 let mata = 0;
                 for(const len of materia){
-////console.log("len: " + len)
+console.log("len: " + len)
                     const lklen = len.split(":");
                     let lastResBefIndex = whereBef.push((resultBef.length + lklen.length)) -1;
 ////console.log("WhereBef: ")
 ////console.log(whereBef)
                     for(const lk of lklen){ // To retnrow
-////console.log("LK: " + lk);
-                        const matre = lk.split(/[-,=]+/).filter(Boolean); // filter parameters with retnrow
-////console.log(matre)
+console.log("LK: " + lk);
+                        const matre = lk.split(/[-,=\;]+/).filter(Boolean); // filter parameters with retnrow
+console.log("Matre: " + matre)
                         let hirF = Number(matre[0]);
-                        console.log("AMRE: " + matre.length +": " + matre[0])
+console.log("AMRE: " + matre.length +": " + matre[0] +", yep: " + yeP)
                         if(matre && matre.length > 0 && !isNaN(hirF) && hirF < yeP){
+                            console.log("SPARTA")
                             resultBef.push(templeBefs[hirF]);
                             resultQ.push(templeUsq[hirF]);
 //console.log("Cloth");
@@ -184,8 +185,8 @@ function whataf(
     befFilters=[],
     wherebef=[]
 ){
-//console.log("Rese: ");
-//console.log(befretns);
+console.log("Rese: ");
+console.log(befretns);
 //console.log("Rese.");
 //console.log("WHATF befIlter: ")
 //console.log(befFilters)
@@ -193,19 +194,21 @@ function whataf(
 //console.log(wherebef)
 console.log("WHATF BefRowsNums: ")
 console.log(befrownums)
-let fullText = "F";
+    let fullText = "";
     const resHaveThead = responseInput.startsWith("T") ? 1 : 0;
     const leptek = responseInput.charCodeAt(1);
     const resPlit = replaceLast(responseInput.substring(2, responseInput.length), ":::\n", "").split(":::");
 //console.log("Lépték: " + leptek);
     //const adatsorrend = retn.getAttribute("adatsorrend")?.split(";");
     const error = responseInput.startsWith("err:") ? 1 : 0;
-    outResBefNums.push(1);
+    outResBefNums.push(false);
+    outResBefNums.push(0);
     // Fejléckiírás
     const eleje = wherebef[0];
 //console.log("Eleje: " + eleje)
     if(resHaveThead && retnrows[1] != 0){
-        fullText = "T"+retnrows[1](...befretns.slice(eleje, wherebef[1]), ...resPlit.slice(0, leptek));
+        outResBefNums[0] = true;
+        fullText = retnrows[1](...befretns.slice(eleje, wherebef[1]), ...resPlit.slice(0, leptek));
         outResBefNums.push(fullText.length); // ALAMÉAEA
     }
 console.log(befFilters)
@@ -220,7 +223,7 @@ console.log(befFilters)
             for(let usqT = 0; usqT < eleje; usqT++){ // befs
 ////console.log("BEF: " + usqT)
                 const memqruak = qruak;
-                console.log("KMeMQruaK: " + memqruak)
+console.log("KMeMQruaK: " + memqruak)
 //console.log("OTL");
 //console.log(befFilters)
 //console.log("OCL");
@@ -232,7 +235,7 @@ console.log(befFilters)
 ////console.log("IFBEF");
                     const actualBef = befretns[usqT];
                     const resLast = resultsBef.push(
-                        actualBef.startsWith("T") ? actualBef.substring(2, befrownums[usqT][1]) : ""
+                        befrownums[usqT][0] ? actualBef.substring(0, befrownums[usqT][1]) : ""
                     )-1;
 //console.log("BefUqs: "+befusqs[usqT])
 //console.log(usqT)
@@ -246,7 +249,7 @@ console.log(befFilters)
                     let usqTrow=0;
                     let usqTitem=0;
                     for(
-                       usqTrow = 0, usqTitem = usqThaveHead * usLeptek;
+                       usqTrow = 1, usqTitem = usqThaveHead * usLeptek;
                        usqTitem < fra.length-1;
                        usqTrow++, usqTitem+=usLeptek
                     ){
@@ -256,11 +259,11 @@ console.log(befFilters)
                         for(qruak = memqruak; ortami && qruak < memqruak+qruakLiminal-1; qruak += 2){ // befFilters
                             ortami = resPlit[i+befFilters[qruak]] === 
                                 fra[usqTitem + befFilters[qruak+1]];
-console.log(qruak +". BEFIF: "+ortami+"---"+resPlit[i+befFilters[qruak]]+"---"+fra[usqTitem + befFilters[qruak]])
+//console.log(qruak +". BEFIF: "+ortami+"---"+resPlit[i+befFilters[qruak]]+"---"+fra[usqTitem + befFilters[qruak]])
 //console.log("usqTrow: " + resPlit[i+befFilters[qruak]] +":"+fra[usqTrow + befFilters[qruak]])
                         }
                         if(ortami){
-console.log("OLOME: " + actualBef.substring(befrownums[usqT][usqTrow-1], befrownums[usqT][usqTrow]));
+//console.log("OLOME: " + actualBef.substring(befrownums[usqT][usqTrow-1], befrownums[usqT][usqTrow]));
                         }
                         if(ortami != memoryRef){
 console.log("UsqTRow: " + usqT+":"+usqTrow+":"+befrownums[usqT][usqTrow]);
@@ -270,7 +273,7 @@ console.log("UsqTRow: " + usqT+":"+usqTrow+":"+befrownums[usqT][usqTrow]);
                             //Szétválasztás, csoportosítás
                             memoryRef = ortami;
                         }
-console.log(memoryRef)
+//console.log(memoryRef)
                     }
                     if(usqTrow>0 && qruakArray.length & 1 == 1) 
                         qruakArray.push(usqTrow)
