@@ -141,13 +141,19 @@ export const templates = {
 </tfoot>`,
     retreopt: (...args)=> `<option class="retnrow" value="${args[0]}">${args[1]}</option>`,
     getDataLength: () => "F",
+    profilev: (...args) => {
+        localStorage.setItem("userid", args[0]);
+        return tablerow(...args);
+    },
     personev: (len="", data="" ) => {
 console.log("LEN: " + len);
 console.log("DATA: " + data);
         return len.length != 0 ? data : 
-`
-<h1>München</h1>
-`
+`<tbody class="">
+    <tr><td>
+        <button >További adatok megadása</button>
+    </td></tr>
+</tbody>`
 ;
     }
 };

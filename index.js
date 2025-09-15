@@ -264,9 +264,9 @@ console.log("F: " + usesDB.length)
 console.log(usesDB);
         const ddtxt = exportedQMethods.qTextReform(
             (fbol || (usesDB.length>1 && usesDB[0] == 0)) ?
-            formQs[Number(usesDB[usesDB.length>1?1:0])] : noRefreshQs[Number(usesDB[1])], jsonValue["ca"])
+            formQs[Number(usesDB[usesDB.length>1?1:0])] : noRefreshQs[Number(usesDB[1])], jsonValue)
         ;
-        const tr = exportedQMethods.qTextReform(fvalue, jsonValue["ca"]);
+        const tr = exportedQMethods.qTextReform(fvalue, jsonValue);
         //jsonValue["ca"].datum = 2;
         //
         // ExampleRest;;
@@ -274,7 +274,7 @@ console.log(usesDB);
 console.log("ddtx: " + ddtxt);
         const response = await exportedMethods.exampleREST(
             tr, urlap.getAttribute("method") || "post",
-            ddtxt, jsonValue["ca"]
+            ddtxt, jsonValue
         );
         if(fbol) addOrEditFormQ(Number(usesDB[0]), jsonValue, fname, response, fvalue);
         console.log("Response:\n" + response);

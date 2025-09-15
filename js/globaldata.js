@@ -135,6 +135,9 @@ function getUrlapFromE(e){
     return urlap;
 }
 
+//
+// Film eleje -------------
+//
 function doEnvAutoJumpJelenet(environment, mialapjan="nextTo"){
     const hovas = environment.getAttribute(mialapjan)?.split(';');
     const film = environment.closest(".film");
@@ -170,6 +173,9 @@ function doJelenetValtas(urlap, hova, tipus="scen"){
         ["sceneI"]]);
     //console\.log("Eljutott")
 }
+//
+// Film vége -------------
+//
 
 function doaddIDTo(environment, classsName="", elotag=""){
     let cID = 0;
@@ -204,12 +210,10 @@ async function getUrlapJSONs(urlap){
     const myUrlap = urlap.querySelectorAll("* [name]:not([name=''])");
     const jsonValue = {};
     for(const mezo of myUrlap){
-        const mezofieldType = "ca";
-        if(!jsonValue[mezofieldType]) jsonValue[mezofieldType] = {};
        // if (typeof mezo.name !== "string" || mezo.name.trim() === "") mezo.name="";
-        if(jsonValue[mezofieldType] && mezo.name && mezo.name.length > 0){
+        if(mezo.name && mezo.name.length > 0){
             if(!mezo.classList.contains("woap")){
-                jsonValue[mezofieldType][mezo.name] = 
+                jsonValue[mezo.name] = 
                     mezo.type !== "checkbox" ? 
                         (mezo.classList.contains("xhr") ? 
                             await getCryptoHash(mezo.value) : 
@@ -218,13 +222,13 @@ async function getUrlapJSONs(urlap){
                 ;
             }
             else{
-                let jsonMezoField = JSON.stringify(jsonValue[mezofieldType]);
+                let jsonMezoField = JSON.stringify(jsonValue);
                 jsonMezoField = jsonMezoField.substring(0, jsonMezoField.length - 1) +
-                    `${Object.keys(jsonValue[mezofieldType]).length > 0 ? "," : ""}`+
+                    `${Object.keys(jsonValue).length > 0 ? "," : ""}`+
                     `"${mezo.name}":${mezo.type !== "checkbox" ?
                             mezo.value || null : mezo.checked}}`;
                 console.log(jsonMezoField);
-                jsonValue[mezofieldType] = JSON.parse(jsonMezoField);
+                jsonValue = JSON.parse(jsonMezoField);
             }
         }
     }
@@ -236,13 +240,16 @@ function getValueFromAll(Cname="", jsonValue={}, localAktuels={}){
     if(mezoTagG.length > 1 && !isNaN(mezoTagG[0])){
         switch(Number(mezoTagG[0])){
             case 0:
-                oText = jsonValue[mezoTagG[2] ? mezoTagG[2] : "ca"][mezoTagG[1]] || "";
+                oText = jsonValue[mezoTagG[1]] || "";
                 break;
             case 1:
-                oText = getValueFromLocalStorage(mezoTagG[1]) || "";
+                oText = localStorage.getItem(mezoTagG[1]) || "";
                 break;
             case 2:
                 oText = localAktuels[mezoTagG[1]] || "";
+                break;
+            case 3:
+                oText = sessionStorage.getItem(mezoTagG[1]) || "";
                 break;
         }
     }

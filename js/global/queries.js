@@ -87,6 +87,6 @@ export const noRefreshQs = [
 	//
 	// 4. NQTinsertprofile
 	"users@personview@@@@id?kodnev?nev?nem?szuletes?fajid\x01" +
-	"insert into #$0.#%0 () values (\\-$id\\-, #$\-kodnev, #$\-nev, '\\-$bit\\-', , \\-$fajID\\-);\n",
+	"insert into #$0.#%0 (#(0, #(1, #(2, #(3, #(4) values (\\-$id\\-, #$\-kodnev, #$\-nev, '\\-$bit\\-', '\\-$szuletes\\-', \\-$fajID\\-);\n",
 ];
 
