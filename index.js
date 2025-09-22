@@ -57,13 +57,18 @@ const str = 'revenue895erwhgh9reji#íKDSFKI9ÜW'
 ;
 
 export async function UIUpdate(){
+    console.log("UPDATING UI")
     await exportedQMethods.doQueryUpdates();
+    console.log("UPDATING UI")
     exportedRetnMethods.doFrissit(document.querySelectorAll("[cjust].retn:not([cjust=''])"));
+    console.log("UPDATING UI")
     addEvents();
+    console.log("UPDATING UI")
 }
 
 let hanyszor = 0;
 function callSite(melyik){
+    console.log("Yeeee")
     //console.clear()
     
     if (currentRequest) {
@@ -78,6 +83,7 @@ function callSite(melyik){
     currentRequest.setRequestHeader("Pragma", "no-cache");
 
     currentRequest.onload = async function () {
+        console.log("EN")
         if (currentRequest.status >= 200 && currentRequest.status < 300) {
             document.querySelectorAll(".guest").forEach(g => g.remove());
             let iHTML = currentRequest.responseText;
@@ -124,6 +130,7 @@ function getEventName(text){
 }
 
 function vmi(e, historyPush=false){
+    console.log("Calllll")
     const usite = e.target.name+"." + (e.target.getAttribute("typo") || "html");
     callSite(usite);
     const url = new URL(window.location.href)
@@ -136,6 +143,7 @@ function vmi(e, historyPush=false){
 }
 
 export function addEvents(environment=document){
+    console.log("RunEvents")
     const prot = "";//":not(.immler *)";
     exportedMethods.doResetEventTarget();
     const jsA = [
@@ -151,6 +159,7 @@ export function addEvents(environment=document){
         environment.querySelectorAll("a.contentlink"+prot),
         [avmi], "indexAContentLink"
     );*/
+    console.log("ETTREBOW")
     exportedMethods.doMindenhezHozzaad(
         environment.querySelectorAll("button.contentlink"+prot),
         [vmi], "indexButtonContentLink"

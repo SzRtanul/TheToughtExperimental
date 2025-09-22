@@ -1,6 +1,6 @@
 export let eventTarget = new EventTarget();
 export const outsideEventMethStores = [];
-export const serverhost = "http://thetoughtexperimental.local:18080/";
+export const serverhost = "http://192.168.0.136:18080/";
 
 
 let urlapButtons = [];

@@ -94,6 +94,13 @@ async function QEnds(array, ltext, method, number){
     array[number] = await exportedMethods.exampleREST(ltext + "?alk=" + Number(Math.random() * 5000), method, "") || "";
 }
 
+function withTimeout(promise, ms) {
+  const timeout = new Promise((_, reject) =>
+    setTimeout(() => reject(new Error(`Timeout after ${ms}ms`)), ms)
+  );
+  return Promise.race([promise, timeout]);
+}
+
 async function doQueryUpdates(){
     queryResults.length = 0;
     endpointResults.length = 0;
@@ -134,8 +141,19 @@ async function doQueryUpdates(){
     
     console.log("Szeretem én ezt?: ");
     console.log(staticQueryWithJSONResults);
-    await Promise.all(promises);
+    console.log("Nem.");
+    console.log(promises)
+    try {
+        await Promise.all(
+            promises.map(p => withTimeout(p, 5000)) // 5 másodperces limit mindegyikre
+        );
+    }
+    catch{
+        console.log("Hiba történt az adatok lekérése során.")
+    }
+    console.log("Nem.");
     console.log(endpointWithDateResults[0]);
+    console.log("Nem.");
 }
 
 function hasRow(res=""){
