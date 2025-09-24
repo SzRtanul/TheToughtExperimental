@@ -300,7 +300,7 @@ console.log("KMeMQruaK: " + memqruak)
                 //qruak = memqruak; //
 //console.log(befFilters.length+":"+befFilters[qruak-1]+":"+qruak)
                 const qruakLiminal = befFilters[qruak-1];  // FONTOS!
-                if(befFilters.length < qruak && befFilters[qruak-1] < 2){
+                if(!(befFilters.length > qruak-1) || !(befFilters[qruak-1] > 1)){
 ////console.log("ELSE")
 //console.log("KAKAÓÓÓÓ!--");
                     resultsBef.push(befretns[usqT]);
@@ -345,7 +345,9 @@ console.log("KMeMQruaK: " + memqruak)
                         for(qruak = memqruak+honnmedd; qruak < memqruak+qruakLiminal; qruak++){ // befFilters
                             checkFra += fra[usqTitem + befFilters[qruak]];
                         }
-                        if(checkResplitLength == checkFra.length) ortami = checkResplit == checkFra;
+                        ortami = checkResplitLength == checkFra.length && checkResplit === checkFra;
+                        console.log("OOOOOOOOOO:")
+                        console.log(checkResplit+"\n"+checkFra);
                         if(ortami != memoryRef){
 console.log("UsqTRow: " + usqT+":"+usqTrow+":"+befrownums[usqT][usqTrow]);
 //console.log("Ortami: "+ortami+". memom: " + memoryRef)
