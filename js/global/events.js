@@ -1,16 +1,9 @@
 import { exactTime } from "../time.js";
 import { addEvents } from "../../index.js";
 import { exportedMethods } from "../globaldata.js";
-import { queryResults, endpointResults, staticQueryWithJSONResults, endpointWithDateResults } from "./queriessetup.js";
+import { whd } from "./queriessetup.js";
 import { retnCombinations } from "./retntemplates.js";
 import { templates } from "./rowtemplates.js";
-
-const whd = [
-    queryResults, 
-    endpointResults, 
-    staticQueryWithJSONResults,
-    endpointWithDateResults
-];
 
 const columnSep = ":::";
 
@@ -34,6 +27,95 @@ function doFrissit(retns){
 //console.log(result);
         retns[i].innerHTML = result;
     }
+}
+
+function doUjratolt2(cjust="", responseInput=0){
+    let res = [];
+    const two = retnCombinations[cjust]?.split("|||");
+    if(!two || two.length<2){
+        return;
+    }
+    const metnames = two[0].split(":");
+    const templeBefs = [];
+    const templeUsq = [];
+    const befRowsNum = [];
+    let templeLast = -1;
+    let yeP = 0;
+    const ye = two[1]?.split("---");
+    const yelen = ye.length-1;
+    for(const cja of ye){
+        if(cja.length > 10){
+            const methods = [];
+            for(let i = 0; i < 8; i+=2){
+                const metnum = Number("0x"+cja.substring(i,i+2));
+                methods.push(!isNaN(metnum) && metnum != 255 ? templates[metnames[metnum]] : 0);
+            }
+            const reqType = Number("0x"+ cja.substring(9, 10));
+            const reqNum = Number("0x"+ cja.substring(10, 12));
+            if(!isNaN(reqType) && !isNaN(reqNum) && reqType < whd.length && reqNum<whd[reqType].length){
+                templeUsq.push(
+                    yeP==yelen && responseInput != 0 ? responseInput : whd[reqType][reqNum]
+                );
+                templeLast++;
+            }
+            else{
+                break;
+            }
+            if(cja.length>13){
+                const materia = cja.substring(13, cja.length).split(":_"); // retnrowType selecter(választó)
+                let mal = "";
+                const resultBef = [];
+                const resultQ = [];
+                const befIlter = [];
+                let anex = 0;
+                const resrownums = [];
+                const resultsBefRowsNums = [];
+                const whereBef = [];
+                let befsNum = 0;
+                let mata = 0;
+                for(const len of materia){
+                    const lklen = len.split(":");
+                    let lastResBefIndex = whereBef.push((resultBef.length + lklen.length)) -1;
+                    for(const lk of lklen){ // To retnrow
+                        const matre = lk.split(/[-,=\;]+/).filter(Boolean); // filter parameters with retnrow
+                        let hirF = Number(matre[0]);
+                        if(matre && matre.length > 0 && !isNaN(hirF) && hirF < yeP){
+                            console.log("SPARTA")
+                            resultBef.push(templeBefs[hirF]);
+                            resultQ.push(templeUsq[hirF]);
+                            resultsBefRowsNums.push(befRowsNum[hirF]);
+                        }
+                        else{
+                            whereBef[lastResBefIndex]--; // Utolsó hiba: --2025. 08. 08. 15:46--
+                        }
+                        if(mata < 1){
+                            befIlter.push(matre.length);
+                            for(let mat = 1; mat < matre.length; mat++){
+                                befIlter.push(isNaN(matre[mat]) ? matre[mat] : Number(matre[mat]));
+                            }
+                        }
+                        befsNum++;
+                    }
+                    mata++;
+                }
+                templeBefs.push(whataf(
+                    templeUsq[templeLast], methods, 
+                    resrownums, resultBef, resultsBefRowsNums, resultQ, 
+                    befIlter, whereBef
+                ));
+                befRowsNum.push(resrownums);
+            }
+            else{
+                const resrownums = [];
+                templeBefs.push(whataf(
+                    templeUsq[templeLast], methods, resrownums
+                ));
+                befRowsNum.push(resrownums);
+            }
+        }
+        yeP++;
+    }
+    return templeLast > -1 ? templeBefs[templeLast] : "";
 }
 
 function doUjratolt(cjust="", responseInput=0){
@@ -153,18 +235,6 @@ console.log("AMRE: " + matre.length +": " + matre[0] +", yep: " + yeP)
         }
         yeP++;
     }
-  /*  console.log("BefReCreat: ");
-    let szen = "";
-    for(let i = 0; i<befRowsNum[0].length; i++){
-        szen += "\n"+i+". "+ templeBefs[0].substring(befRowsNum[0][i], befRowsNum[0][i+1]);
-    }
-    console.log(szen);*/
-////console.log("Ki is jön.");
-    //whataf(retn, responseInput, responseInputType);
-    // await doFrissit();
-    // addEvents(retn);
-////console.log(templeLast +":"+templeBefs.length);
-
     return templeLast > -1 ? templeBefs[templeLast] : "";
 }
 
@@ -230,7 +300,15 @@ console.log("KMeMQruaK: " + memqruak)
                 //qruak = memqruak; //
 //console.log(befFilters.length+":"+befFilters[qruak-1]+":"+qruak)
                 const qruakLiminal = befFilters[qruak-1];  // FONTOS!
-                if(befFilters.length > qruak-1 && befFilters[qruak-1] > 1){
+                if(befFilters.length < qruak && befFilters[qruak-1] < 2){
+////console.log("ELSE")
+//console.log("KAKAÓÓÓÓ!--");
+                    resultsBef.push(befretns[usqT]);
+                    qruak++;
+//console.log("OHEEEEEE: " + usqT);
+//console.log(resultsBef);
+                }
+                else{
 ////console.log(befrownums[usqT])
 ////console.log("IFBEF");
                     const actualBef = befretns[usqT];
@@ -248,6 +326,13 @@ console.log("KMeMQruaK: " + memqruak)
                     const usqThaveHead = befusqs[usqT].startsWith("T") ? 1 : 0;
                     let usqTrow=0;
                     let usqTitem=0;
+
+                    let checkResplit = "";
+                    const honnmedd= qruakLiminal / 2
+                    for(let qruak = memqruak; qruak < honnmedd; qruak++){
+                        checkResplit += resPlit[i + befFilters[qruak]];
+                    }
+                    const checkResplitLength = checkResplit.length;
                     for(
                        usqTrow = 1, usqTitem = usqThaveHead * usLeptek;
                        usqTitem < fra.length-1;
@@ -255,16 +340,12 @@ console.log("KMeMQruaK: " + memqruak)
                     ){
 ////console.log("BEFROW: " + usqTrow)
                         let ortami = true;
+                        let checkFra = "";
 //console.log("memQR: " + memqruak + "\nqlim: " + Number(qruakLiminal));
-                        for(qruak = memqruak; ortami && qruak < memqruak+qruakLiminal-1; qruak += 2){ // befFilters
-                            ortami = resPlit[i+befFilters[qruak]] === 
-                                fra[usqTitem + befFilters[qruak+1]];
-//console.log(qruak +". BEFIF: "+ortami+"---"+resPlit[i+befFilters[qruak]]+"---"+fra[usqTitem + befFilters[qruak]])
-//console.log("usqTrow: " + resPlit[i+befFilters[qruak]] +":"+fra[usqTrow + befFilters[qruak]])
+                        for(qruak = memqruak+honnmedd; qruak < memqruak+qruakLiminal; qruak++){ // befFilters
+                            checkFra += fra[usqTitem + befFilters[qruak]];
                         }
-                        if(ortami){
-//console.log("OLOME: " + actualBef.substring(befrownums[usqT][usqTrow-1], befrownums[usqT][usqTrow]));
-                        }
+                        if(checkResplitLength == checkFra.length) ortami = checkResplit == checkFra;
                         if(ortami != memoryRef){
 console.log("UsqTRow: " + usqT+":"+usqTrow+":"+befrownums[usqT][usqTrow]);
 //console.log("Ortami: "+ortami+". memom: " + memoryRef)
@@ -278,18 +359,6 @@ console.log("UsqTRow: " + usqT+":"+usqTrow+":"+befrownums[usqT][usqTrow]);
                     if(usqTrow>0 && qruakArray.length & 1 == 1) 
                         qruakArray.push(usqTrow)
                     ;
-//console.log("KAKAÓÓÓÓ!");
-                    // betáplálás
-//console.log(qruakArray)
-//console.log(qruakArray.length)
-                 /*   let szen = "";
-                    for(let qruakResult = 0; qruakResult < qruakArray.length-1; qruakResult+=2){
-//console.log(qruakArray[qruakResult]+":"+qruakArray[qruakResult + 1]);
-//console.log("ResLast: "+resLast)
-                        szen += actualBef.slice(
-                            qruakArray[qruakResult], qruakArray[qruakResult + 1]
-                        );
-                    }*/
 console.log(qruakArray)
                     let szen = "";
                     for(let qere = 0; qere<qruakArray.length; qere+=2){
@@ -304,14 +373,6 @@ console.log(szen);
                     resultsBef[resLast] += szen;
 
 
-                }
-                else{
-////console.log("ELSE")
-//console.log("KAKAÓÓÓÓ!--");
-                    resultsBef.push(befretns[usqT]);
-                    qruak++;
-//console.log("OHEEEEEE: " + usqT);
-//console.log(resultsBef);
                 }
             }
 //console.log("rYEEEEEY");

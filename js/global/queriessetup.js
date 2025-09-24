@@ -45,6 +45,13 @@ const formQresults = [
 
 ];
 
+export const whd = [
+    queryResults, 
+    endpointResults, 
+    staticQueryWithJSONResults,
+    endpointWithDateResults
+];
+
 export function addOrEditFormQ(numOfQ, qJSON={}, formName="", response=""){
     const EusQ = queryDatas[formName];
     const fbol = formName.length > 0 && typeof EusQ != 'undefined';
