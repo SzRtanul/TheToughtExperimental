@@ -24,8 +24,15 @@ function doFrissit(retns){
         const cja=retns[i].getAttribute("cjust");
 //console.log("cjust: " + cja);
         result = doUjratolt(cja);
+        console.log("Rátölt");
 //console.log(result);
+        const start = performance.now();
         retns[i].innerHTML = result;
+        console.log("Rátöltötte");
+        requestAnimationFrame(() => {
+            const end = performance.now();
+            console.log(`Render + DOM update: ${end - start} ms`);
+        });
     }
 }
 
@@ -255,15 +262,15 @@ function whataf(
     befFilters=[],
     wherebef=[]
 ){
-console.log("Rese: ");
-console.log(befretns);
+//console.log("Rese: ");
+//console.log(befretns);
 //console.log("Rese.");
 //console.log("WHATF befIlter: ")
 //console.log(befFilters)
 //console.log("WHATF WhereBef: ")
 //console.log(wherebef)
-console.log("WHATF BefRowsNums: ")
-console.log(befrownums)
+//console.log("WHATF BefRowsNums: ")
+//console.log(befrownums)
     let fullText = "";
     const resHaveThead = responseInput.startsWith("T") ? 1 : 0;
     const leptek = responseInput.charCodeAt(1);
@@ -281,7 +288,7 @@ console.log(befrownums)
         fullText = retnrows[1](...befretns.slice(eleje, wherebef[1]), ...resPlit.slice(0, leptek));
         outResBefNums.push(fullText.length); // ALAMÉAEA
     }
-console.log(befFilters)
+//console.log(befFilters)
     if(error == 0 && retnrows[0] != 0){
 ////console.log("KAKAÓÓÓÓ!");
         for(let row = resHaveThead, i = resHaveThead * leptek; i < resPlit.length-1; row++, i+=leptek){
@@ -293,14 +300,14 @@ console.log(befFilters)
             for(let usqT = 0; usqT < eleje; usqT++){ // befs
 ////console.log("BEF: " + usqT)
                 const memqruak = qruak;
-console.log("KMeMQruaK: " + memqruak)
+//console.log("KMeMQruaK: " + memqruak)
 //console.log("OTL");
 //console.log(befFilters)
 //console.log("OCL");
                 //qruak = memqruak; //
 //console.log(befFilters.length+":"+befFilters[qruak-1]+":"+qruak)
                 const qruakLiminal = befFilters[qruak-1];  // FONTOS!
-                if(!(befFilters.length > qruak-1) || !(befFilters[qruak-1] > 1)){
+                if(!(befFilters.length > qruak-1 && befFilters[qruak-1] > 1)){
 ////console.log("ELSE")
 //console.log("KAKAÓÓÓÓ!--");
                     resultsBef.push(befretns[usqT]);
@@ -323,33 +330,42 @@ console.log("KMeMQruaK: " + memqruak)
 //console.log(usLeptek+":"+fra.length+":"+befusqs[usqT].charCodeAt(1));
 //console.log(befusqs[usqT])
                     let memoryRef = false;
-                    const usqThaveHead = befusqs[usqT].startsWith("T") ? 1 : 0;
+                    const usqThaveHead = befrownums[usqT][0] ? 1 : 0;
                     let usqTrow=0;
                     let usqTitem=0;
 
                     let checkResplit = "";
-                    const honnmedd= qruakLiminal / 2
-                    for(let qruak = memqruak; qruak < honnmedd; qruak++){
+console.log("Altrainmen:")
+                    const honnmedd= Math.floor(qruakLiminal / 2);
+                    for(let qruak = memqruak; qruak < memqruak + honnmedd; qruak++){
                         checkResplit += resPlit[i + befFilters[qruak]];
+//console.log("QRUAK: " + qruak+":"+befFilters[qruak]);
                     }
+//console.log("RAATATATATATATA: " + checkResplit)
                     const checkResplitLength = checkResplit.length;
                     for(
-                       usqTrow = 1, usqTitem = usqThaveHead * usLeptek;
+                       usqTrow = 0, usqTitem = usqThaveHead * usLeptek;
                        usqTitem < fra.length-1;
                        usqTrow++, usqTitem+=usLeptek
                     ){
 ////console.log("BEFROW: " + usqTrow)
                         let ortami = true;
-                        let checkFra = "";
+                        let checkFraParts = [];
 //console.log("memQR: " + memqruak + "\nqlim: " + Number(qruakLiminal));
-                        for(qruak = memqruak+honnmedd; qruak < memqruak+qruakLiminal; qruak++){ // befFilters
-                            checkFra += fra[usqTitem + befFilters[qruak]];
+//console.log("OOOOOOOOOO:");
+//console.log()
+                        const brase = usqTitem;
+                        for(qruak = memqruak+honnmedd; qruak < qruakLiminal+1; qruak++){ // befFilters
+//console.log("Belépés!");
+//console.log(qruak+":"+befFilters[qruak]);
+                            checkFraParts.push(fra[brase + befFilters[qruak]]);
                         }
+                        const checkFra = checkFraParts.join("");
                         ortami = checkResplitLength == checkFra.length && checkResplit === checkFra;
-                        console.log("OOOOOOOOOO:")
-                        console.log(checkResplit+"\n"+checkFra);
+//console.log(ortami)
+ //console.log(checkResplit+"\n"+checkFra);
                         if(ortami != memoryRef){
-console.log("UsqTRow: " + usqT+":"+usqTrow+":"+befrownums[usqT][usqTrow]);
+//console.log("UsqTRow: " + usqT+":"+usqTrow+":"+befrownums[usqT][usqTrow]);
 //console.log("Ortami: "+ortami+". memom: " + memoryRef)
 //console.log("OO: " +usqT+":"+usqTrow);
                             qruakArray.push(usqTrow);
@@ -358,23 +374,22 @@ console.log("UsqTRow: " + usqT+":"+usqTrow+":"+befrownums[usqT][usqTrow]);
                         }
 //console.log(memoryRef)
                     }
+                    console.log("Vége")
                     if(usqTrow>0 && qruakArray.length & 1 == 1) 
                         qruakArray.push(usqTrow)
                     ;
-console.log(qruakArray)
+//console.log(qruakArray);
                     let szen = "";
                     for(let qere = 0; qere<qruakArray.length; qere+=2){
-console.log("Qqere: " + qruakArray[qere] + "\nQqere2: " + qruakArray[qere+1])
+//console.log("Qqere: " + qruakArray[qere] + "\nQqere2: " + qruakArray[qere+1])
                         szen += "\n"+qere+". "+ actualBef.substring(
                             befrownums[usqT][qruakArray[qere]], 
                             befrownums[usqT][qruakArray[qere+1]]
                         );
                     }
-console.log("Szen")
-console.log(szen);
+//console.log("Szen")
+//console.log(szen);
                     resultsBef[resLast] += szen;
-
-
                 }
             }
 //console.log("rYEEEEEY");

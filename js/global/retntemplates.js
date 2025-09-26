@@ -30,7 +30,7 @@ export const retnCombinations = {
     eatedlist: retEx[0]("005"),
     etlecta2: 
         "theade:tablerow:tbodyend:withselect:seloption|||" +
-        "04FFFFFF;001---04FFFFFF;002---030002FF;001-0:0-3-3-0-0",
+        "04FFFFFF;303---04FFFFFF;002---030002FF;303-0:0-3;0-3-0",
     kolost: 
         "omla:ini:enela:kala;|||FFFFFFFF;3FF;"+
         "2-1=12,3-1=12:2-1=12,3-1=12:---",

@@ -57,13 +57,13 @@ const str = 'revenue895erwhgh9reji#íKDSFKI9ÜW'
 ;
 
 export async function UIUpdate(){
-    console.log("UPDATING UI")
+    console.log("UPDATING UI1")
     await exportedQMethods.doQueryUpdates();
-    console.log("UPDATING UI")
+    console.log("UPDATING UI2")
     exportedRetnMethods.doFrissit(document.querySelectorAll("[cjust].retn:not([cjust=''])"));
-    console.log("UPDATING UI")
+    console.log("UPDATING UI3")
     addEvents();
-    console.log("UPDATING UI")
+    console.log("UPDATING UI4")
 }
 
 let hanyszor = 0;
@@ -92,15 +92,18 @@ function callSite(melyik){
             doCSSAddingToSite();
             doJSAddingToSite();
             await UIUpdate();
+            console.log("RAMEN:")
             sessionStorage.setItem("oldal", melyik);
         } else {
             console.error("Request failed with status:", currentRequest.status);
         }
+        console.log("ENNAE")
     };
     currentRequest.onerror = function () {
         console.error("Request failed due to network error");
     };
     currentRequest.send();
+    console.log("ONPREM")
 }
 
 function doCSSAddingToSite(){

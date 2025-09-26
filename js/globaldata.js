@@ -1,6 +1,6 @@
 export let eventTarget = new EventTarget();
 export const outsideEventMethStores = [];
-export const serverhost = "http://192.168.228.24:18080/";
+export const serverhost = "http://192.168.88.244:18080/";
 
 
 let urlapButtons = [];
