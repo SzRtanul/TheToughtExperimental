@@ -1,6 +1,6 @@
 import { exactTime } from "../time.js";
 import { addEvents } from "../../index.js";
-import { exportedMethods } from "../globaldata.js";
+import { exportedMethods } from "./globaldata.js";
 import { whd } from "./queriessetup.js";
 import { retnCombinations } from "./retntemplates.js";
 import { templates } from "./rowtemplates.js";
@@ -251,6 +251,18 @@ function replaceLast(str, search, replace) {
     return str.slice(0, pos) + replace + str.slice(pos + search.length);
 }
 
+function splitOnce(str, sep="|||") {
+    const idx = str.indexOf(sep);
+    if (idx === -1) return [str];
+    return [str.substring(0, idx), str.substring(idx + sep.length)];
+}
+
+function charsToInt(str) {
+    return str.length !== 4 ? (str.charCodeAt(0) << 24) |
+           (str.charCodeAt(1) << 16) |
+           (str.charCodeAt(2) << 8)  |
+           str.charCodeAt(3) : 0;
+}
 
 function whataf(
     responseInput = "",
@@ -274,7 +286,9 @@ function whataf(
     let fullText = "";
     const resHaveThead = responseInput.startsWith("T") ? 1 : 0;
     const leptek = responseInput.charCodeAt(1);
-    const resPlit = replaceLast(responseInput.substring(2, responseInput.length), ":::\n", "").split(":::");
+    const sp = splitOnce(responseInput.substring(2, responseInput.length), "|||");
+    const resRows = sp[0].split(";");
+    const resPlit = sp[1] || "";
 //console.log("Lépték: " + leptek);
     //const adatsorrend = retn.getAttribute("adatsorrend")?.split(";");
     const error = responseInput.startsWith("err:") ? 1 : 0;
@@ -285,13 +299,17 @@ function whataf(
 //console.log("Eleje: " + eleje)
     if(resHaveThead && retnrows[1] != 0){
         outResBefNums[0] = true;
-        fullText = retnrows[1](...befretns.slice(eleje, wherebef[1]), ...resPlit.slice(0, leptek));
+        fullText = retnrows[1](
+            ...befretns.slice(eleje, wherebef[1]), 
+            resPlit.substring(Number(resRows[0]), Number(resRows[leptek])),
+            resRows.slice(0, leptek)
+        );
         outResBefNums.push(fullText.length); // ALAMÉAEA
     }
 //console.log(befFilters)
     if(error == 0 && retnrows[0] != 0){
 ////console.log("KAKAÓÓÓÓ!");
-        for(let row = resHaveThead, i = resHaveThead * leptek; i < resPlit.length-1; row++, i+=leptek){
+        for(let row = resHaveThead, i = resHaveThead * leptek; i < (resRows.length / 4)-1; row++, i+=leptek){
 ////console.log("ROW")
 //console.log("KAKAÓÓÓÓ!");
             const resultsBef = [];
@@ -318,10 +336,11 @@ function whataf(
                 else{
 ////console.log(befrownums[usqT])
 ////console.log("IFBEF");
+                    let memoryRef = befrownums[usqT][0];
+                    if(memoryRef) qruakArray.push(usqTrow);
                     const actualBef = befretns[usqT];
-                    const resLast = resultsBef.push(
-                        befrownums[usqT][0] ? actualBef.substring(0, befrownums[usqT][1]) : ""
-                    )-1;
+                    const resLast = resultsBef.push("")-1;
+
 //console.log("BefUqs: "+befusqs[usqT])
 //console.log(usqT)
                     const usLeptek = befusqs[usqT].charCodeAt(1);
@@ -329,8 +348,7 @@ function whataf(
                     const qruakArray = [];
 //console.log(usLeptek+":"+fra.length+":"+befusqs[usqT].charCodeAt(1));
 //console.log(befusqs[usqT])
-                    let memoryRef = false;
-                    const usqThaveHead = befrownums[usqT][0] ? 1 : 0;
+                    const usqThaveHead = befusqs[usqT].startsWith("T") ? 1 : 0;
                     let usqTrow=0;
                     let usqTitem=0;
 
@@ -338,7 +356,8 @@ function whataf(
 console.log("Altrainmen:")
                     const honnmedd= Math.floor(qruakLiminal / 2);
                     for(let qruak = memqruak; qruak < memqruak + honnmedd; qruak++){
-                        checkResplit += resPlit[i + befFilters[qruak]];
+                        const oz = i + befFilters[qruak];
+                        checkResplit += resPlit.substring(Number(resRows[oz]), Number(resRows[oz + 1]));
 //console.log("QRUAK: " + qruak+":"+befFilters[qruak]);
                     }
 //console.log("RAATATATATATATA: " + checkResplit)
@@ -394,7 +413,11 @@ console.log("Altrainmen:")
             }
 //console.log("rYEEEEEY");
 //console.log(resultsBef)
-            fullText += retnrows[0](...resultsBef, ...resPlit.slice(i, i + leptek));
+            fullText += retnrows[0](
+                ...resultsBef,
+                resPlit.substring(Number(resRows[i]), Number(resRows[i+leptek])),
+                resRows.slice(i, i+leptek)
+            );
            //fullText += retnrows[0](...resultsBef, ...resPlit.slice(i, i + leptek)); // 2x
             outResBefNums.push(fullText.length)
 //console.log("FliTex: " + fullText)
@@ -410,7 +433,7 @@ console.log("Altrainmen:")
     }
     else if(retnrows[3] != 0){
         for(const textrow of resPlit){
-            fullText += retnrows[3](...resPlit.split(columnSep));
+          //  fullText += retnrows[3](...resPlit.split(columnSep)); // RESPLIT
             outResBefNums.push(fullText.length)
         }
     }

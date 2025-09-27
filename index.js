@@ -1,9 +1,9 @@
-import { serverhost, eventTarget, exportedMethods } from "./js/globaldata.js";
+import { serverhost, eventTarget, exportedMethods } from "./js/global/globaldata.js";
 import { exportedRetnMethods } from "./js/global/events.js";
 import { noRefreshQs, formQs } from "./js/global/queries.js";
 import { addOrEditFormQ, exportedQMethods, queryDatas } from "./js/global/queriessetup.js";
 import { formDRef } from "./js/global/retntemplates.js";
-import { outsideEventMethStores } from "./js/globaldata.js";
+import { outsideEventMethStores } from "./js/global/globaldata.js";
 
 const ls = "valami123í\x00EE";
 console.log(Number("0x00"));

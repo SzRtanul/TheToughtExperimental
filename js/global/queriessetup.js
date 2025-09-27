@@ -1,5 +1,5 @@
 import { formQs, qs } from "./queries.js";
-import { exportedMethods } from "../globaldata.js"
+import { exportedMethods } from "./globaldata.js"
 import { endpoints, endpointswithdate } from "./endpoints.js";
 import { staticQueryWithJSONs } from "./retntemplates.js"
 
